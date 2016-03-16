@@ -1,0 +1,9 @@
+:global * {
+  box-sizing: border-box;
+}
+
+:global body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}

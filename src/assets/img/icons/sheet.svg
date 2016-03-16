@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="14px" height="18px" viewBox="0 0 14 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.5.2 (25235) - http://www.bohemiancoding.com/sketch -->
+    <title>Zipwire Medical v5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Practioner-Card---detail-(alt-1)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Page-content" sketch:type="MSLayerGroup" transform="translate(-219.000000, 0.000000)" fill="#0E5A71">
+            <g id="Main-page---detail-view" transform="translate(3.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <g id="Plans-covered" transform="translate(216.000000, 0.000000)">
+                    <g id="document">
+                        <g id="Group">
+                            <g>
+                                <rect id="Rectangle-path" x="3.00588235" y="6.19534884" width="7.98823529" height="0.669767442"></rect>
+                                <rect id="Rectangle-path" x="3.00588235" y="8.24651163" width="7.98823529" height="0.669767442"></rect>
+                                <rect id="Rectangle-path" x="3.00588235" y="10.255814" width="7.98823529" height="0.669767442"></rect>
+                                <rect id="Rectangle-path" x="3.00588235" y="12.3069767" width="7.98823529" height="0.669767442"></rect>
+                                <rect id="Rectangle-path" x="3.00588235" y="14.3162791" width="7.98823529" height="0.669767442"></rect>
+                                <path d="M13.3411765,4.31162791 L8.77058824,0.334883721 C8.64705882,0.209302326 8.48235294,0.125581395 8.27647059,0.125581395 L1.11176471,0.125581395 C0.7,0.125581395 0.329411765,0.460465116 0.329411765,0.920930233 L0.329411765,16.9116279 C0.329411765,17.3302326 0.658823529,17.7069767 1.11176471,17.7069767 L12.8470588,17.7069767 C13.2588235,17.7069767 13.6294118,17.372093 13.6294118,16.9116279 L13.6294118,4.89767442 C13.6294118,4.64651163 13.5470588,4.4372093 13.3411765,4.31162791 L13.3411765,4.31162791 Z M12.3941176,16.4511628 L1.56470588,16.4511628 L1.56470588,1.38139535 L8.11176471,1.38139535 L8.15294118,1.42325581 L8.15294118,5.10697674 L12.3941176,5.10697674 L12.3941176,16.4511628 L12.3941176,16.4511628 Z" id="Shape"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

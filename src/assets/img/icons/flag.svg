@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="14px" height="15px" viewBox="0 0 14 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.5.2 (25235) - http://www.bohemiancoding.com/sketch -->
+    <title>Zipwire Medical v5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Practioner-Card---detail-(alt-1)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Site-header" sketch:type="MSLayerGroup" transform="translate(-1818.000000, 0.000000)" fill="#58708F">
+            <g id="User" transform="translate(1683.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <g id="notifications" transform="translate(135.000000, 0.000000)">
+                    <g id="flag_4_">
+                        <g>
+                            <path d="M4.31666667,14.9605263 L0,0.434210526 C0,0.434210526 0.311111111,-0.197368421 0.933333333,0.118421053 L1.24444444,0.75 C1.24444444,0.75 4.35555556,-0.828947368 6.57222222,0.75 C8.78888889,2.32894737 11.2777778,0.394736842 11.2777778,0.394736842 L14,8.40789474 C14,8.40789474 10.4222222,10.4210526 7.54444444,7.97368421 C5.56111111,6.31578947 3.77222222,8.28947368 3.77222222,8.28947368 L5.6,14.6052632 C5.6,14.6052632 5.36666667,15.0789474 4.31666667,14.9605263 L4.31666667,14.9605263 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

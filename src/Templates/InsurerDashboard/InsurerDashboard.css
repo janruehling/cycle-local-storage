@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1202px;
+}
+
+.leftSidebar {
+  width: 178px;
+}
+
+.content {
+  flex: 1;
+}
+
+.rightSidebar {
+  width: 178px;
+}
+
+.pushBottom {
+  margin-bottom: 30px;
+}

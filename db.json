@@ -1,0 +1,468 @@
+{
+  "activities": [],
+  "profile": {
+    "first_name": "Jan",
+    "last_name": "Ruehling",
+    "account": "Standard",
+    "last_login": "Feb 01, 2016",
+    "avatar": {
+      "src": "http://localhost:3000/dummy/avatar.png"
+    },
+    "organization": {
+      "name": "Acme Medical Group",
+      "last_verified": "Jan 07, 2016",
+      "logo": {
+        "src": "http://localhost:3000/dummy/org-logo.svg"
+      }
+    }
+  },
+  "practitioners": [
+    {
+      "id": 1,
+      "prefix": "Dr.",
+      "first_name": "Jonathan",
+      "last_name": "Smith",
+      "nick_name": "Jon",
+      "gender": "Male",
+      "age": "53",
+      "zwmid": "0987654",
+      "npi": "123456789",
+      "image": {
+        "src": "http://localhost:3000/dummy/doctor1.png"
+      },
+      "last_verified": "Jan 07, 2016",
+      "languages": [
+        {
+          "name": "English",
+          "level": "Native"
+        },
+        {
+          "name": "Spanish",
+          "level": "Basic"
+        }
+      ],
+      "medical_school": [
+        {
+          "name": "Harvard Medical",
+          "graduated": "2001"
+        }
+      ],
+      "residencies": [
+        {
+          "name": "Acme Medical Group",
+          "id": "1"
+        },
+        {
+          "name": "XYZ Sports Injury Clinic",
+          "id": "2"
+        },
+        {
+          "name": "A.N Practice",
+          "id": "3"
+        }
+      ],
+      "state_license": "XXX-000",
+      "dea_license": "5678912345",
+      "specialties": [
+        {
+          "name": "Sports Medicine",
+          "id": "1",
+          "certified": true
+        },
+        {
+          "name": "General Surgery",
+          "id": "2",
+          "certified": true
+        },
+        {
+          "name": "General Practice",
+          "id": "3",
+          "certified": false
+        }
+      ],
+      "accepts_new_patients": true,
+      "accepts_medicaid": true,
+      "accepts_medicare": true,
+      "medicare_sanction": "XXX-111",
+      "locations": [
+        {
+          "name": "Park Hall Road",
+          "state": "WS",
+          "id": "1"
+        },
+        {
+          "name": "Main Street",
+          "state": "WS",
+          "id": "2"
+        },
+        {
+          "name": "Washington Drive",
+          "state": "WS",
+          "id": "3"
+        }
+      ],
+      "organizations": [
+        {
+          "id": 1,
+          "name": "Acme Medical Group",
+          "state": "WS",
+          "image": {
+            "src": "http://localhost:3000/dummy/org-logo.svg"
+          }
+        },
+        {
+          "id": 2,
+          "name": "Acme Medical Group",
+          "state": "WS",
+          "image": {
+            "src": "http://localhost:3000/dummy/org-logo.svg"
+          }
+        },
+        {
+          "name": "Acme Medical Group",
+          "state": "WS",
+          "id": 3,
+          "image": {
+            "src": "http://localhost:3000/dummy/org-logo.svg"
+          }
+        }
+      ],
+      "plans": [
+        {
+          "name": "ABC Sports Injury Care",
+          "id": "1"
+        },
+        {
+          "name": "Perfect Fitness Recovery",
+          "id": "2"
+        },
+        {
+          "name": "General Care Gold 101",
+          "id": "3"
+        }
+      ],
+      "activities": [
+        {
+          "date": "February 2, 2016",
+          "text": "Added to Zipwire",
+          "id": "1"
+        },
+        {
+          "date": "February 2, 2016",
+          "text": "Medical License Verified",
+          "id": "2"
+        },
+        {
+          "date": "February 4, 2016",
+          "text": "Photo Added",
+          "id": "3"
+        },
+        {
+          "date": "February 21, 2016",
+          "text": "Location 'Amber Clinic' added",
+          "id": "4"
+        },
+        {
+          "date": "February 29, 2016",
+          "text": "Location 'Spine Clinic' added",
+          "id": "5"
+        }
+      ],
+      "biography": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean malesuada neque in feugiat egestas. Ut pharetra odio nulla, at pulvinar augue varius vel. Nulla congue suscipit nibh facilisis pretium. Sed maximus tempus volutpat. Aliquam erat volutpat. Suspendisse erat metus, blandit eu arcu ac, auctor tristique mauris. In tristique risus ut vehicula iaculis. Donec fermentum quam id diam ultrices, id rhoncus nisl cursus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis molestie finibus justo, tempus pellentesque nisi. In cursus sed augue sit amet tristique. Donec congue posuere leo eu consectetur. Pellentesque sagittis risus at ligula iaculis, id volutpat lacus consequat. Etiam in elit in nisl euismod tristique. Cras aliquam, nulla eu pellentesque gravida. Mauris rhoncus eleifend felis, id maximus augue. Vestibulum elementum quis erat ac interdum. Nulla ultricies neque commodo tempor molestie. Vestibulum at dignissim quam. In hac habitasse platea dictumst. Integer sit amet condimentum odio. Aenean in nunc libero. Nam in convallis urna. Donec commodo velit ac ante ultricies vehicula. Nunc volutpat nunc in sollicitudin feugiat."
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "Acme Medical Group",
+      "zwmid": "09888866",
+      "npi": "334567800",
+      "image": {
+        "src": "http://localhost:3000/dummy/org-logo.svg"
+      },
+      "last_verified": "Jan 07, 2016",
+      "type": "Retail Clinic",
+      "legal_structure": "LLP",
+      "irs_ein": "XX-11102x",
+      "belongs_to": [
+        {
+          "zwmid": "0987654",
+          "id": 1
+        },
+        {
+          "zwmid": "0982245",
+          "id": 2
+        },
+        {
+          "zwmid": "0988854",
+          "id": 3
+        }
+      ],
+      "locations": [
+        {
+          "name": "Park Hall Road",
+          "state": "WS",
+          "id": "1"
+        },
+        {
+          "name": "Main Street",
+          "state": "WS",
+          "id": "2"
+        },
+        {
+          "name": "Washington Drive",
+          "state": "WS",
+          "id": "3"
+        }
+      ],
+      "plans": [
+        {
+          "name": "ABC Sports Injury Care",
+          "id": "1"
+        },
+        {
+          "name": "Perfect Fitness Recovery",
+          "id": "2"
+        },
+        {
+          "name": "General Care Gold 101",
+          "id": "3"
+        }
+      ],
+      "practitioners": [
+        {
+          "id": "1",
+          "prefix": "Dr.",
+          "first_name": "Jonathan",
+          "last_name": "Smith",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor1.png"
+          }
+        },
+        {
+          "id": "2",
+          "prefix": "Dr.",
+          "first_name": "Eliza",
+          "last_name": "Smart",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor2.png"
+          }
+        },
+        {
+          "id": "3",
+          "prefix": "Dr.",
+          "first_name": "Sanjeep",
+          "last_name": "Singh",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor3.png"
+          }
+        },
+        {
+          "id": "4",
+          "prefix": "Dr.",
+          "first_name": "Estabo",
+          "last_name": "Suarez",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor4.png"
+          }
+        },
+        {
+          "id": "5",
+          "prefix": "Dr.",
+          "first_name": "David",
+          "last_name": "Babatunde",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor5.png"
+          }
+        },
+        {
+          "id": "6",
+          "prefix": "Dr.",
+          "first_name": "Maureen",
+          "last_name": "Jones-Clarke",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor6.png"
+          }
+        },
+        {
+          "id": "7",
+          "prefix": "Dr.",
+          "first_name": "Sarah",
+          "last_name": "Lin",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor7.png"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "date": "February 2, 2016",
+          "text": "Added to Zipwire",
+          "id": "1"
+        },
+        {
+          "date": "February 2, 2016",
+          "text": "Medical License Verified",
+          "id": "2"
+        },
+        {
+          "date": "February 4, 2016",
+          "text": "Photo Added",
+          "id": "3"
+        },
+        {
+          "date": "February 21, 2016",
+          "text": "Location 'Amber Clinic' added",
+          "id": "4"
+        },
+        {
+          "date": "February 29, 2016",
+          "text": "Location 'Spine Clinic' added",
+          "id": "5"
+        }
+      ],
+      "profile": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean malesuada neque in feugiat egestas. Ut pharetra odio nulla, at pulvinar augue varius vel. Nulla congue suscipit nibh facilisis pretium. Sed maximus tempus volutpat. Aliquam erat volutpat. Suspendisse erat metus, blandit eu arcu ac, auctor tristique mauris. In tristique risus ut vehicula iaculis. Donec fermentum quam id diam ultrices, id rhoncus nisl cursus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla elementum sed felis sed accumsan. Vestibulum finibus convallis bibendum. Duis molestie finibus justo, tempus pellentesque nisi. In cursus sed augue sit amet tristique. Donec congue posuere leo eu consectetur. Pellentesque sagittis risus at ligula iaculis, id volutpat lacus consequat. Etiam in elit in nisl euismod tristique. Cras aliquam, nulla eu pellentesque gravida, augue est lobortis arcu, non tincidunt nisl mi eget tortor. Mauris rhoncus eleifend felis, id maximus augue. Vestibulum elementum quis erat ac interdum."
+    }
+  ],
+  "notifications": [
+    {
+      "id": "237642837462387",
+      "type": "default",
+      "text": "Smith",
+      "from": "3642876fa8s7d6f87623847f7",
+      "to": "782as3648g234972sdfhna0987v",
+      "creation_date": "11-12-2016 11:34:36 +0000",
+      "read_date": null
+    },
+    {
+      "id": "340982349234",
+      "type": "alert",
+      "text": "Hey!",
+      "from": "0239723904204",
+      "to": "2395239072903482",
+      "creation_date": "11-10-2016 11:34:36 +0000",
+      "read_date": "11-12-2016 11:34:36 +0000"
+    }
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "name": "Interlake Medical Center",
+      "state": "Washington",
+      "zwmid": "0982222",
+      "last_verified": "Jan 07, 2016",
+      "address": {
+        "street": "152nd Ave NE",
+        "city": "Redmond",
+        "state": "WA",
+        "country": "United States",
+        "geo": {
+          "latitude": "47.6696601",
+          "longitude": "-122.1916179"
+        }
+      },
+      "organizations": [
+        {
+          "name": "Acme Medical Group",
+          "state": "WS",
+          "id": "1",
+          "image": {
+            "src": "http://localhost:3000/dummy/org-logo.svg"
+          }
+        }
+      ],
+      "practitioners": [
+        {
+          "id": "1",
+          "prefix": "Dr.",
+          "first_name": "Jonathan",
+          "last_name": "Smith",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor1.png"
+          }
+        },
+        {
+          "id": "2",
+          "prefix": "Dr.",
+          "first_name": "Eliza",
+          "last_name": "Smart",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor2.png"
+          }
+        },
+        {
+          "id": "3",
+          "prefix": "Dr.",
+          "first_name": "Sanjeep",
+          "last_name": "Singh",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor3.png"
+          }
+        },
+        {
+          "id": "4",
+          "prefix": "Dr.",
+          "first_name": "Estabo",
+          "last_name": "Suarez",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor4.png"
+          }
+        },
+        {
+          "id": "5",
+          "prefix": "Dr.",
+          "first_name": "David",
+          "last_name": "Babatunde",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor5.png"
+          }
+        },
+        {
+          "id": "6",
+          "prefix": "Dr.",
+          "first_name": "Maureen",
+          "last_name": "Jones-Clarke",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor6.png"
+          }
+        },
+        {
+          "id": "7",
+          "prefix": "Dr.",
+          "first_name": "Sarah",
+          "last_name": "Lin",
+          "image": {
+            "src": "http://localhost:3000/dummy/doctor7.png"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "date": "February 2, 2016",
+          "text": "Added to Zipwire",
+          "id": "1"
+        },
+        {
+          "date": "February 2, 2016",
+          "text": "Medical License Verified",
+          "id": "2"
+        },
+        {
+          "date": "February 4, 2016",
+          "text": "Photo Added",
+          "id": "3"
+        },
+        {
+          "date": "February 21, 2016",
+          "text": "Location 'Amber Clinic' added",
+          "id": "4"
+        },
+        {
+          "date": "February 29, 2016",
+          "text": "Location 'Spine Clinic' added",
+          "id": "5"
+        }
+      ]
+    }
+  ]
+}

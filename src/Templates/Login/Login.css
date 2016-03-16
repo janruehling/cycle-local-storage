@@ -1,0 +1,82 @@
+@value colors: 'colors.css';
+@value primary1, secondary1, additional1, additional7 from colors;
+
+.container {
+  background-image: url('assets/img/dots-wires-BG.png');
+  background-repeat: repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form {
+  background: additional1;
+  border-radius: 4px;
+  opacity: .75;
+  text-align: center;
+  padding: 30px 120px;
+  width: 614px;
+}
+
+.title {
+  color: primary1;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.input {
+  border: 1px solid additional7;
+  border-radius: 4px;
+  color: primary1;
+  display: block;
+  font-size: 18px;
+  line-height: 35px;
+  margin-bottom: 15px;
+  outline: none;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.input::-webkit-input-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input::-moz-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input:-ms-input-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input:-moz-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.button {
+  background: primary1;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 35px;
+  margin-bottom: 45px;
+  outline: none;
+  width: 100%;
+}
+
+.link {
+  color: primary1;
+  font-size: 14px;
+  text-decoration: none;
+}
