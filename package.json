@@ -9,10 +9,10 @@
     "dev:data": "json-server --watch db.json",
     "dev:serve": "webpack-dev-server --inline --hot",
     "prod:build": "webpack",
-    "prod:data": "json-server db.json",
-    "prod:serve": "pm2 start app.js --name='webapp'",
+    "prod:data": "pm2 reload jsonServer || pm2 start jsonServer.js --name jsonServer",
+    "prod:serve": "pm2 reload webapp || pm2 start app.js --name webapp",
     "dev": "parallelshell 'npm run dev:serve -s' 'npm run dev:data -s'",
-    "prod": "rm -rf dist/* && npm run prod:build && parallelshell 'npm run prod:serve -s' 'npm run prod:data -s'",
+    "prod": "rm -rf dist/* && npm run prod:build && npm run prod:serve && npm run prod:data",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
