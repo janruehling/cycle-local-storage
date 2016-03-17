@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ssh jan@54.172.136.227 <<EOF
+  cd /var/www/staging/app.zipwiremedical.com
+  git pull
+  npm install --production
+  npm run prod
+  exit
+EOF
