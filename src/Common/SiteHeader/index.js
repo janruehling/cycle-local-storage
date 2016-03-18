@@ -2,7 +2,7 @@ import model from './model'
 import view from './view'
 
 export default function SiteHeader (sources) {
-  let model$ = model(sources.HTTP)
+  let model$ = model(sources)
   let view$ = view(model$)
 
   const sinks = {

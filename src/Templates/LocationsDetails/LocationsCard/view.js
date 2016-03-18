@@ -81,7 +81,7 @@ export default function view (model) {
                   className: styles.columnItemContent
                 }, [
                   div(pathOr(null, ['address', 'geo', 'latitude'])(location)),
-                  div(pathOr(null, ['address', 'geo', 'longitude'])(location)),
+                  div(pathOr(null, ['address', 'geo', 'longitude'])(location))
                 ])
               ])
             ])

@@ -2,7 +2,7 @@ import model from './model'
 import view from './view'
 
 let main = function (sources) {
-  let model$ = model(sources.HTTP)
+  let model$ = model(sources)
   let view$ = view(model$)
 
   return {

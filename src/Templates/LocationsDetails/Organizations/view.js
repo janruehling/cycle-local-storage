@@ -35,7 +35,7 @@ export default function view (model) {
             }),
             span({
               className: styles.itemName
-            }, organization.name + ', ' + organization.state)
+            }, organization.name + ', ' + pathOr('', ['address', 'state'])(organization))
           ])
         })(location.organizations)
       ])

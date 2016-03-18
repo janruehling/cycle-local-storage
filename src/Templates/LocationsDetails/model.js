@@ -1,17 +1,20 @@
 import { Observable } from 'rx'
 
-const LOCATION_URL = 'http://localhost:3000/locations/1'
+let model = function ({HTTP, config$}) {
+  const api$ = config$.map(config => config.api)
+  const request$ = api$
+    .flatMap(url => Observable
+      .just({
+        url: url + 'locations/1'
+      })
+  )
 
-let model = function (sources) {
-  const {HTTP} = sources
-
-  let request$ = Observable
-    .just({
-      url: LOCATION_URL
+  const location$ = request$
+    .map(request => request.url)
+    .flatMap(url => {
+      return HTTP
+        .filter(res$ => res$.request.url === url)
     })
-
-  let location$ = HTTP
-    .filter(res$ => res$.request.url === LOCATION_URL)
     .mergeAll()
     .map(res => res.body)
     .startWith('')

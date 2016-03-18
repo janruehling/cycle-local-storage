@@ -1,15 +1,20 @@
 import { Observable } from 'rx'
 
-const PROFILE_URL = 'http://localhost:3000/profile'
+let model = function ({HTTP, config$}) {
+  const api$ = config$.map(config => config.api)
+  const request$ = api$
+    .flatMap(url => Observable
+      .just({
+        url: url + 'profile'
+      })
+    )
 
-let model = function (HTTP) {
-  let request$ = Observable
-    .just({
-      url: PROFILE_URL
+  const profile$ = request$
+    .map(request => request.url)
+    .flatMap(url => {
+      return HTTP
+        .filter(res$ => res$.request.url === url)
     })
-
-  let profile$ = HTTP
-    .filter(res$ => res$.request.url === PROFILE_URL)
     .mergeAll()
     .map(res => res.body)
     .startWith('')

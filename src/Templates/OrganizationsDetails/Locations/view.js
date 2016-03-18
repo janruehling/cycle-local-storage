@@ -1,4 +1,4 @@
-import { map } from 'ramda'
+import { map, pathOr } from 'ramda'
 import { div, span, img } from '@cycle/dom'
 
 import styles from './Locations.css'
@@ -29,7 +29,7 @@ export default function view (model) {
           return div({
             className: styles.sectionContent
           }, [
-            span(location.name + ', ' + location.state)
+            span(location.name + ', ' + pathOr('', ['address', 'state'])(location))
           ])
         })(organization.locations)
       ])

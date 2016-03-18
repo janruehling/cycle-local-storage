@@ -8,6 +8,7 @@ import tick from 'assets/img/icons/tick.svg'
 
 let view = function (model) {
   let view$ = model.profile$
+    .do(console.log.bind(console))
     .map(function (profile) {
       return div({className: styles.container}, [
         div({className: styles.wrap}, [

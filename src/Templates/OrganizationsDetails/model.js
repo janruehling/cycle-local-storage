@@ -1,17 +1,20 @@
 import { Observable } from 'rx'
 
-const ORGANIZATION_URL = 'http://localhost:3000/groups/1'
+let model = function ({HTTP, config$}) {
+  const api$ = config$.map(config => config.api)
+  const request$ = api$
+    .flatMap(url => Observable
+      .just({
+        url: url + 'groups/1'
+      })
+  )
 
-let model = function (sources) {
-  const {HTTP} = sources
-
-  let request$ = Observable
-    .just({
-      url: ORGANIZATION_URL
+  const organization$ = request$
+    .map(request => request.url)
+    .flatMap(url => {
+      return HTTP
+        .filter(res$ => res$.request.url === url)
     })
-
-  let organization$ = HTTP
-    .filter(res$ => res$.request.url === ORGANIZATION_URL)
     .mergeAll()
     .map(res => res.body)
     .startWith('')
