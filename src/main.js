@@ -6,8 +6,6 @@ import { makeHistoryDriver } from 'cyclic-history'
 import { makeRouterDriver } from 'cyclic-router'
 import { createHashHistory } from 'history'
 
-import getIp from './lib/getIp'
-
 import main from './App'
 
 const drivers = {
@@ -15,7 +13,7 @@ const drivers = {
   HTTP: makeHTTPDriver(),
   router: makeRouterDriver(makeHistoryDriver(createHashHistory())),
   config$: () => Observable.just({
-    api: '//' + getIp() + ':3000/'
+    api: '//dummy.zipwiremedical.com/'
   })
 }
 
