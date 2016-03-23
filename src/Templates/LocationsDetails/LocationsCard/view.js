@@ -1,4 +1,4 @@
-import { map, pathOr } from 'ramda'
+import { pathOr } from 'ramda'
 import { div, span, img, strong } from '@cycle/dom'
 
 import styles from './LocationsCard.css'

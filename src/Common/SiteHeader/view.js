@@ -6,10 +6,11 @@ import hamburger from 'assets/img/icons/hamburger.svg'
 import logo from 'assets/img/logo.svg'
 import flag from 'assets/img/icons/flag.svg'
 
-import { div, span, img } from '@cycle/dom'
+import { div, span, img, a } from '@cycle/dom'
 
-export default function view (model) {
-  let view$ = model.profile$
+export default function view (model, sources) {
+
+  const view$ = model.profile$
     .map(profile => {
       return div({className: styles.container}, [
         div({className: styles.wrap}, [
@@ -18,7 +19,7 @@ export default function view (model) {
               src: hamburger
             })
           ]),
-          div({className: styles.logo}, [
+          a({className: styles.logo, href: '/#/'}, [
             img({
               src: logo
             })

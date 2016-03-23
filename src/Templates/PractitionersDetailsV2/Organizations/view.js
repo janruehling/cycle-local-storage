@@ -1,14 +1,14 @@
 import { map, pathOr } from 'ramda'
-import { div, span, img, a } from '@cycle/dom'
+import { div, span, img } from '@cycle/dom'
 
-import styles from './Practitioners.css'
+import styles from './Organizations.css'
 
-import contact from 'assets/img/icons/contact.svg'
+import shield from 'assets/img/icons/shield.svg'
 import roundPlus from 'assets/img/icons/roundPlus.svg'
 
 export default function view (model) {
-  const vtree$ = model.location$
-    .map(location => {
+  const vtree$ = model.practitioner$
+    .map(practitioner => {
       return div({
         className: styles.section
       }, [
@@ -16,34 +16,28 @@ export default function view (model) {
           className: styles.sectionHeader
         }, [
           img({
-            src: contact
+            src: shield
           }),
           span({
             className: styles.sectionTitle
-          }, 'Practitioners'),
+          }, 'Organizations'),
           img({
             src: roundPlus
           })
         ]),
-        map(practitioner => {
+        map(organization => {
           return div({
             className: styles.sectionContent
           }, [
             img({
               className: styles.itemImage,
-              src: pathOr(null, ['image', 'src'])(practitioner)
+              src: pathOr(null, ['image', 'src'])(organization)
             }),
-            a({
+            span({
               className: styles.itemName
-            }, practitioner.prefix + ' ' + practitioner.first_name + ' ' + practitioner.last_name)
+            }, organization.name + ', ' + pathOr('', ['address', 'state'])(organization))
           ])
-        })(location.practitioners),
-        div([
-          a({
-            className: styles.viewAll,
-            href: '#'
-          }, 'View All Staff')
-        ])
+        })(practitioner.organizations)
       ])
     })
 

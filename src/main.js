@@ -13,7 +13,7 @@ const drivers = {
   HTTP: makeHTTPDriver(),
   router: makeRouterDriver(makeHistoryDriver(createHashHistory())),
   config$: () => Observable.just({
-    api: '//dummy.zipwiremedical.com/'
+    api: '//localhost:3000/'
   })
 }
 

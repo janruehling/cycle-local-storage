@@ -1,0 +1,34 @@
+@value colors: 'colors.css';
+@value additional6 from colors;
+
+.container {
+    display: flex;
+    max-width: 1202px;
+    margin: 0 auto;
+}
+
+.leftSidebar {
+  border-right: 1px solid additional6;
+  padding-right: 20px;
+  width: 292px;
+}
+
+.mainContent {
+  display: flex;
+  flex: 1;
+}
+
+.mainFirstColumn {
+  padding: 0 20px;
+  width: 205px;
+}
+
+.mainSecondColumn {
+  padding: 0 20px;
+  width: 310px;
+}
+
+.mainThirdColumn {
+  padding: 0 20px;
+  flex: 1
+}

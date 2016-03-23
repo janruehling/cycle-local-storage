@@ -7,6 +7,7 @@ export default function DevBar (sources, path$) {
   const dashboardHref = createHref('/')
   const loginHref = createHref('/login')
   const practitionerDetailsHref = createHref('/practitioners/1')
+  const practitionerDetailsV2Href = createHref('/practitioners/v2/1')
   const organizationDetailsHref = createHref('/organizations/1')
   const locationDetailsHref = createHref('/locations/1')
 
@@ -28,6 +29,11 @@ export default function DevBar (sources, path$) {
         className: styles.item
       }, [
         a({ attributes: { href: practitionerDetailsHref } }, 'PractitionerDetails')
+      ]),
+      li({
+        className: styles.item
+      }, [
+        a({ attributes: { href: practitionerDetailsV2Href } }, 'PractitionerDetailsV2')
       ]),
       li({
         className: styles.item

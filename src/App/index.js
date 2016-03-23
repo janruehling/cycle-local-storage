@@ -6,6 +6,7 @@ import DevBar from '../Common/DevBar'
 import InsurerDashboard from '../Templates/InsurerDashboard'
 import Login from '../Templates/Login'
 import PractitionersDetails from '../Templates/PractitionersDetails'
+import PractitionersDetailsV2 from '../Templates/PractitionersDetailsV2'
 import OrganizationsDetails from '../Templates/OrganizationsDetails'
 import LocationsDetails from '../Templates/LocationsDetails'
 
@@ -13,6 +14,7 @@ const routes = {
   '/': InsurerDashboard,
   '/login': Login,
   '/practitioners/:id': id => sources => PractitionersDetails({props$: Observable.of({id}), ...sources}),
+  '/practitioners/v2/:id': id => sources => PractitionersDetailsV2({props$: Observable.of({id}), ...sources}),
   '/organizations/:id': id => sources => OrganizationsDetails({props$: Observable.of({id}), ...sources}),
   '/locations/:id': id => sources => LocationsDetails({props$: Observable.of({id}), ...sources})
 }
@@ -33,7 +35,7 @@ export default function App (sources) {
     (path, value) => value({...sources, router: router.path(path)}).DOM
   )
 
-  const request$ = value$.flatMap(value => value(sources).HTTP)
+  const request$ = value$.flatMap(value => value(sources).HTTP).do(console.log.bind(console))
 
   const sinks = {
     DOM: devbar.DOM.combineLatest(childrenDOM$, view),

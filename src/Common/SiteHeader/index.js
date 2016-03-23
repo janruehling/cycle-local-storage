@@ -3,7 +3,7 @@ import view from './view'
 
 export default function SiteHeader (sources) {
   let model$ = model(sources)
-  let view$ = view(model$)
+  let view$ = view(model$, sources)
 
   const sinks = {
     DOM: view$.DOM,
