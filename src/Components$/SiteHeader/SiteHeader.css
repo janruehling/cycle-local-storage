@@ -1,0 +1,40 @@
+@value constants: 'constants.css';
+@value primaryFontStack, primary1 from constants;
+
+.container {
+  background: primary1;
+}
+
+.wrap {
+  align-items: center;
+  display: flex;
+  height: 59px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+
+.logoContainer {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.logo {
+  height: 31px;
+  width: 260px;
+}
+
+.userMenuContainer {
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  border-right: 1px solid #fff;
+  color: #fff;
+  font-family: primaryFontStack;
+  font-size: 14px;
+  line-height: 26px;
+  padding: 0 10px 0 15px;
+}

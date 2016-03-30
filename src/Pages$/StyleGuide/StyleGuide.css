@@ -1,0 +1,26 @@
+@value constants: 'constants.css';
+@value primary1 from constants;
+
+.container {
+  display: flex;
+}
+
+.styleContainer {
+  align-items: center;
+  border: 1px solid primary1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+.styleTitle {}
+
+.styleChildren {
+  display: flex;
+}
+
+.styleChild {
+  margin: 5px;
+  text-align: center;
+}

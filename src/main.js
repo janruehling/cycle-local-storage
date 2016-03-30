@@ -1,20 +1,34 @@
-import { Observable } from 'rx'
-import { run } from '@cycle/core'
-import { makeDOMDriver } from '@cycle/dom'
+import {Observable} from 'rx'
+const {just} = Observable
+import {run} from '@cycle/core'
+
+// drivers
+import {makeDOMDriver} from '@cycle/dom'
 import { makeHTTPDriver } from '@cycle/http'
-import { makeHistoryDriver } from 'cyclic-history'
-import { makeRouterDriver } from 'cyclic-router'
-import { createHashHistory } from 'history'
+import localStorageDriver from 'cycle-local-storage';
+import {makeRouterDriver, supportsHistory} from 'cyclic-router'
+import {createHistory, createHashHistory} from 'history'
 
-import main from './App'
+// app root function
+import main from './Pages$'
 
-const drivers = {
+const history = createHashHistory()
+
+const {sources, sinks} = run(main, {
   DOM: makeDOMDriver('#app'),
   HTTP: makeHTTPDriver(),
-  router: makeRouterDriver(makeHistoryDriver(createHashHistory())),
-  config$: () => Observable.just({
-    api: '//localhost:3000/'
+  storage: localStorageDriver,
+  router: makeRouterDriver(history),
+  config$: () => just({
+    api: 'https://apistagingdata.zipwire.com/'
+  })
+})
+
+if (module.hot) {
+  module.hot.accept()
+
+  module.hot.dispose(() => {
+    sinks.dispose()
+    sources.dispose()
   })
 }
-
-run(main, drivers)

@@ -1,0 +1,13 @@
+@value constants: 'constants.css';
+@value primary1, additional8 from constants;
+
+.avatarContainer {
+  background-color: additional8;
+  color: primary1;
+  display: inline-block;
+}
+
+.avatarImage {
+  background-size: cover;
+  background-repeat: no-repeat;
+}

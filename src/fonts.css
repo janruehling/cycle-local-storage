@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'ZipwireDataServicesV1';
+    src:
+        url('assets/fonts/ZipwireDataServicesV1.ttf?7u52nr') format('truetype'),
+        url('assets/fonts/ZipwireDataServicesV1.woff?7u52nr') format('woff'),
+        url('assets/fonts/ZipwireDataServicesV1.svg?7u52nr#ZipwireDataServicesV1') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon"], [class*=" icon"], .icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'ZipwireDataServicesV1' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.iconHamburger:before {
+    content: "\30";
+}
+.iconBack:before {
+    content: "\31";
+}
+.iconCalendar:before {
+    content: "\32";
+}
+.iconContact:before {
+    content: "\33";
+}
+.iconFlag:before {
+    content: "\34";
+}
+.iconHospital:before {
+    content: "\35";
+}
+.iconPhoto:before {
+    content: "\36";
+}
+.iconSheet:before {
+    content: "\37";
+}
+.iconShield:before {
+    content: "\38";
+}
+.iconTick:before {
+    content: "\39";
+}
+.iconAvatarFemale:before {
+    content: "\41";
+}
+.iconAvatarMale:before {
+    content: "\42";
+}

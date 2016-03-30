@@ -1,0 +1,5 @@
+export { Avatar } from './Avatar'
+export { DesktopFrame } from './DesktopFrame'
+export { DetailsCard } from './DetailsCard'
+export { Tabs, Tab } from './Tabs'
+export { Icon } from './Icons'
