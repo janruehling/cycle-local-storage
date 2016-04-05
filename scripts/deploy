@@ -2,8 +2,8 @@
 
 ssh jan@54.172.136.227 <<EOF
   cd /var/www/staging/app.zipwiremedical.com
-  git checkout master
-  git pull origin master
+  git checkout staging
+  git pull origin staging
   sudo npm i
   npm run prod
   exit
