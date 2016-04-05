@@ -5,6 +5,8 @@
   background-color: additional8;
   color: primary1;
   display: inline-block;
+  overflow: hidden;
+  text-align: center;
 }
 
 .avatarImage {

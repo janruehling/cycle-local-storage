@@ -1,0 +1,49 @@
+@value constants: 'constants.css';
+@value primary1, secondary2 from constants;
+
+.container {
+  background-image: linear-gradient(#f6f9fc, #fff);
+  color: primary1;
+}
+
+.topCallout {
+  background: secondary2;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.cardBody {
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.subTitle {
+  font-size: 24px;
+  font-style: italic;
+}
+
+.cardMeta {
+  align-items: center;
+  display: flex;
+  margin-top: 15px;
+}
+
+.avatar {
+  border-radius: 6px;
+  font-size: 80px;
+  height: 80px;
+  margin-right: 20px;
+  width: 80px;
+}
+
+.listsContainer {}
+
+.quickFactsContainer {
+  margin-top: 15px;
+}

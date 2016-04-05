@@ -1,0 +1,27 @@
+@value constants: 'constants.css';
+@value primary1, primary3 from constants;
+
+.container {
+  align-items: center;
+  color: primary1;
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  border-radius: 100%;
+  color: #fff;
+  font-size: 6px;
+  margin-right: 5px;
+  padding: 3px 2px;
+}
+
+.key {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.value {
+  color: primary3;
+}

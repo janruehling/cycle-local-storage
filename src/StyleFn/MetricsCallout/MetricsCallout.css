@@ -1,0 +1,42 @@
+@value constants: 'constants.css';
+@value primary1 from constants;
+
+.container {
+    background: primary1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.metricContainer {
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.metric {
+  color: #fff;
+  font-size: 48px;
+  line-height: 1;
+}
+
+.metricChange {
+  color: green;
+  font-size: 14px;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+.average {
+  color: rgba(255, 255, 255, .5);
+  font-size: 14px;
+  margin-top: 10px;
+}

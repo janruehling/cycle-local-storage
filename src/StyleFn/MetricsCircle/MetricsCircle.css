@@ -1,0 +1,62 @@
+@value constants: 'constants.css';
+@value primary1, primary1opaque5 from constants;
+
+.container {
+  color: primary1;
+  padding: 15px;
+  text-align: center;
+}
+
+.squareSpacer {
+  padding-bottom: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.metricContainer {
+  align-items: center;
+  border: 8px solid currentColor;
+  border-radius: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.metricIcon {
+  background: #fff;
+  left: 50%;
+  font-size: 17px;
+  margin-left: -15px;
+  position: absolute;
+  text-align: center;
+  top: -12px;
+  width: 30px;
+}
+
+.metric {
+  font-size: 72px;
+  font-weight: lighter;
+}
+
+.metricTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.viewLink {
+  font-size: 12px;
+}
+
+.change {
+  background-color: primary1opaque5;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 8px;
+  padding: 5px 10px;
+}

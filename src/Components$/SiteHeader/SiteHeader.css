@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primaryFontStack, primary1 from constants;
+@value primaryFontStack, primary1, maxWidth from constants;
 
 .container {
   background: primary1;
@@ -10,8 +10,8 @@
   display: flex;
   height: 59px;
   margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 10px;
+  max-width: maxWidth;
+  padding: 0 15px;
 }
 
 .logoContainer {

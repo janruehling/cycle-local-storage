@@ -1,10 +1,15 @@
 import { div, img } from '@cycle/dom'
+import classNames from 'classnames'
+
 import { Icon } from 'StyleFn'
 
 import styles from './Avatar.css'
 
 const withImage = (options) => div({
-  className: styles.avatarImage,
+  className: classNames({
+    [options.className]: true,
+    [styles.avatarImage]: true
+  }),
   style: {
     backgroundImage: 'url(' + options.image + ')',
     ...options.style
@@ -12,21 +17,22 @@ const withImage = (options) => div({
 }, [])
 
 const withoutImage = (options) => {
-  const iconName = options.gender === 'female' ? 'AvatarFemale' : 'AvatarMale'
-  const avatar = Icon({
-    icon: iconName,
-    style: options.style
-  })
+  const iconName = options.gender === 'Female' ? 'AvatarFemale' : 'AvatarMale'
   return div({
-    className: styles.avatarContainer
+    className: classNames({
+      [options.className]: true,
+      [styles.avatarContainer]: true
+    }),
+    style: options.style
   }, [
-    avatar
+    Icon({
+      icon: iconName
+    })
   ])
 }
 
-export const Avatar = (options) => {
-  options = options || {}
-  options.gender = options.gender || 'male'
+export const Avatar = (options = {}) => {
+  options.gender = options.gender || 'Male'
   options.style = options.style || {}
 
   return options.image

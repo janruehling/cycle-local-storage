@@ -1,0 +1,29 @@
+@value constants: 'constants.css';
+@value maxWidth, primary1 from constants;
+
+.container {
+  display: flex;
+  max-width: maxWidth;
+  margin: 30px auto;
+}
+
+.sidebar {
+  padding: 0 10px;
+  width: 205px;
+}
+
+.main {
+  flex: 1;
+}
+
+.mainTitle {
+  color: primary1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.mainMetricsCircles {
+  display: flex;
+}

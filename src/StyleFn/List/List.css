@@ -1,0 +1,25 @@
+@value constants: 'constants.css';
+@value primary1, primary3 from constants;
+
+.container {
+  font-size: 14px;
+  margin: 15px 0 0;
+}
+
+.title {
+  color: primary1;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.item {
+  margin-bottom: 5px;
+}
+
+.itemLink {
+  text-decoration: none;
+}
+
+.itemText {
+  color: primary3;
+}

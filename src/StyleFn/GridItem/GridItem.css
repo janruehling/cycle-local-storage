@@ -1,0 +1,23 @@
+@value constants: 'constants.css';
+@value additional8 from constants;
+
+.container {
+  background-color: additional8;
+  border-radius: 5px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.image {
+  padding: 15px 5px 0;
+}
+
+.banner {
+  background-image: linear-gradient(#4D6688, #21406A);
+  color: #fff;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+}

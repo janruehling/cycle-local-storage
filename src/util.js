@@ -30,3 +30,9 @@ export const mergeOrFlatMapLatest = (prop, ...sourceArray) =>
   )
 
 export const log = label => emitted => console.log(label, ':', emitted)
+
+export const toTitleCase = str => {
+    return window.String(str).replace('_', ' ').replace(/([^\W_]+[^\s-]*) */g, s =>
+        s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+      )
+}
