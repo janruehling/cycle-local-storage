@@ -1,6 +1,6 @@
 import { Observable } from 'rx'
 import { AppShell, SiteHeader } from 'Components$'
-import { nestedComponent, mergeOrFlatMapLatest } from 'util'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
 import Landing from './Landing'
 

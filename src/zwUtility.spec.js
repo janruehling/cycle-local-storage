@@ -6,7 +6,7 @@ const {expect} = chai
 import { Observable } from 'rx'
 const {just} = Observable
 
-import { isObservable } from './util'
+import { isObservable } from './zwUtility'
 
 describe('util', function () {
   describe('isObservable', function () {

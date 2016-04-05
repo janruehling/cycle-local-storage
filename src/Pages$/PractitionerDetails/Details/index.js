@@ -1,9 +1,9 @@
-import {Observable} from 'rx'
+import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
 import { TabBar, ComingSoon } from 'Components$'
 
-import {nestedComponent, mergeOrFlatMapLatest} from 'util'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
 import Landing from './Landing'
 
@@ -27,6 +27,5 @@ export default sources => {
   return {
     DOM,
     queue$,
-    route$
-  }
+  route$}
 }

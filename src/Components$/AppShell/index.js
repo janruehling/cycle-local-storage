@@ -1,6 +1,6 @@
 import { Observable } from 'rx'
-import {DesktopFrame} from 'StyleFn'
-import {mergeOrFlatMapLatest} from 'util'
+import { DesktopFrame } from 'StyleFn'
+import { mergeOrFlatMapLatest } from 'zwUtility'
 
 export const AppShell = sources => {
 

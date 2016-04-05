@@ -7,7 +7,7 @@
   "main": "app.js",
   "scripts": {
     "dev:serve": "webpack-dev-server --inline --hot",
-    "prod:build": "webpack",
+    "prod:build": "webpack --optimize-minimize --optimize-occurence-order --optimize-dedupe",
     "prod:serve": "pm2 reload webapp || pm2 start app.js --name webapp",
     "dev": "parallelshell 'npm run dev:serve -s'",
     "prod": "rm -rf dist/* && npm run prod:build && npm run prod:serve",

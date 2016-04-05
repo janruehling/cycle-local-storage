@@ -1,4 +1,4 @@
-import { toTitleCase } from 'util'
+import { toTitleCase } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 
 import moment from 'moment'

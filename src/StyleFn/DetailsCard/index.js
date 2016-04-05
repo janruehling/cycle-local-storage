@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { div, span } from '@cycle/dom'
 
-import { toTitleCase } from 'util'
+import { toTitleCase } from 'zwUtility'
 
 import { Avatar, Icon, List, QuickFact, KeyValue } from 'StyleFn'
 

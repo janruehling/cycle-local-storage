@@ -3,7 +3,7 @@ import R from 'ramda'
 import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import {nestedComponent, mergeOrFlatMapLatest} from 'util'
+import {nestedComponent, mergeOrFlatMapLatest} from 'zwUtility'
 
 import { getPractitionersId$ } from 'Remote'
 

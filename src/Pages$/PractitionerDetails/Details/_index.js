@@ -3,7 +3,7 @@ const { just } = Observable
 
 import isolate from '@cycle/isolate'
 
-import { nestedComponent, mergeOrFlatMapLatest } from 'util'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
 import { ComingSoon, TabBar } from 'Components$'
 

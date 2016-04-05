@@ -1,7 +1,7 @@
 import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import 'normalize-css'
-import {nestedComponent} from 'util'
+import {nestedComponent} from 'zwUtility'
 import R from 'ramda'
 import combineLatestObj from 'rx-combine-latest-obj'
 

@@ -8,7 +8,7 @@ import { AppShell, SiteHeader } from 'Components$'
 // import Header from 'components/Header'
 // import ProjectNav from 'components/ProjectNav'
 
-import { nestedComponent, mergeOrFlatMapLatest } from 'util'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
 import Details from './Details'
 
