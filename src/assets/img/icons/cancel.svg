@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>cancel</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Practioner-Card---detail-(James-C.-Martin)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(-19.000000, -504.000000)" fill="#D0011B">
+            <g id="Page-content" transform="translate(19.000000, 37.000000)">
+                <g id="Key-details">
+                    <g id="Accepts..." transform="translate(0.000000, 463.000000)">
+                        <g id="cancel" transform="translate(0.000000, 4.000000)">
+                            <g id="Shape">
+                                <path d="M5.5,0 C2.475,0 0,2.475 0,5.5 C0,8.525 2.475,11 5.5,11 C8.525,11 11,8.525 11,5.5 C11,2.475 8.525,0 5.5,0 L5.5,0 Z M9.109375,7.596875 L7.665625,9.040625 L5.534375,6.909375 L3.403125,9.040625 L1.959375,7.596875 L4.090625,5.465625 L1.959375,3.334375 L3.403125,1.890625 L5.534375,4.021875 L7.665625,1.890625 L9.109375,3.334375 L6.978125,5.465625 L9.109375,7.596875 L9.109375,7.596875 Z"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

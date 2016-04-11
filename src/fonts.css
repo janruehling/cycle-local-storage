@@ -23,11 +23,41 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.iconHamburger:before {
-    content: "\30";
+.iconForward:before {
+    content: "\49";
+}
+.iconUp:before {
+    content: "\48";
 }
 .iconBack:before {
-    content: "\31";
+    content: "\4b";
+}
+.iconDown:before {
+    content: "\4a";
+}
+.iconTickRound:before {
+    content: "\46";
+}
+.iconCrossRound:before {
+    content: "\47";
+}
+.iconDrop:before {
+    content: "\45";
+}
+.iconGrid:before {
+    content: "\43";
+}
+.iconList:before {
+    content: "\44";
+}
+.iconFemale:before {
+    content: "\41";
+}
+.iconMale:before {
+    content: "\42";
+}
+.iconHamburger:before {
+    content: "\30";
 }
 .iconCalendar:before {
     content: "\32";
@@ -52,10 +82,4 @@
 }
 .iconTick:before {
     content: "\39";
-}
-.iconAvatarFemale:before {
-    content: "\41";
-}
-.iconAvatarMale:before {
-    content: "\42";
 }

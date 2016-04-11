@@ -8,7 +8,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { ComingSoon } from 'Components$'
 import Login from './Login'
 import Dash from './Dash'
-import PractitionerDetails from './PractitionerDetails'
+import Practitioners from './Practitioners'
 import StyleGuide from './StyleGuide'
 
 const { just, empty, merge } = Observable
@@ -18,8 +18,7 @@ const routes = {
   '/admin': ComingSoon('Admin'),
   '/dash': Dash,
   '/styleGuide': StyleGuide,
-  '/practitioners/:id': id => sources =>
-    PractitionerDetails({practitionerId$: just(id), ...sources})
+  '/practitioners': Practitioners
 }
 
 const AuthRedirectManager = sources => {

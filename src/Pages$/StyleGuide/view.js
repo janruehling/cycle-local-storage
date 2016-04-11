@@ -22,7 +22,7 @@ export default model$ => {
             return div({
               className: styles.styleChild
             }, [
-              child.fn,
+              div(child.fn),
               div(child.name)
             ])
           })

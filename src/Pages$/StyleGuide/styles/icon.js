@@ -1,7 +1,8 @@
+import { div } from '@cycle/dom'
 import { Icon } from 'StyleFn'
 
-const icons = ['Hamburger', 'Back', 'Calendar', 'Contact', 'Flag', 'Hospital',
-  'Photo', 'Sheet', 'Shield', 'Tick', 'AvatarFemale', 'AvatarMale']
+const icons = ['Hamburger', 'Up', 'Forward', 'Down', 'Back', 'Drop', 'Grid', 'List', 'TickRound', 'CrossRound', 'Calendar', 'Contact', 'Flag', 'Hospital',
+  'Photo', 'Sheet', 'Shield', 'Tick', 'Female', 'Male']
 
 const children = icons.map(icon => {
   return {
@@ -9,7 +10,7 @@ const children = icons.map(icon => {
     fn: Icon({
       icon: icon,
       style: {
-        fontSize: '62px'
+        fontSize: '32px'
       }
     })
   }

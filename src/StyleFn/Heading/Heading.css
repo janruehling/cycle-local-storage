@@ -2,16 +2,18 @@
 @value primary1 from constants;
 
 .container {
+  align-items: center;
   color: primary1;
-  font-size: 14px;
-}
-
-.container:not(:last-child) {
+  display: flex;
   margin-bottom: 5px;
 }
 
-.key {
+.icon {
+  font-size: 18px;
   margin-right: 5px;
 }
 
-.value {}
+.text {
+  font-size: 14px;
+  font-weight: bold;
+}

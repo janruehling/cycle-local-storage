@@ -78,7 +78,10 @@ export default sources => {
         skipToken: true,
         url: config.api + 'login',
         method: 'POST',
-        send: formData
+        send: config.dev ? {
+          username: 'jason@zipwire.com',
+          password: 'Happy19'
+        } : formData
       }
     })
     .startWith({})

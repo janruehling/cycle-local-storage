@@ -8,17 +8,19 @@ import { AppShell, SiteHeader } from 'Components$'
 // import Header from 'components/Header'
 // import ProjectNav from 'components/ProjectNav'
 
+import { ComingSoon } from 'Components$'
 import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
+import List from './List'
 import Details from './Details'
 
 const _routes = {
-  '/': Details
+  '/': List,
+  '/details/:id': id => sources =>
+    Details({practitionerId$: just(id), ...sources})
 }
 
 export default sources => {
-  const practitionerId$ = sources.practitionerId$
-
   const page$ = nestedComponent(
     sources.router.define(_routes),
     {...sources}

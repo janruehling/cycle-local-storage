@@ -21,7 +21,7 @@ const _render = (options) => div({
       className: styles.metricChange
     }, [
       Icon({
-        icon: 'Back',
+        icon: 'Up',
         style: {
           fontSize: '11px'
         }

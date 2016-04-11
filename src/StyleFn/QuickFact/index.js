@@ -10,16 +10,16 @@ export const QuickFact = (options = {}) =>
     className: styles.container
   }, [
     options.value ? Icon({
-      icon: 'Tick',
+      icon: 'TickRound',
       className: styles.icon,
       style: {
-        backgroundColor: constants.secondary2
+        color: constants.secondary2
       }
     }) : Icon({
-      icon: 'Tick',
+      icon: 'CrossRound',
       className: styles.icon,
       style: {
-        backgroundColor: constants.secondary3
+        color: constants.secondary3
       }
     }),
     KeyValue({

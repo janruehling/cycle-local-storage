@@ -22,7 +22,8 @@ const {sources, sinks} = run(main, {
   storage: localStorageDriver,
   router: makeRouterDriver(history),
   config$: () => just({
-    api: 'https://apistagingdata.zipwire.com/'
+    api: 'https://apistagingdata.zipwire.com/',
+    dev: true
   })
 })
 

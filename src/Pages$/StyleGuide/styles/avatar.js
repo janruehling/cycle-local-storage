@@ -1,26 +1,29 @@
 import { Avatar } from 'StyleFn'
 import avatarPng from 'assets/img/avatar.png'
 
+const avatarStyle = {
+  fontSize: '62px',
+  width: '62px'
+}
+
 const avatarMale = Avatar({
-  gender: 'male',
-  style: {
-    fontSize: '62px'
-  }
+  icon: 'Male',
+  style: avatarStyle
 })
 
 const avatarFemale = Avatar({
-  gender: 'female',
-  style: {
-    fontSize: '62px'
-  }
+  icon: 'Female',
+  style: avatarStyle
+})
+
+const avatarLocation = Avatar({
+  icon: 'Hospital',
+  style: avatarStyle
 })
 
 const avatarImage = Avatar({
   image: avatarPng,
-  style: {
-    height: '62px',
-    width: '62px'
-  }
+  style: avatarStyle
 })
 
 const avatar = {
@@ -31,6 +34,9 @@ const avatar = {
   }, {
     name: 'Female',
     fn: avatarFemale
+  }, {
+    name: 'Location',
+    fn: avatarLocation
   }, {
     name: 'Image',
     fn: avatarImage

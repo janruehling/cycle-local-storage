@@ -4,16 +4,13 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 const { just } = Observable
 
-import { getPractitioners$ } from 'Remote'
-
 import constants from 'constants.css'
 import styles from './Landing.css'
 
 import { MetricsCallout, MetricsCircle } from 'StyleFn'
 
 const _render = ({
-  createHref,
-  practitioners
+  just
 }) => {
   return div({
     className: styles.container
@@ -52,6 +49,10 @@ const _render = ({
           title: {
             text: 'Practitioners'
           },
+          link: {
+            text: 'view all',
+            href: '/#/practitioners/'
+          },
           change: {
             style: {
               backgroundColor: constants.secondary2
@@ -69,6 +70,10 @@ const _render = ({
           },
           title: {
             text: 'Locations'
+          },
+          link: {
+            text: 'view all',
+            href: '/#/locations/'
           },
           change: {
             style: {
@@ -88,6 +93,10 @@ const _render = ({
           title: {
             text: 'Organizations'
           },
+          link: {
+            text: 'view all',
+            href: '/#/groups/'
+          },
           change: {
             text: '+/- 0 this week'
           }
@@ -102,6 +111,10 @@ const _render = ({
           },
           title: {
             text: 'Plans'
+          },
+          link: {
+            text: 'view all',
+            href: '/#/plans/'
           },
           change: {
             style: {
@@ -121,26 +134,8 @@ const _render = ({
 }
 
 export default sources => {
-  const queue$ = getPractitioners$(sources)
-    .startWith('')
-
-  const response$ = queue$
-    .map(request => request.url)
-    .flatMap(url => {
-      return sources.HTTP
-        .filter(res$ => res$.request.url === url)
-    })
-    .mergeAll()
-    .map(res => res.body)
-    .catch(err => just(err))
-    .startWith('')
-
-  const practitioners = response$
-    .map(data => data.practitioners)
-    .filter(data => !!data)
-
   const viewState = {
-    practitioners
+    just: just('')
   }
 
   const DOM = combineLatestObj(viewState)
@@ -148,7 +143,6 @@ export default sources => {
 
   return {
     ...sources,
-    DOM,
-    queue$
+    DOM
   }
 }

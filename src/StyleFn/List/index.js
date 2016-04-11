@@ -1,7 +1,7 @@
 import { div, img, span, a } from '@cycle/dom'
 import classNames from 'classnames'
 
-import { Avatar, Icon } from 'StyleFn'
+import { Avatar, Icon, Heading } from 'StyleFn'
 
 import styles from './List.css'
 
@@ -9,12 +9,10 @@ export const List = (options = {}) => {
   return div({
     className: styles.container
   }, [
-    options.icon && Icon({
-      icon: options.icon
+    options.title && Heading({
+      icon: options.icon,
+      text: options.title
     }),
-    options.title && div({
-      className: styles.title
-    }, options.title),
     (options.items && options.items.length)
       && options.items.map(item => div({
         className: styles.item

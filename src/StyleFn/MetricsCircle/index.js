@@ -31,10 +31,10 @@ const _render = (options) => div({
         className: styles.metricTitle,
         style: options.title.style
       }, options.title.text),
-      a({
-        href: '#',
+      options.link && a({
+        href: options.link.href,
         className: styles.viewLink
-      }, 'view all')
+      }, options.link.text)
     ])
   ]),
   options.change && div({

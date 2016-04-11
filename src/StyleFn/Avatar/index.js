@@ -6,27 +6,30 @@ import { Icon } from 'StyleFn'
 import styles from './Avatar.css'
 
 const withImage = (options) => div({
-  className: classNames({
-    [options.className]: true,
-    [styles.avatarImage]: true
-  }),
-  style: {
-    backgroundImage: 'url(' + options.image + ')',
-    ...options.style
-  }
-}, [])
+  className: styles.container
+}, [
+    div({
+      className: classNames({
+        [options.classNameImage]: true,
+        [styles.image]: true
+      }),
+      style: {
+        backgroundImage: 'url(' + options.image + ')',
+        ...options.style
+      }
+    }, [])
+  ])
 
 const withoutImage = (options) => {
-  const iconName = options.gender === 'Female' ? 'AvatarFemale' : 'AvatarMale'
   return div({
     className: classNames({
       [options.className]: true,
-      [styles.avatarContainer]: true
+      [styles.container]: true
     }),
     style: options.style
   }, [
     Icon({
-      icon: iconName
+      icon: options.icon || 'Male'
     })
   ])
 }

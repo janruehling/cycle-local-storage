@@ -1,7 +1,7 @@
 @value constants: 'constants.css';
 @value primary1, additional8 from constants;
 
-.avatarContainer {
+.container {
   background-color: additional8;
   color: primary1;
   display: inline-block;
@@ -9,7 +9,8 @@
   text-align: center;
 }
 
-.avatarImage {
+.image {
   background-size: cover;
   background-repeat: no-repeat;
+  padding-bottom: 100%;
 }
