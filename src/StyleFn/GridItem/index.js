@@ -10,22 +10,21 @@ export const GridItem = (options = {}) => div({
     [styles.container]: true,
     [options.className]: !!options.className
   }),
-  style: options.style,
+  style: {
+    width: options.size ? options.size + 'px' : '130px',
+    ...options.style
+  },
   attributes: options.attributes
 }, [
   Avatar({
+    className: styles.image,
     image: options.image,
-    gender: options.gender,
-    style: {
-      fontSize: options.fontSize || '113px',
-      width: options.width || '132px'
-    },
-    className: styles.image
+    icon: options.icon,
+    size: options.size
   }),
   div({
     className: styles.banner
   }, [
-    div(options.first_name),
-    div(options.last_name),
+    div(options.text)
   ])
 ])

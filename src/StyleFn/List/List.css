@@ -3,10 +3,10 @@
 
 .container {
   font-size: 14px;
-  margin: 15px 0 0;
 }
 
 .item {
+  display: flex;
   margin-bottom: 5px;
 }
 

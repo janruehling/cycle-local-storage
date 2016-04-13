@@ -1,6 +1,18 @@
 @value constants: 'constants.css';
 @value primary1, secondary1, additional7 from constants;
 
+:global :invalid {
+  box-shadow: none;
+}
+
+:global :-moz-submit-invalid {
+  box-shadow: none;
+}
+
+:global :-moz-ui-invalid {
+  box-shadow:none;
+}
+
 .input {
   border: 1px solid additional7;
   border-radius: 4px;

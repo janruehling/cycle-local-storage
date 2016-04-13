@@ -9,7 +9,8 @@ module.exports = {
     filename: 'app.js'
   },
   resolve: {
-    root: path.resolve('./src')
+    root: path.resolve('./src'),
+    alias: {}
   },
   module: {
     loaders: [
@@ -31,19 +32,20 @@ module.exports = {
         loader: 'file'
       },
       {
-        test   : /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader : 'file'
+        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file'
       }
-    ],
-    postcss: function (webpack) {
-      return [
-        require('postcss-nested'),
-        require('autoprefixer'),
-        require('postcss-import')({
-          addDependencyTo: webpack
-        })
-      ]
-    }
+    ]
+  },
+  postcss: function (webpack) {
+    return [
+      require('postcss-nested'),
+      require('autoprefixer'),
+      require('postcss-import')({
+        addDependencyTo: webpack
+      }),
+      require('cq-prolyfill/postcss-plugin')
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -1,6 +1,25 @@
 import { Observable } from 'rx'
 import { is } from 'ramda'
 
+export const byMatch = (matchPattern) =>
+  (responses$) => responses$.request.url.indexOf(matchPattern) > -1
+
+export const getName = (entity = {}) => {
+  if (!is(Object, entity)) return ''
+
+  if (entity.name) {
+    return entity.name.trim()
+  } else if (entity.first_name || entity.middle_name || entity.last_name) {
+    const first = entity.first_name ? entity.first_name + ' ' : ''
+    const middle = entity.middle_name ? entity.middle_name + ' ' : ''
+    const last = entity.last_name ? entity.last_name + ' ' : ''
+
+    return (first + middle + last).trim()
+  } else {
+    return ''
+  }
+}
+
 export const isObservable = obs => {
   if (!is(Object, obs)) return false
   return typeof obs.subscribe === 'function'
@@ -32,7 +51,7 @@ export const mergeOrFlatMapLatest = (prop, ...sourceArray) =>
 export const log = label => emitted => console.log(label, ':', emitted)
 
 export const toTitleCase = str => {
-    return window.String(str).replace('_', ' ').replace(/([^\W_]+[^\s-]*) */g, s =>
-        s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
-      )
+  return window.String(str).split('_').join(' ').split('.').join('. ').replace(/([^\W_]+[^\s-]*) */g, s =>
+      s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+    )
 }

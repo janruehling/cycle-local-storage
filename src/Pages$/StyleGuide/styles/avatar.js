@@ -1,29 +1,24 @@
 import { Avatar } from 'StyleFn'
 import avatarPng from 'assets/img/avatar.png'
 
-const avatarStyle = {
-  fontSize: '62px',
-  width: '62px'
-}
-
 const avatarMale = Avatar({
   icon: 'Male',
-  style: avatarStyle
+  size: '62'
 })
 
 const avatarFemale = Avatar({
   icon: 'Female',
-  style: avatarStyle
+  size: '62'
 })
 
 const avatarLocation = Avatar({
   icon: 'Hospital',
-  style: avatarStyle
+  size: '62'
 })
 
 const avatarImage = Avatar({
   image: avatarPng,
-  style: avatarStyle
+  size: '62'
 })
 
 const avatar = {

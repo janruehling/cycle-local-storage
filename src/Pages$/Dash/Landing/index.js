@@ -1,16 +1,13 @@
-import { Observable } from 'rx'
-import { div, button, a, span } from '@cycle/dom'
+import { div, span } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
-
-const { just } = Observable
 
 import constants from 'constants.css'
 import styles from './Landing.css'
 
-import { MetricsCallout, MetricsCircle } from 'StyleFn'
+import { MetricsCallout, MetricsCircle, Heading } from 'StyleFn'
 
 const _render = ({
-  just
+  config
 }) => {
   return div({
     className: styles.container
@@ -28,6 +25,9 @@ const _render = ({
         ]),
         average: 'Industry Average: 52%'
       }),
+      Heading({
+        text: 'Activity Feed'
+      })
     ]),
     div({
       className: styles.main
@@ -51,6 +51,7 @@ const _render = ({
           },
           link: {
             text: 'view all',
+            className: 'link',
             href: '/#/practitioners/'
           },
           change: {
@@ -112,10 +113,6 @@ const _render = ({
           title: {
             text: 'Plans'
           },
-          link: {
-            text: 'view all',
-            href: '/#/plans/'
-          },
           change: {
             style: {
               backgroundColor: constants.secondary3
@@ -128,21 +125,33 @@ const _render = ({
     div({
       className: styles.sidebar
     }, [
-      div('I am a sidebar'),
-    ]),
+      Heading({
+        text: 'Recent Searches'
+      }),
+      Heading({
+        text: 'Top Plans'
+      })
+    ])
   ])
 }
 
 export default sources => {
   const viewState = {
-    just: just('')
+    config: sources.config$
   }
+
+  const viewLinkClicks$ = sources.DOM
+    .select('.link')
+    .events('click')
+    .map(ev => ev.ownerTarget.dataset.link)
+    .do(console.log.bind(console))
 
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
   return {
     ...sources,
-    DOM
+    DOM,
+    route$: viewLinkClicks$
   }
 }

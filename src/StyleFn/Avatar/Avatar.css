@@ -4,13 +4,24 @@
 .container {
   background-color: additional8;
   color: primary1;
-  display: inline-block;
   overflow: hidden;
   text-align: center;
+  position: relative;
 }
 
 .image {
   background-size: cover;
   background-repeat: no-repeat;
-  padding-bottom: 100%;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.icon {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

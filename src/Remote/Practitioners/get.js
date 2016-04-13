@@ -9,7 +9,7 @@ export const getPractitionersId$ = ({practitionerId$, config$}) => {
   return config$
     .zip(practitionerId$)
     .map(([config, id]) => ({
-    url: config.api + 'practitioners/' + id,
-    method: 'GET'
-  }))
+      url: config.api + 'practitioners/' + id,
+      method: 'GET'
+    }))
 }

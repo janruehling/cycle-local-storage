@@ -4,9 +4,10 @@ const children = [{
   name: '',
   fn: GridItem({
     image: null,
-    gender: 'Male',
+    icon: 'Male',
     first_name: 'Felicity',
-    last_name: 'Granville'
+    last_name: 'Granville',
+    size: 132
   })
 }]
 

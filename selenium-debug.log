@@ -1,0 +1,57 @@
+10:33:53.490 INFO - Launching a standalone Selenium Server
+10:33:53.518 INFO - Java: Oracle Corporation 25.60-b23
+10:33:53.518 INFO - OS: Mac OS X 10.11.3 x86_64
+10:33:53.528 INFO - v2.53.0, with Core v2.53.0. Built from revision 35ae25b
+10:33:53.575 INFO - Driver provider org.openqa.selenium.ie.InternetExplorerDriver registration is skipped:
+registration capabilities Capabilities [{ensureCleanSession=true, browserName=internet explorer, version=, platform=WINDOWS}] does not match the current platform MAC
+10:33:53.575 INFO - Driver provider org.openqa.selenium.edge.EdgeDriver registration is skipped:
+registration capabilities Capabilities [{browserName=MicrosoftEdge, version=, platform=WINDOWS}] does not match the current platform MAC
+10:33:53.576 INFO - Driver class not found: com.opera.core.systems.OperaDriver
+10:33:53.576 INFO - Driver provider com.opera.core.systems.OperaDriver is not registered
+10:33:53.577 INFO - Driver class not found: org.openqa.selenium.htmlunit.HtmlUnitDriver
+10:33:53.577 INFO - Driver provider org.openqa.selenium.htmlunit.HtmlUnitDriver is not registered
+10:33:53.624 INFO - RemoteWebDriver instances should connect to: http://127.0.0.1:4444/wd/hub
+10:33:53.624 INFO - Selenium Server is up and running
+10:33:53.903 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]])
+10:33:53.911 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]
+10:33:55.765 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]]
+10:33:55.775 INFO - Executing: [get: http://localhost:5000/#/login])
+10:33:56.267 INFO - Done: [get: http://localhost:5000/#/login]
+10:33:56.275 INFO - Executing: [find elements: By.cssSelector: #username])
+10:33:56.362 INFO - Done: [find elements: By.cssSelector: #username]
+10:33:56.366 INFO - Executing: [is displayed: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username]])
+10:33:56.380 INFO - Done: [is displayed: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username]]
+10:33:56.384 INFO - Executing: [find elements: By.cssSelector: #username])
+10:33:56.389 INFO - Done: [find elements: By.cssSelector: #username]
+10:33:56.392 INFO - Executing: [tag name: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username]])
+10:33:56.397 INFO - Done: [tag name: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username]]
+10:33:56.400 INFO - Executing: [find elements: By.cssSelector: #username])
+10:33:56.415 INFO - Done: [find elements: By.cssSelector: #username]
+10:33:56.418 INFO - Executing: [get element attribute: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username], type])
+10:33:56.424 INFO - Done: [get element attribute: 0 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #username], type]
+10:33:56.427 INFO - Executing: [find elements: By.cssSelector: #password])
+10:33:56.432 INFO - Done: [find elements: By.cssSelector: #password]
+10:33:56.434 INFO - Executing: [tag name: 1 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #password]])
+10:33:56.440 INFO - Done: [tag name: 1 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #password]]
+10:33:56.442 INFO - Executing: [find elements: By.cssSelector: #password])
+10:33:56.449 INFO - Done: [find elements: By.cssSelector: #password]
+10:33:56.451 INFO - Executing: [get element attribute: 1 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #password], type])
+10:33:56.456 INFO - Done: [get element attribute: 1 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #password], type]
+10:33:56.459 INFO - Executing: [find elements: By.cssSelector: #submit])
+10:33:56.464 INFO - Done: [find elements: By.cssSelector: #submit]
+10:33:56.467 INFO - Executing: [tag name: 2 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #submit]])
+10:33:56.476 INFO - Done: [tag name: 2 [[FirefoxDriver: firefox on MAC (2be7f967-2ac3-3c42-95a8-b89cc1fd247b)] -> css selector: #submit]]
+10:33:56.481 INFO - Executing: [delete session: 7beb91de-f095-43b7-b4b7-5296d94fa303])
+10:33:56.555 INFO - Done: [delete session: 7beb91de-f095-43b7-b4b7-5296d94fa303]
+10:33:56.567 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]])
+10:33:56.567 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]
+10:33:58.156 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]]
+10:33:58.160 INFO - Executing: [get: http://localhost:5000/#/login])
+10:33:58.635 INFO - Done: [get: http://localhost:5000/#/login]
+10:33:58.640 INFO - Executing: [delete session: 3303b6d2-e072-4d3f-9032-b5dc16cdc253])
+10:33:58.747 INFO - Done: [delete session: 3303b6d2-e072-4d3f-9032-b5dc16cdc253]
+10:33:58.752 INFO - Executing: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]])
+10:33:58.753 INFO - Creating a new session for Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]
+10:34:00.344 INFO - Done: [new session: Capabilities [{acceptSslCerts=true, browserName=firefox, javascriptEnabled=true, platform=ANY}]]
+10:34:00.348 INFO - Executing: [delete session: ae99465d-41df-4767-a03e-ae3727048b8a])
+10:34:00.416 INFO - Done: [delete session: ae99465d-41df-4767-a03e-ae3727048b8a]

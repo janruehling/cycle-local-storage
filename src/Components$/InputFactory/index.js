@@ -5,12 +5,11 @@ import { input } from '@cycle/dom'
 
 import styles from './InputFactory.css'
 
-const { just } = Observable
-
 const InputFactory = (attributes) => sources => {
   const _render = ({value}) =>
     input({
       ...attributes,
+      id: attributes.id || '',
       className: classNames({
         [styles.input]: true,
         [attributes.className]: !!attributes.className
@@ -23,7 +22,7 @@ const InputFactory = (attributes) => sources => {
     .events('input')
 
   const value$ = (sources.value$ || Observable.just(null))
-    .merge(input$.pluck('target','value'))
+    .merge(input$.pluck('target', 'value'))
 
   const DOM = combineLatestObj({value$}).map(_render)
 

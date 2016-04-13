@@ -3,7 +3,7 @@ import { div } from '@cycle/dom'
 const noSidenav = (header, page) =>
   div([
     header,
-    div({style: {padding: '0em 1em'}}, [page]),
+    div({}, [page])
   ])
 
 export const DesktopFrame = ({header, page}) =>

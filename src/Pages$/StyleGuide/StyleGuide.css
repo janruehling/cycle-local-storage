@@ -8,7 +8,6 @@
 
 .styleContainer {
   align-items: center;
-  border: 1px solid primary1;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -23,7 +22,15 @@
 }
 
 .styleChild {
+  border: 1px solid primary1;
+  overflow: hidden;
+  resize: both;
   margin: 5px;
+}
+
+.styleChild:active {
+  height: 0;
+  width: 0;
 }
 
 .styleChild ~ div {

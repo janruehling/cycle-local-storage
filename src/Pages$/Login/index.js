@@ -1,23 +1,24 @@
-import { pathOr } from 'ramda'
+import { pathOr, match } from 'ramda'
 import { Observable } from 'rx'
-import { div, input, button, a } from '@cycle/dom'
+import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
-import classNames from 'classnames'
-
 import { InputFactory } from 'Components$'
+import { byMatch } from 'zwUtility'
 
 import styles from './Login.css'
 
 const { just } = Observable
 
 const EmailInput = InputFactory({
+  id: 'username',
+  className: 'email',
   type: 'email',
   placeholder: 'Email',
-  required: true,
-  className: 'email'
+  required: true
 })
 
 const PasswordInput = InputFactory({
+  id: 'password',
   type: 'password',
   placeholder: 'Password',
   required: true,
@@ -39,6 +40,7 @@ const _render = ({
     emailInputDOM,
     passwordInputDOM,
     button({
+      id: 'submit',
       className: styles.button
     }, 'Log in'),
     a({
@@ -53,8 +55,6 @@ const _render = ({
 ])
 
 export default sources => {
-  const { storage } = sources
-
   const emailInput = EmailInput(sources)
   const passwordInput = PasswordInput(sources)
 
@@ -84,15 +84,10 @@ export default sources => {
         } : formData
       }
     })
-    .startWith({})
+    .startWith('')
 
-  const loginResponse$ = queue$
-    .map(request => request.url)
-    .flatMap(url => {
-      return sources.HTTP
-        .filter(res$ => res$.request.url === url)
-    })
-    .mergeAll()
+  const loginResponse$ = sources.responses$
+    .filter(byMatch('/login'))
     .map(res => res.body)
     .catch(err => just(err))
     .startWith('')
@@ -121,6 +116,6 @@ export default sources => {
     storage: storageRequest$,
     formData$,
     queue$,
-    route$: sources.redirectLogin$,
+    route$: sources.redirectLogin$
   }
 }

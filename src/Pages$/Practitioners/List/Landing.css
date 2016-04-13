@@ -1,9 +1,0 @@
-@value constants: 'constants.css';
-@value maxWidth from constants;
-
-.container {
-  display: flex;
-  max-width: maxWidth;
-  margin: 0 auto;
-  flex-wrap: wrap;
-}

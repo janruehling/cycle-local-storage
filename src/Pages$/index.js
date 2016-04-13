@@ -1,24 +1,44 @@
-import { Observable } from 'rx'
-import isolate from '@cycle/isolate'
 import 'normalize-css'
-import {nestedComponent} from 'zwUtility'
+import { Observable } from 'rx'
 import R from 'ramda'
-import combineLatestObj from 'rx-combine-latest-obj'
+import isolate from '@cycle/isolate'
+import { nestedComponent } from 'zwUtility'
 
 import { ComingSoon } from 'Components$'
 import Login from './Login'
 import Dash from './Dash'
-import Practitioners from './Practitioners'
+import GroupList from './Group/List'
+import GroupDetails from './Group/Details'
+import LocationList from './Location/List'
+import LocationDetails from './Location/Details'
+import PractitionerList from './Practitioner/List'
+import PractitionerDetails from './Practitioner/Details'
 import StyleGuide from './StyleGuide'
 
-const { just, empty, merge } = Observable
-
 const routes = {
-  '/': Login,
-  '/admin': ComingSoon('Admin'),
-  '/dash': Dash,
+  '/': isolate(Login),
+  '/admin': isolate(ComingSoon('Admin')),
+  '/dash': isolate(Dash),
   '/styleGuide': StyleGuide,
-  '/practitioners': Practitioners
+  '/groups': isolate(GroupList),
+  '/group/:id': id => sources =>
+      isolate(GroupDetails)({
+        groupId$: Observable.just(id),
+        ...sources
+      }),
+  '/locations': isolate(LocationList),
+  '/location/:id': id => sources =>
+      isolate(LocationDetails)({
+        locationId$: Observable.just(id),
+        ...sources
+      }),
+  '/plans': isolate(ComingSoon('Plans')),
+  '/practitioners': isolate(PractitionerList),
+  '/practitioner/:id': id => sources =>
+      isolate(PractitionerDetails)({
+        practitionerId$: Observable.just(id),
+        ...sources
+      })
 }
 
 const AuthRedirectManager = sources => {
@@ -27,7 +47,7 @@ const AuthRedirectManager = sources => {
     .map(profile => profile.isAdmin ? '/admin' : '/dash')
 
   const redirectLogout$ = sources.auth$
-    .filter(auth => !auth)
+    .filter(auth => !auth || !auth.access_token)
     .map(() => '/')
 
   return {
@@ -35,7 +55,6 @@ const AuthRedirectManager = sources => {
     redirectLogout$
   }
 }
-
 
 const UserManager = sources => {
   const { storage } = sources
@@ -57,24 +76,26 @@ const UserManager = sources => {
 const AuthedResponseManager = sources => ({
   responses$: sources.HTTP
     .mergeAll()
-    .catch(err => just(err))
+    .catch(err => Observable.just(err))
     .filter(res => res.status !== 401)
+    .do(console.log.bind(console))
 })
 
 const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
   return HTTP
     .mergeAll()
-    .catch(err => just(err))
-    .filter(err => err.status === 401)
-    .flatMap(err => {
+    .catch(err => Observable.just(err))
+    .filter(errData => errData.status === 401)
+    .do(console.log.bind(console))
+    .flatMap(errData => {
       return auth$
         .zip(config$)
         .flatMap(([auth, config]) => {
-          return just({
+          return Observable.just({
             url: config.api + 'refresh',
             method: 'POST',
             send: {
-              refresh_token: auth.refresh_token
+              refresh_token: auth ? auth.refresh_token : null
             }
           })
         })
@@ -82,20 +103,19 @@ const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
 }
 
 const refreshToken = ({HTTP, config$}) => {
-
   const response$ = config$
     .flatMap(config => HTTP
       .filter(req$ => req$.request.url === config.api + 'refresh')
       .mergeAll()
       .map(res => res.body)
-      .catch(err => just(err))
+      .catch(err => Observable.just(err))
     )
 
   const storage = response$
     .flatMap(data => {
-      const auth = R.pathOr(null, ['auth'])(data)
-      return just({
-        auth: auth ? JSON.stringify(auth) : null
+      const auth = R.pathOr({}, ['auth'])(data)
+      return Observable.just({
+        auth: JSON.stringify(auth)
       })
     })
 
@@ -108,7 +128,7 @@ const refreshToken = ({HTTP, config$}) => {
 // const AuthedActionManager = sources => ({
 //   HTTP: sources.queue$
 //     .withLatestFrom(sources.auth$, sources.config$)
-//     .map(([action, auth, config]) => just({
+//     .map(([action, auth, config]) => Observable.just({
 //       url: config.api + action.url,
 //       method: action.method || 'GET',
 //       headers: {
@@ -118,7 +138,6 @@ const refreshToken = ({HTTP, config$}) => {
 // })
 
 export default sources => {
-
   const user = UserManager(sources)
 
   const redirects = AuthRedirectManager({...user, ...sources})
@@ -127,7 +146,7 @@ export default sources => {
 
   const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
 
-  const queue$ = empty()
+  const queue$ = Observable.empty()
 
   const page$ = nestedComponent(sources.router.define(routes), {
     ...sources,
@@ -142,38 +161,34 @@ export default sources => {
   const HTTP = page$
     .pluckFlat('queue$')
     .merge(unauthedRequests$)
+    .distinctUntilChanged()
     .flatMap(req => {
       if (req.skipToken) {
-        return just(R.pick(['url', 'send', 'method'])(req))
+        return Observable.just(R.pick(['url', 'send', 'method'])(req))
       } else if (!req || !req.url) {
-        return empty()
+        return Observable.empty()
       } else {
         return user.auth$
           .map(auth => R.merge(R.pick(['url', 'send', 'method'])(req), {
-          headers: {
-            Authorization: 'Bearer ' + auth.access_token
-          }
-        }))
+            headers: {
+              Authorization: auth ? 'Bearer ' + auth.access_token : null
+            }
+          }))
       }
     })
 
   const handleRefresh$ = refreshToken(sources)
 
-  const storage = page$.pluckFlat('storage').merge(handleRefresh$.storage)
+  const storage = page$.pluckFlat('storage')
+    .merge(handleRefresh$.storage)
 
-  // const auth$ = page$.pluckFlat('auth$')
-  //
-  // const { HTTP } = AuthedActionManager({
-  //   ...sources,
-  //   queue$: page$.pluckFlat('queue$') // must be 2d arg to override sources
-  // })
-
-  const router = merge(
-    page$.pluckFlat('route$'),
-    redirects.redirectLogout$
+  const router = Observable.merge(
+    page$.pluckFlat('route$')
+    // redirects.redirectLogout$
   )
 
   return {
+    ...sources,
     DOM,
     HTTP,
     storage,

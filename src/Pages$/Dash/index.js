@@ -30,6 +30,7 @@ export default sources => {
   )
 
   return {
+    ...sources,
     DOM: appFrame.DOM,
     auth$: mergeOrFlatMapLatest('auth$', ...children),
     queue$: mergeOrFlatMapLatest('queue$', ...children),

@@ -1,15 +1,12 @@
-import {Observable} from 'rx'
-const {just} = Observable
-import {run} from '@cycle/core'
+import { Observable } from 'rx'
+import { run } from '@cycle/core'
 
-// drivers
-import {makeDOMDriver} from '@cycle/dom'
+import { makeDOMDriver } from '@cycle/dom'
 import { makeHTTPDriver } from '@cycle/http'
-import localStorageDriver from 'cycle-local-storage';
-import {makeRouterDriver, supportsHistory} from 'cyclic-router'
-import {createHistory, createHashHistory} from 'history'
+import localStorageDriver from 'cycle-local-storage'
+import { makeRouterDriver } from 'cyclic-router'
+import { createHashHistory } from 'history'
 
-// app root function
 import main from './Pages$'
 
 const history = createHashHistory()
@@ -21,7 +18,7 @@ const {sources, sinks} = run(main, {
   }),
   storage: localStorageDriver,
   router: makeRouterDriver(history),
-  config$: () => just({
+  config$: () => Observable.just({
     api: 'https://apistagingdata.zipwire.com/',
     dev: true
   })

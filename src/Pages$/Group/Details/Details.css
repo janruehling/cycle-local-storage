@@ -1,0 +1,17 @@
+@value constants: 'constants.css';
+@value maxWidth, additional9 from constants;
+
+.container {
+  display: flex;
+  max-width: maxWidth;
+  margin: 30px auto;
+}
+
+.sidebarLeft {
+  width: 290px;
+}
+
+.main {
+  flex: 1;
+  border-top: 2px solid additional9;
+}

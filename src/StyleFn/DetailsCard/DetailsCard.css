@@ -4,6 +4,7 @@
 .container {
   background-image: linear-gradient(#f6f9fc, #fff);
   color: primary1;
+  width: 100%;
 }
 
 .topCallout {
@@ -36,10 +37,7 @@
 
 .avatar {
   border-radius: 6px;
-  font-size: 80px;
-  height: 80px;
   margin-right: 20px;
-  width: 80px;
 }
 
 .listsContainer {}

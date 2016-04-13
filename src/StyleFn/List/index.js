@@ -1,7 +1,6 @@
 import { div, img, span, a } from '@cycle/dom'
-import classNames from 'classnames'
 
-import { Avatar, Icon, Heading } from 'StyleFn'
+import { Avatar, Heading } from 'StyleFn'
 
 import styles from './List.css'
 
@@ -14,7 +13,7 @@ export const List = (options = {}) => {
       text: options.title
     }),
     (options.items && options.items.length)
-      && options.items.map(item => div({
+      ? options.items.map(item => div({
         className: styles.item
       }, [
         item.image && img({
@@ -22,7 +21,8 @@ export const List = (options = {}) => {
         }),
         item.avatar && Avatar({
           image: item.avatar.image,
-          gender: item.avatar.gender
+          icon: item.avatar.icon,
+          size: '30px'
         }),
         item.text && (item.link
           ? a({
@@ -33,6 +33,6 @@ export const List = (options = {}) => {
             className: styles.itemText
           }, item.text)
         )
-      ]))
+      ])) : null
   ])
 }

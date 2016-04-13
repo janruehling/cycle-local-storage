@@ -1,20 +1,36 @@
+import { Observable } from 'rx'
+import combineLatestObj from 'rx-combine-latest-obj'
+
 import { Tabs, Tab } from 'StyleFn'
 
-const _DOM = createHref => _tabs =>
-  tabs({}, _tabs.map(({path, label}) =>
-    tab({id: label, link: createHref(path)}, label)
-  ))
+const _render = ({
+  tabs,
+  createHref,
+  router
+}) =>
+    Tabs({}, tabs.map(({path, label}) => {
+      const link = createHref(path)
+      const hashedRoute = '#' + router.pathname
+
+      return Tab({
+        id: label,
+        isActive: hashedRoute === link,
+        link: link
+      }, label)
+    }
+))
 
 export const TabBar = sources => {
-  const navigate$ = sources.DOM.select('.tab-label-content')
-    .events('click')
-    .map(event => event.ownerTarget.dataset.link)
-    .distinctUntilChanged()
+  const viewState = {
+    tabs: sources.tabs,
+    createHref: Observable.just(sources.router.createHref),
+    router: sources.router.observable
+  }
 
-  const DOM = sources.tabs.map(_DOM(sources.router.createHref))
+  const DOM = combineLatestObj(viewState).map(_render)
 
   return {
-    DOM,
-    route$: navigate$,
+    ...sources,
+    DOM
   }
 }

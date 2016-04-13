@@ -2,7 +2,6 @@
 @value additional8 from constants;
 
 .container {
-  background-color: additional8;
   border-radius: 5px;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
   display: flex;
@@ -11,14 +10,16 @@
   overflow: hidden;
 }
 
-.image {
-  padding: 15px 5px 0;
-}
-
 .banner {
+  align-items: center;
   background-image: linear-gradient(#4D6688, #21406A);
   color: #fff;
-  font-size: 16px;
+  display: flex;
+  font-size: 15px;
+  height: 60px;
+  justify-content: center;
   padding: 10px;
+  overflow: hidden;
   text-align: center;
+  text-overflow: ellipsis;
 }
