@@ -29,7 +29,7 @@ const _render = ({
 
 const _navActions = (sources) => sources.DOM.select('.practitioner')
     .events('click')
-    .map(ev => '/practitioner/' + ev.ownerTarget.dataset.id  + '/')
+    .map(ev => '/practitioner/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
   const route$ = _navActions(sources)

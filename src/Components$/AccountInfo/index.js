@@ -53,7 +53,7 @@ const _render = ({
           style: {
             color: '#fff'
           }
-        }),
+        })
       ])
     ]),
     div({
