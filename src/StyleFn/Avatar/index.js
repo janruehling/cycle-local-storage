@@ -12,7 +12,7 @@ const withImage = (options) => div({
   }),
   style: {
     backgroundImage: 'url(' + options.image + ')',
-    ...options.style
+    ...options.styleImage
   }
 }, [])
 

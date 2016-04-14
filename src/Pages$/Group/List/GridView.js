@@ -29,7 +29,7 @@ const _render = ({
 
 const _navActions = (sources) => sources.DOM.select('.group')
     .events('click')
-    .map(ev => '/group/' + ev.ownerTarget.dataset.id)
+    .map(ev => '/group/' + ev.ownerTarget.dataset.id  + '/')
 
 export default sources => {
   const route$ = _navActions(sources)

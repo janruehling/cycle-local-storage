@@ -32,7 +32,11 @@ export const List = (options = {}) => {
           : span({
             className: styles.itemText
           }, item.text)
-        )
-      ])) : null
+        ),
+        div({
+          className: styles.itemText
+        }, [item.children])
+      ]))
+      : null
   ])
 }

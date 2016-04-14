@@ -1,12 +1,41 @@
 import { div, span } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
+import { pathOr } from 'ramda'
+
 import constants from 'constants.css'
 import styles from './Landing.css'
 
 import { MetricsCallout, MetricsCircle, Heading } from 'StyleFn'
 
+const _getChangeObject = (changeString) => {
+  const number = Number(changeString)
+
+  if (Number.isNaN(number)) return null
+
+  if (number > 0) {
+    return {
+      style: {
+        backgroundColor: constants.secondary2
+      },
+      text: '+' + changeString + ' this week'
+    }
+  } else if (number < null) {
+    return {
+      style: {
+        backgroundColor: constants.secondary3
+      },
+      text: '-' + changeString + ' this week'
+    }
+  } else {
+    return {
+      text: '+/- 0 this week'
+    }
+  }
+}
+
 const _render = ({
+  stats,
   config
 }) => {
   return div({
@@ -44,7 +73,7 @@ const _render = ({
             text: 'Contact'
           },
           metric: {
-            text: '12'
+            text: pathOr('0', ['practitioners', 'total'])(stats)
           },
           title: {
             text: 'Practitioners'
@@ -54,12 +83,7 @@ const _render = ({
             className: 'link',
             href: '/#/practitioners/'
           },
-          change: {
-            style: {
-              backgroundColor: constants.secondary2
-            },
-            text: '+3 this week'
-          }
+          change: _getChangeObject(pathOr(null, ['practitioners', 'last_week'])(stats))
         }),
         MetricsCircle({
           size: '195px',
@@ -67,7 +91,7 @@ const _render = ({
             text: 'Hospital'
           },
           metric: {
-            text: '10'
+            text: pathOr('0', ['locations', 'total'])(stats)
           },
           title: {
             text: 'Locations'
@@ -76,12 +100,7 @@ const _render = ({
             text: 'view all',
             href: '/#/locations/'
           },
-          change: {
-            style: {
-              backgroundColor: constants.secondary2
-            },
-            text: '+1 this week'
-          }
+          change: _getChangeObject(pathOr(null, ['locations', 'last_week'])(stats))
         }),
         MetricsCircle({
           size: '195px',
@@ -89,7 +108,7 @@ const _render = ({
             text: 'Shield'
           },
           metric: {
-            text: '3'
+            text: pathOr('0', ['groups', 'total'])(stats)
           },
           title: {
             text: 'Organizations'
@@ -98,9 +117,7 @@ const _render = ({
             text: 'view all',
             href: '/#/groups/'
           },
-          change: {
-            text: '+/- 0 this week'
-          }
+          change: _getChangeObject(pathOr(null, ['groups', 'last_week'])(stats))
         }),
         MetricsCircle({
           size: '195px',
@@ -108,17 +125,12 @@ const _render = ({
             text: 'Sheet'
           },
           metric: {
-            text: '22'
+            text: pathOr('0', ['plans', 'total'])(stats)
           },
           title: {
             text: 'Plans'
           },
-          change: {
-            style: {
-              backgroundColor: constants.secondary3
-            },
-            text: '-4 this week'
-          }
+          change: _getChangeObject(pathOr(null, ['plans', 'last_week'])(stats))
         })
       ])
     ]),
@@ -137,21 +149,15 @@ const _render = ({
 
 export default sources => {
   const viewState = {
+    stats: sources.stats$,
     config: sources.config$
   }
-
-  const viewLinkClicks$ = sources.DOM
-    .select('.link')
-    .events('click')
-    .map(ev => ev.ownerTarget.dataset.link)
-    .do(console.log.bind(console))
 
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
   return {
     ...sources,
-    DOM,
-    route$: viewLinkClicks$
+    DOM
   }
 }

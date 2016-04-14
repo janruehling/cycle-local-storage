@@ -20,6 +20,18 @@ export const getName = (entity = {}) => {
   }
 }
 
+export const getStaticMap = ({latitude, longitude, width, height, zoom}) => {
+  if (!latitude || !longitude) return null
+  width = width || 130
+  height = height || 130
+  zoom = zoom || 15
+
+  return 'https://maps.googleapis.com/maps/api/staticmap?markers=size:small%7Ccolor:red%7c' +
+    latitude + ',' +
+    longitude +
+    '&zoom=' + zoom + '&size=' + width + 'x' + height
+}
+
 export const isObservable = obs => {
   if (!is(Object, obs)) return false
   return typeof obs.subscribe === 'function'

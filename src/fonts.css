@@ -23,6 +23,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconEnvelope:before {
+    content: "\4c";
+}
+.iconPhone:before {
+    content: "\4d";
+}
 .iconForward:before {
     content: "\49";
 }

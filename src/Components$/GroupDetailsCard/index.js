@@ -2,8 +2,12 @@ import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
+import classNames from 'classnames'
+
 import { toTitleCase, getName } from 'zwUtility'
-import { DetailsCard } from 'StyleFn'
+import { DetailsCard, Icon } from 'StyleFn'
+
+import helpers from 'helpers.css'
 
 const _render = ({
   group
@@ -22,14 +26,76 @@ const _render = ({
     src: group.image ? group.image : null,
     icon: 'Hospital'
   },
-  lists: group.address ? [
+  meta: [
     {
-      title: 'Address:',
-      items: [{
-        text: group.address.street_address
-      }]
+      key: 'ZWMID',
+      value: group.zwmid
+    },
+    {
+      key: 'NPI',
+      value: group.npi
     }
-  ] : []
+  ],
+  lists: [
+    {
+      title: 'Type:',
+      items: group.type ? [{
+        text: group.type
+      }] : null
+    },
+    {
+      title: 'Legal Structure:',
+      items: group.legal_structure ? [{
+        text: group.legal_structure
+      }] : null
+    },
+    {
+      title: 'Contact:',
+      items: group.contact ? [
+        {
+          text: getName(group.contact)
+        },
+        {
+          children: group.contact.email
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Envelope',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(group.contact.email)
+            ])
+            : null
+        },
+        {
+          children: group.contact.phone
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Phone',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(group.contact.phone)
+            ])
+            : null
+        }
+      ] : null
+    }
+  ]
 }) : div()
 
 export const GroupDetailsCard = sources => {

@@ -19,18 +19,22 @@ const _render = ({
       className: styles.firstColumn
     }, [
       List({
-        icon: 'Shield',
-        title: 'Organizations',
-        items: group.belongs_to_groups ? group.belongs_to_groups
-          .map(group => ({
-            text: toTitleCase(getName(group)),
-            link: '/#/group/' + group.id
-          })) : []
+        icon: 'Hospital',
+        title: 'Has Locations',
+        items: group.has_locations ? group.has_locations
+          .map(location => ({
+            text: toTitleCase(getName(location)),
+            link: '/#/location/' + location.id + '/'
+          })) : null
       }),
       List({
-        icon: 'Contact',
-        title: 'Practitioners',
-        items: []
+        icon: 'Shield',
+        title: 'Owns Groups',
+        items: group.owns_groups ? group.owns_groups
+          .map(group => ({
+            text: toTitleCase(getName(group)),
+            link: '/#/group/' + group.id + '/'
+          })) : null
       })
     ]),
     div({

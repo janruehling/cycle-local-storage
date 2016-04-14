@@ -1,7 +1,8 @@
+import { pathOr } from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, getStaticMap } from 'zwUtility'
 
 import { GridItem } from 'StyleFn'
 
@@ -21,7 +22,10 @@ const _render = ({
     attributes: {
       'data-id': location.id
     },
-    image: location.image,
+    image: getStaticMap({
+      latitude: pathOr(null, ['address', 'coordinates', 'latitude'])(location),
+      longitude: pathOr(null, ['address', 'coordinates', 'longitude'])(location)
+    }) || null,
     icon: 'Hospital',
     text: toTitleCase(getName(location))
   }))
@@ -29,7 +33,7 @@ const _render = ({
 
 const _navActions = (sources) => sources.DOM.select('.location')
     .events('click')
-    .map(ev => '/location/' + ev.ownerTarget.dataset.id)
+    .map(ev => '/location/' + ev.ownerTarget.dataset.id  + '/')
 
 export default sources => {
   const route$ = _navActions(sources)

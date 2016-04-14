@@ -24,7 +24,7 @@ const _render = ({
         items: location.belongs_to_groups ? location.belongs_to_groups
           .map(group => ({
             text: toTitleCase(getName(group)),
-            link: '/#/group/' + location.id
+            link: '/#/group/' + location.id + '/'
           })) : []
       }),
       List({
@@ -33,7 +33,7 @@ const _render = ({
         items: location.practitioners
           ? location.practitioners.map(practitioner => ({
             text: toTitleCase(getName(practitioner)),
-            link: '/#/practitioner/' + practitioner.id
+            link: '/#/practitioner/' + practitioner.id + '/'
           }))
           : []
       })

@@ -1,4 +1,4 @@
-import { div } from '@cycle/dom'
+import { div, img } from '@cycle/dom'
 
 import { Avatar, Icon, List, QuickFact, KeyValue } from 'StyleFn'
 
@@ -58,8 +58,17 @@ const _render = (options) => div({
         }))
       ])
     ]),
-    options.lists && options.lists.length &&
-      div({
+    options.imageFull && options.imageFull.src
+      ? div({
+        className: styles.imageFull
+      }, [
+        img({
+          src: options.imageFull.src
+        })
+      ])
+      : null,
+    options.lists
+      ? div({
         className: styles.listsContainer
       }, [
         options.lists.map(list =>
@@ -67,7 +76,8 @@ const _render = (options) => div({
             title: list.title,
             items: list.items
           }) : null)
-      ]),
+      ])
+      : null,
     options.quickFacts && options.quickFacts.length &&
       div({
         className: styles.quickFactsContainer

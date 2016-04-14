@@ -5,8 +5,7 @@ const children = [{
   fn: GridItem({
     image: null,
     icon: 'Male',
-    first_name: 'Felicity',
-    last_name: 'Granville',
+    text: 'Felicity Granville',
     size: 132
   })
 }]

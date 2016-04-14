@@ -1,6 +1,9 @@
 import { Observable } from 'rx'
-import { AppShell, SiteHeader } from 'Components$'
-import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
+import R from 'ramda'
+import { AppShell, SiteHeader, AccountInfo, Search } from 'Components$'
+import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+
+import { getInsuranceId$, getInsuranceIdStats$ } from 'Remote'
 
 import Landing from './Landing'
 
@@ -9,20 +12,52 @@ const _routes = {
 }
 
 export default sources => {
+  const stats$ = sources.responses$
+    .filter(byMatch('insurance_companies/1/stats'))
+    .map(res => res.body)
+    .map(data => data.stats)
+
+  const organization$ = sources.responses$
+    .filter(res$ => {
+      const url = res$.request.url
+      return R.contains('insurance_companies/1')(url) &&
+        !R.contains('stats')(url)
+    })
+    .map(res => res.body)
+    .map(data => data.insurance_company)
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    {...sources}
+    {...sources, stats$, organization$}
   )
+
+  const accountInfo = AccountInfo({...sources, organization$})
 
   const header = SiteHeader({...sources})
 
-  const appFrame = AppShell({
+  const search = Search({...sources})
+
+  const appShell = AppShell({
     headerDOM: header.DOM,
+    accountInfoDOM: accountInfo.DOM,
+    searchDOM: search.DOM,
     pageDOM: page$.pluck('DOM'),
     ...sources
   })
 
-  const children = [appFrame, page$]
+  const children = [appShell, page$]
+
+  const queue$ = Observable.merge(
+    getInsuranceId$({
+      ...sources,
+      insuranceId$: Observable.just('1')
+    }),
+    getInsuranceIdStats$({
+      ...sources,
+      insuranceId$: Observable.just('1')
+    }),
+    mergeOrFlatMapLatest('queue$', ...children)
+  )
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
@@ -31,9 +66,8 @@ export default sources => {
 
   return {
     ...sources,
-    DOM: appFrame.DOM,
-    auth$: mergeOrFlatMapLatest('auth$', ...children),
-    queue$: mergeOrFlatMapLatest('queue$', ...children),
+    DOM: appShell.DOM,
+    queue$,
     route$
   }
 }

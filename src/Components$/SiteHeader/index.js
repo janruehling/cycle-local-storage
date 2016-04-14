@@ -1,29 +1,21 @@
+import R from 'ramda'
 import { Observable } from 'rx'
-const { just } = Observable
-
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div, img, a } from '@cycle/dom'
 
+import { toTitleCase } from 'zwUtility'
+
 import { Icon, Avatar } from 'StyleFn'
 import logo from 'assets/img/logo.svg'
-import avatarImage from 'assets/img/avatar.png'
 
 import styles from './SiteHeader.css'
+
+const { just } = Observable
 
 const hamburger = Icon({
   icon: 'Hamburger',
   style: {
     color: '#fff'
-  }
-})
-
-const avatar = Avatar({
-  image: avatarImage,
-  gender: 'male',
-  style: {
-    fontSize: '26px',
-    height: '26px',
-    width: '26px'
   }
 })
 
@@ -35,7 +27,9 @@ const flag = Icon({
   }
 })
 
-const _render = () => div({
+const _render = ({
+  profile
+}) => div({
   className: styles.container
 }, [
   div({
@@ -57,23 +51,27 @@ const _render = () => div({
     div({
       className: styles.userMenuContainer
     }, [
-      avatar,
+      Avatar({
+        image: R.pathOr(null, ['image', 'url'])(profile),
+        icon: profile.gender ? toTitleCase(profile.gender) : 'Male',
+        size: 26
+      }),
       div({
         className: styles.userName
-      }, 'Hi, Jan'),
+      }, 'Hi, ' + profile.first_name),
       flag
     ])
   ])
 ])
 
 export const SiteHeader = sources => {
-
   const viewState = {
-    logo: sources.logo || just('')
+    profile: sources.userProfile$ || just({})
   }
 
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
-  DOM}
+    DOM
+  }
 }

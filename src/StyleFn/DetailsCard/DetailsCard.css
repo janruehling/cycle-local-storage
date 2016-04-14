@@ -11,11 +11,11 @@
   background: secondary2;
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 .cardBody {
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 .title {
@@ -38,6 +38,11 @@
 .avatar {
   border-radius: 6px;
   margin-right: 20px;
+}
+
+.imageFull {
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .listsContainer {}

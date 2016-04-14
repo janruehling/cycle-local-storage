@@ -1,8 +1,9 @@
 import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
+import { pathOr } from 'ramda'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, getStaticMap } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 
 const _render = ({
@@ -18,16 +19,39 @@ const _render = ({
       value: 'Not verified yet'
     },
   title: toTitleCase(getName(location)),
-  image: {
-    src: location.image,
-    icon: 'Hospital'
+  imageFull: {
+    src: getStaticMap({
+      latitude: pathOr(null, ['address', 'coordinates', 'latitude'])(location),
+      longitude: pathOr(null, ['address', 'coordinates', 'longitude'])(location),
+      width: 257,
+      height: 181
+    })
   },
   lists: location.address ? [
     {
       title: 'Address:',
-      items: [{
-        text: location.address.street_address
-      }]
+      items: [
+        {
+          text: pathOr(null, ['address', 'street_address'])(location)
+        },
+        {
+          text: pathOr('', ['address', 'city'])(location) + ', ' + pathOr('', ['address', 'state'])(location)
+        },
+        {
+          text: pathOr(null, ['address', 'zipcode'])(location)
+        }
+      ]
+    },
+    {
+      title: 'Geo Coordinates:',
+      items: [
+        {
+          text: pathOr(null, ['address', 'coordinates', 'latitude'])(location)
+        },
+        {
+          text: pathOr(null, ['address', 'coordinates', 'longitude'])(location)
+        }
+      ]
     }
   ] : []
 }) : div()

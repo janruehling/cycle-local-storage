@@ -78,7 +78,6 @@ const AuthedResponseManager = sources => ({
     .mergeAll()
     .catch(err => Observable.just(err))
     .filter(res => res.status !== 401)
-    .do(console.log.bind(console))
 })
 
 const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
@@ -86,16 +85,19 @@ const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
     .mergeAll()
     .catch(err => Observable.just(err))
     .filter(errData => errData.status === 401)
-    .do(console.log.bind(console))
     .flatMap(errData => {
       return auth$
         .zip(config$)
         .flatMap(([auth, config]) => {
+          if (!auth || !auth.refresh_token) {
+            return Observable.throw()
+          }
+
           return Observable.just({
             url: config.api + 'refresh',
             method: 'POST',
             send: {
-              refresh_token: auth ? auth.refresh_token : null
+              refresh_token: auth.refresh_token
             }
           })
         })

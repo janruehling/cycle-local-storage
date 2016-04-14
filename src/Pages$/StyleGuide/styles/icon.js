@@ -1,7 +1,6 @@
-import { div } from '@cycle/dom'
 import { Icon } from 'StyleFn'
 
-const icons = ['Hamburger', 'Up', 'Forward', 'Down', 'Back', 'Drop', 'Grid', 'List', 'TickRound', 'CrossRound', 'Calendar', 'Contact', 'Flag', 'Hospital',
+const icons = ['Phone', 'Envelope', 'Hamburger', 'Up', 'Forward', 'Down', 'Back', 'Drop', 'Grid', 'List', 'TickRound', 'CrossRound', 'Calendar', 'Contact', 'Flag', 'Hospital',
   'Photo', 'Sheet', 'Shield', 'Tick', 'Female', 'Male']
 
 const children = icons.map(icon => {
