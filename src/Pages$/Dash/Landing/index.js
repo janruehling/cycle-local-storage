@@ -1,12 +1,15 @@
-import { div, span } from '@cycle/dom'
+import { div, span, a, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { pathOr } from 'ramda'
 
 import constants from 'constants.css'
+import helpers from 'helpers.css'
 import styles from './Landing.css'
 
-import { MetricsCallout, MetricsCircle, Heading } from 'StyleFn'
+import USAMap from 'assets/img/USA_Map.png'
+
+import { MetricsCallout, MetricsCircle, Heading, List } from 'StyleFn'
 
 const _getChangeObject = (changeString) => {
   const number = Number(changeString)
@@ -36,6 +39,7 @@ const _getChangeObject = (changeString) => {
 
 const _render = ({
   stats,
+  organization,
   config
 }) => {
   return div({
@@ -54,8 +58,11 @@ const _render = ({
         ]),
         average: 'Industry Average: 52%'
       }),
-      Heading({
-        text: 'Activity Feed'
+      List({
+        title: 'Activity Feed',
+        items: [{
+          text: 'No recent activity'
+        }]
       })
     ]),
     div({
@@ -76,7 +83,9 @@ const _render = ({
             text: pathOr('0', ['practitioners', 'total'])(stats)
           },
           title: {
-            text: 'Practitioners'
+            text: (Number(pathOr('0', ['practitioners', 'total'])(stats)) === 1)
+              ? 'Practitioner'
+              : 'Practitioners'
           },
           link: {
             text: 'view all',
@@ -94,7 +103,9 @@ const _render = ({
             text: pathOr('0', ['locations', 'total'])(stats)
           },
           title: {
-            text: 'Locations'
+            text: (Number(pathOr('0', ['locations', 'total'])(stats)) === 1)
+              ? 'Location'
+              : 'Locations'
           },
           link: {
             text: 'view all',
@@ -111,7 +122,9 @@ const _render = ({
             text: pathOr('0', ['groups', 'total'])(stats)
           },
           title: {
-            text: 'Organizations'
+            text: (Number(pathOr('0', ['groups', 'total'])(stats)) === 1)
+              ? 'Organization'
+              : 'Organizations'
           },
           link: {
             text: 'view all',
@@ -128,27 +141,335 @@ const _render = ({
             text: pathOr('0', ['plans', 'total'])(stats)
           },
           title: {
-            text: 'Plans'
+            text: (Number(pathOr('0', ['plans', 'total'])(stats)) === 1)
+              ? 'Plan'
+              : 'Plans'
+          },
+          link: {
+            text: 'view all',
+            href: '/#/plans/'
           },
           change: _getChangeObject(pathOr(null, ['plans', 'last_week'])(stats))
         })
+      ]),
+      div({
+        className: helpers.layout
+      }, [
+        div([
+          Heading({
+            text: 'Geographic spread',
+            style: {
+              display: 'flex',
+              justifyContent: 'center',
+              margin: '30px 0 20px'
+            }
+          }),
+          img({
+            src: USAMap
+          })
+        ]),
+        div({
+          className: styles.practitionerProfileContainer
+        }, [
+          div({
+            className: helpers.layout
+          }, [
+            Heading({
+              text: 'Practitioner Profile',
+              icon: 'Contact',
+              style: {
+                margin: '0 0 15px'
+              }
+            })
+          ]),
+          pathOr(null, ['average_practitioner', 'gender', 'male'])(stats) && div({
+            className: helpers.layout,
+            style: {
+              margin: '5px 0'
+            }
+          }, [
+            div({
+              style: {
+                width: '65px'
+              }
+            }, 'Male: '),
+            div({
+              style: {
+                flex: 1,
+                position: 'relative'
+              }
+            }, [
+              div({
+                style: {
+                  backgroundColor: constants.primary1,
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  textAlign: 'right',
+                  padding: '2px 5px',
+                  width: stats.average_practitioner.gender.male + '%'
+                }
+              }, [stats.average_practitioner.gender.male + '%'])
+            ])
+          ]),
+          pathOr(null, ['average_practitioner', 'gender', 'female'])(stats) && div({
+            className: helpers.layout,
+            style: {
+              margin: '5px 0'
+            }
+          }, [
+            div({
+              style: {
+                width: '65px'
+              }
+            }, 'Female: '),
+            div({
+              style: {
+                flex: 1,
+                position: 'relative'
+              }
+            }, [
+              div({
+                style: {
+                  backgroundColor: constants.additional10,
+                  color: constants.primary1,
+                  fontWeight: 'bold',
+                  textAlign: 'right',
+                  padding: '2px 5px',
+                  width: stats.average_practitioner.gender.female + '%'
+                }
+              }, [stats.average_practitioner.gender.female + '%'])
+            ])
+          ]),
+          pathOr(null, ['average_practitioner', 'accepting_medicade'])(stats) && div([
+            div({
+              style: {
+                color: constants.additional11,
+                fontSize: '14px',
+                margin: '15px 0 5px'
+              }
+            }, 'Accepting Medicaid:'),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.primary1,
+                color: '#fff',
+                display: 'flex',
+                padding: '2px 5px',
+                margin: '5px 0',
+                width: stats.average_practitioner.accepting_medicade.average + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, organization.name),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_medicade.average + '%')
+            ]),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.additional10,
+                color: constants.primary1,
+                display: 'flex',
+                padding: '2px 5px',
+                width: stats.average_practitioner.accepting_medicade.us + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, 'National average'),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_medicade.us + '%')
+            ])
+          ]),
+          pathOr(null, ['average_practitioner', 'accepting_medicare'])(stats) && div([
+            div({
+              style: {
+                color: constants.additional11,
+                fontSize: '14px',
+                margin: '15px 0 5px'
+              }
+            }, 'Accepting Medicare:'),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.primary1,
+                color: '#fff',
+                display: 'flex',
+                padding: '2px 5px',
+                margin: '5px 0',
+                width: stats.average_practitioner.accepting_medicare.average + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, organization.name),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_medicare.average + '%')
+            ]),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.additional10,
+                color: constants.primary1,
+                display: 'flex',
+                padding: '2px 5px',
+                width: stats.average_practitioner.accepting_medicare.us + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, 'National average'),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_medicare.us + '%')
+            ])
+          ]),
+          pathOr(null, ['average_practitioner', 'accepting_new_patients'])(stats) && div([
+            div({
+              style: {
+                color: constants.additional11,
+                fontSize: '14px',
+                margin: '15px 0 5px'
+              }
+            }, 'Accepting New Patients:'),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.primary1,
+                color: '#fff',
+                display: 'flex',
+                padding: '2px 5px',
+                margin: '5px 0',
+                width: stats.average_practitioner.accepting_new_patients.average + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, organization.name),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_new_patients.average + '%')
+            ]),
+            div({
+              style: {
+                alignItems: 'center',
+                backgroundColor: constants.additional10,
+                color: constants.primary1,
+                display: 'flex',
+                padding: '2px 5px',
+                width: stats.average_practitioner.accepting_new_patients.us + '%'
+              }
+            }, [
+              div({
+                style: {
+                  fontSize: '10px'
+                }
+              }, 'National average'),
+              div({
+                style: {
+                  flex: 1
+                }
+              }),
+              div({
+                style: {
+                  fontWeight: 'bold'
+                }
+              }, stats.average_practitioner.accepting_new_patients.us + '%')
+            ])
+          ])
+        ])
       ])
     ]),
     div({
       className: styles.sidebar
     }, [
-      Heading({
-        text: 'Recent Searches'
+      List({
+        title: 'Recent Searches',
+        items: [{
+          text: 'No Searches yet'
+        }]
       }),
-      Heading({
-        text: 'Top Plans'
-      })
+      stats.top_plans && div([
+        Heading({
+          text: 'Top Plans'
+        }),
+        (pathOr([], ['top_plans'])(stats))
+          .map(plan => div({
+
+          }, [
+            div({
+              className: styles.topPlanContainer
+            }, [
+              a({
+                className: styles.topPlanTitle,
+                href: '/#/plan/' + plan.id
+              }, plan.name),
+              (plan.practitioners || plan.groups) && div([
+                div({
+                  className: styles.topPlanAccepted
+                }, 'Accepted by:'),
+                plan.practitioners && div(plan.practitioners + ' Practitioners'),
+                plan.groups && div(plan.groups + ' Organizations')
+              ])
+            ])
+          ]))
+      ])
     ])
   ])
 }
 
 export default sources => {
   const viewState = {
+    organization: sources.organization$,
     stats: sources.stats$,
     config: sources.config$
   }
