@@ -206,9 +206,9 @@ const _render = ({
                   fontWeight: 'bold',
                   textAlign: 'right',
                   padding: '2px 5px',
-                  width: stats.average_practitioner.gender.male + '%'
+                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'
                 }
-              }, [stats.average_practitioner.gender.male + '%'])
+              }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'])
             ])
           ]),
           pathOr(null, ['average_practitioner', 'gender', 'female'])(stats) && div({
@@ -235,9 +235,9 @@ const _render = ({
                   fontWeight: 'bold',
                   textAlign: 'right',
                   padding: '2px 5px',
-                  width: stats.average_practitioner.gender.female + '%'
+                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats)) + '%'
                 }
-              }, [stats.average_practitioner.gender.female + '%'])
+              }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats)) + '%'])
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_medicade'])(stats) && div([
@@ -256,7 +256,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: stats.average_practitioner.accepting_medicade.average + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'average'])(stats)) + '%'
               }
             }, [
               div({
@@ -273,7 +273,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_medicade.average + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'average'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -282,7 +282,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: stats.average_practitioner.accepting_medicade.us + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'us'])(stats)) + '%'
               }
             }, [
               div({
@@ -299,7 +299,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_medicade.us + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'us'])(stats)) + '%')
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_medicare'])(stats) && div([
@@ -318,7 +318,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: stats.average_practitioner.accepting_medicare.average + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats)) + '%'
               }
             }, [
               div({
@@ -335,7 +335,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_medicare.average + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -344,7 +344,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: stats.average_practitioner.accepting_medicare.us + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats)) + '%'
               }
             }, [
               div({
@@ -361,7 +361,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_medicare.us + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats)) + '%')
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_new_patients'])(stats) && div([
@@ -380,7 +380,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: stats.average_practitioner.accepting_new_patients.average + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats)) + '%'
               }
             }, [
               div({
@@ -397,7 +397,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_new_patients.average + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -406,7 +406,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: stats.average_practitioner.accepting_new_patients.us + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats)) + '%'
               }
             }, [
               div({
@@ -423,7 +423,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, stats.average_practitioner.accepting_new_patients.us + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats)) + '%')
             ])
           ])
         ])

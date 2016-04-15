@@ -42,6 +42,7 @@ const routes = {
 
 const AuthRedirectManager = sources => {
   const redirectLogin$ = sources.userProfile$
+    .do(console.log.bind(console))
     .filter(profile => !!profile)
     .map(profile => profile.isAdmin ? '/admin' : '/dash')
 
@@ -59,11 +60,9 @@ const UserManager = sources => {
   const { storage } = sources
 
   const auth$ = storage.get('auth')
-    .distinctUntilChanged()
     .map(JSON.parse)
 
   const userProfile$ = storage.get('profile')
-    .distinctUntilChanged()
     .map(JSON.parse)
 
   return {
