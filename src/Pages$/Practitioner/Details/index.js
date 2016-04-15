@@ -10,12 +10,13 @@ import { AppShell, SiteHeader, ComingSoon, TabBar, PractitionerDetailsCard, Sear
 import { getPractitionersId$ } from 'Remote'
 
 import DetailsView from './DetailsView'
+import Relations from './Relations'
 
 import styles from './Details.css'
 
 const _routes = {
   '/': isolate(DetailsView),
-  '/relations': isolate(ComingSoon('Relations'))
+  '/relations': isolate(Relations)
 }
 
 const _tabs = [
