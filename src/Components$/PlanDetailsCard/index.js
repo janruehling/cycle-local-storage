@@ -4,12 +4,8 @@ import { div } from '@cycle/dom'
 
 import { pathOr } from 'ramda'
 
-import classNames from 'classnames'
-
 import { toTitleCase, getName } from 'zwUtility'
-import { DetailsCard, Icon } from 'StyleFn'
-
-import helpers from 'helpers.css'
+import { DetailsCard } from 'StyleFn'
 
 const _render = ({
   plan

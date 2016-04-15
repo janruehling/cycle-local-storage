@@ -1,12 +1,11 @@
 import { Observable } from 'rx'
 import { div, h4 } from '@cycle/dom'
 
-const { just, from } = Observable
+const { just } = Observable
 
 import styles from './StyleGuide.css'
 
 export default model$ => {
-
   const styles$ = model$.StyleFns
     .map(stylesFn => {
       return div({

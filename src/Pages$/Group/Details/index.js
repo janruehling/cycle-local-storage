@@ -5,7 +5,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon, TabBar, GroupDetailsCard, Search } from 'Components$'
+import { AppShell, SiteHeader, TabBar, GroupDetailsCard, Search } from 'Components$'
 
 import { getGroupsId$ } from 'Remote'
 
@@ -14,13 +14,11 @@ import DetailsView from './DetailsView'
 import styles from './Details.css'
 
 const _routes = {
-  '/': isolate(DetailsView),
-  '/relations': isolate(ComingSoon('Relations'))
+  '/': isolate(DetailsView)
 }
 
 const _tabs = [
-  {path: '/', label: 'Details View'},
-  {path: '/relations', label: 'Relations'}
+  {path: '/', label: 'Details View'}
 ]
 
 const _render = ({
