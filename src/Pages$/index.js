@@ -1,4 +1,3 @@
-import 'normalize-css'
 import { Observable } from 'rx'
 import R from 'ramda'
 import isolate from '@cycle/isolate'

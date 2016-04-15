@@ -12,6 +12,13 @@ module.exports = {
     root: path.resolve('./src'),
     alias: {}
   },
+  externals: {
+    'rx': 'Rx',
+    'ramda': 'R',
+    '@cycle/core': 'Cycle',
+    '@cycle/dom': 'CycleDOM',
+    'history': 'History'
+  },
   module: {
     loaders: [
       {
