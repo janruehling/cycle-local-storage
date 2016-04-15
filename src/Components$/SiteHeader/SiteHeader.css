@@ -23,6 +23,7 @@
 .logo {
   height: 31px;
   width: 260px;
+  cursor: pointer;
 }
 
 .userMenuContainer {

@@ -1,7 +1,7 @@
 import R from 'ramda'
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
-import { div, img, a } from '@cycle/dom'
+import { div, a, img } from '@cycle/dom'
 
 import { toTitleCase } from 'zwUtility'
 
@@ -41,7 +41,7 @@ const _render = ({
     }, [
       a({
         className: styles.logo,
-        href: '/'
+        href: '/#/dash'
       }, [
         img({
           src: logo
@@ -53,16 +53,21 @@ const _render = ({
     }, [
       Avatar({
         image: R.pathOr(null, ['image', 'url'])(profile),
-        icon: profile.gender ? toTitleCase(profile.gender) : 'Male',
+        icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
         size: 26
       }),
-      div({
+      R.pathOr(null, ['first_name'])(profile) && div({
         className: styles.userName
       }, 'Hi, ' + profile.first_name),
       flag
     ])
   ])
 ])
+
+// const _logoClicks = (sources) => sources.DOM
+//   .select('.' + styles.logo)
+//   .events('click')
+//   .map(ev => '/dash')
 
 export const SiteHeader = sources => {
   const viewState = {
@@ -72,6 +77,7 @@ export const SiteHeader = sources => {
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
+    ...sources,
     DOM
   }
 }

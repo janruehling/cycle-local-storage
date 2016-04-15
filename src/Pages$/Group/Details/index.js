@@ -82,7 +82,7 @@ export default sources => {
     ...sources
   })
 
-  const children = [appShell, tabBar, page$]
+  const children = [header, appShell, tabBar, page$]
 
   const queue$ = Observable.merge(
     getGroupsId$(sources),

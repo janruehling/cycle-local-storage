@@ -45,7 +45,7 @@ export default sources => {
     ...sources
   })
 
-  const children = [appShell, page$]
+  const children = [header, appShell, page$]
 
   const queue$ = Observable.merge(
     getInsuranceId$({
