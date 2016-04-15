@@ -1,0 +1,43 @@
+@value constants: 'constants.css';
+@value primary1, primary1opaque5, additional2, additional12, additional13 from constants;
+
+.container {
+  overflow: hidden;
+}
+
+.header {
+  align-items: center;
+  color: primary1;
+  display: flex;
+  font-size: 14px;
+  font-weight: bold;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -1px;
+  padding-top: 2px;
+}
+
+.item {
+  background: additional12;
+  color: primary1opaque5;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+  line-height: 23px;
+  margin: 1px;
+  width: calc((100% - 6px) / 3);
+}
+
+.isActive,
+.item:hover {
+  background: additional13;
+  color: additional2;
+  font-weight: bold;
+}

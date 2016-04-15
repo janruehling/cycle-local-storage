@@ -1,4 +1,5 @@
 export { Avatar } from './Avatar'
+export { Calendar } from './Calendar'
 export { DesktopFrame } from './DesktopFrame'
 export { DetailsCard } from './DetailsCard'
 export { Icon } from './Icon'

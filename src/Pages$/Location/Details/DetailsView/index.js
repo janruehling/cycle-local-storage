@@ -1,11 +1,12 @@
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { List, Heading } from 'StyleFn'
+import { List, Heading, Calendar } from 'StyleFn'
 
 import { toTitleCase, getName } from 'zwUtility'
 
 import styles from './DetailsView.css'
+import constants from 'constants.css'
 
 const _render = ({
   location
@@ -44,7 +45,19 @@ const _render = ({
       Heading({
         icon: 'Calendar',
         text: 'Activity'
-      })
+      }),
+      div({
+        className: styles.activity
+      }, [
+        Calendar(),
+        div({
+          style: {
+            color: constants.primary1,
+            fontSize: '14px',
+            marginTop: '20px'
+          }
+        }, 'No Activities yet')
+      ])
     ]),
     div({
       className: styles.thirdColumn
@@ -53,7 +66,12 @@ const _render = ({
         icon: 'Photo',
         text: 'Verified Photos'
       }),
-      div(location.description)
+      div({
+        style: {
+          color: constants.primary1,
+          fontSize: '14px'
+        }
+      }, 'No Photos yet')
     ])
   ])
 ])

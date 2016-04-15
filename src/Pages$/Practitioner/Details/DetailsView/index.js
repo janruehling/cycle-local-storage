@@ -3,9 +3,10 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { toTitleCase, getName } from 'zwUtility'
 
-import { List, Heading } from 'StyleFn'
+import { List, Heading, Calendar } from 'StyleFn'
 
 import styles from './DetailsView.css'
+import constants from 'constants.css'
 
 const _render = ({
   practitioner
@@ -64,7 +65,19 @@ const _render = ({
       Heading({
         icon: 'Calendar',
         text: 'Activity'
-      })
+      }),
+      div({
+        className: styles.activity
+      }, [
+        Calendar(),
+        div({
+          style: {
+            color: constants.primary1,
+            fontSize: '14px',
+            marginTop: '20px'
+          }
+        }, 'No Activities yet')
+      ])
     ]),
     div({
       className: styles.thirdColumn

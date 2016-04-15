@@ -32,10 +32,6 @@ const _render = ({
     {
       key: 'ZWMID',
       value: plan.zwmid
-    },
-    {
-      key: 'NPI',
-      value: plan.npi
     }
   ],
   lists: [
@@ -46,56 +42,17 @@ const _render = ({
       }] : null
     },
     {
-      title: 'Legal Structure:',
-      items: plan.legal_structure ? [{
-        text: plan.legal_structure
+      title: 'State',
+      items: plan.state ? [{
+        text: plan.state + (plan.country ? ', ' + plan.country : '')
       }] : null
     },
     {
-      title: 'Contact:',
-      items: plan.contact ? [
-        {
-          text: getName(plan.contact)
-        },
-        {
-          children: plan.contact.email
-            ? div({
-              className: classNames({
-                [helpers.layout]: true,
-                [helpers.center]: true
-              })
-            }, [
-              Icon({
-                icon: 'Envelope',
-                style: {
-                  fontSize: '12px',
-                  marginRight: '10px'
-                }
-              }),
-              div(plan.contact.email)
-            ])
-            : null
-        },
-        {
-          children: plan.contact.phone
-            ? div({
-              className: classNames({
-                [helpers.layout]: true,
-                [helpers.center]: true
-              })
-            }, [
-              Icon({
-                icon: 'Phone',
-                style: {
-                  fontSize: '12px',
-                  marginRight: '10px'
-                }
-              }),
-              div(plan.contact.phone)
-            ])
-            : null
-        }
-      ] : null
+      title: 'More Info:',
+      items: plan.details_url ? [{
+        text: plan.details_url,
+        link: plan.details_url
+      }] : null
     }
   ]
 }) : div()

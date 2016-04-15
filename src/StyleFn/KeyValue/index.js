@@ -3,7 +3,7 @@ import styles from './KeyValue.css'
 import classNames from 'classnames'
 
 export const KeyValue = (options = {}) =>
-  div({
+  options.value && div({
     className: classNames({
       [styles.container]: true,
       [options.className]: true
