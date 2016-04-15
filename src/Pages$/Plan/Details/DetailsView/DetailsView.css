@@ -1,0 +1,18 @@
+.columns {
+  display: flex;
+}
+
+.firstColumn {
+  padding: 0 20px;
+  width: 195px;
+}
+
+.secondColumn {
+  padding: 0 20px;
+  width: 265px;
+}
+
+.thirdColumn {
+  padding: 0 20px;
+  flex: 1;
+}

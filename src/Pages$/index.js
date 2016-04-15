@@ -10,6 +10,8 @@ import GroupList from './Group/List'
 import GroupDetails from './Group/Details'
 import LocationList from './Location/List'
 import LocationDetails from './Location/Details'
+import PlanList from './Plan/List'
+import PlanDetails from './Plan/Details'
 import PractitionerList from './Practitioner/List'
 import PractitionerDetails from './Practitioner/Details'
 import StyleGuide from './StyleGuide'
@@ -31,7 +33,12 @@ const routes = {
         locationId$: Observable.just(id),
         ...sources
       }),
-  '/plans': isolate(ComingSoon('Plans')),
+  '/plans': isolate(PlanList),
+  '/plan/:id': id => sources =>
+      isolate(PlanDetails)({
+        planId$: Observable.just(id),
+        ...sources
+      }),
   '/practitioners': isolate(PractitionerList),
   '/practitioner/:id': id => sources =>
       isolate(PractitionerDetails)({

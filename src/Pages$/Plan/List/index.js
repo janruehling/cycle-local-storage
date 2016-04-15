@@ -2,9 +2,9 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon, Search } from 'Components$'
+import { AppShell, SiteHeader, ComingSoon } from 'Components$'
 
-import { getGroups$ } from 'Remote'
+import { getPlans$ } from 'Remote'
 
 import GridView from './GridView'
 
@@ -14,25 +14,22 @@ const _routes = {
 }
 
 export default sources => {
-  const groups$ = sources.responses$
-    .filter(byMatch('groups'))
+  const plans$ = sources.responses$
+    .filter(byMatch('plans'))
     .map(res => res.body)
-    .map(data => data.groups)
+    .map(data => data.plans)
     .startWith([])
 
   const page$ = nestedComponent(
     sources.router.define(_routes), {
-      groups$, ...sources
+      plans$, ...sources
     }
   )
 
   const header = SiteHeader({...sources})
 
-  const search = Search({...sources})
-
   const appShell = AppShell({
     headerDOM: header.DOM,
-    searchDOM: search.DOM,
     pageDOM: page$.pluck('DOM'),
     ...sources
   })
@@ -42,7 +39,7 @@ export default sources => {
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const queue$ = Observable.merge(
-    getGroups$(sources),
+    getPlans$(sources),
     mergeOrFlatMapLatest('queue$', ...children)
   )
 

@@ -50,8 +50,7 @@ module.exports = {
       require('autoprefixer'),
       require('postcss-import')({
         addDependencyTo: webpack
-      }),
-      require('cq-prolyfill/postcss-plugin')
+      })
     ]
   },
   plugins: [

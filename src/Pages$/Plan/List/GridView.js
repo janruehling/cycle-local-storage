@@ -1,5 +1,6 @@
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
+
 import { pathOr } from 'ramda'
 
 import { toTitleCase } from 'zwUtility'
@@ -9,34 +10,34 @@ import { GridItem } from 'StyleFn'
 import styles from './GridView.css'
 
 const _render = ({
-  groups
+  plans
 }) => div({
   className: styles.container
 }, [
-  groups.map(group => GridItem({
-    className: 'group',
+  plans.map(plan => GridItem({
+    className: 'plan',
     size: 130,
     style: {
       cursor: 'pointer'
     },
     attributes: {
-      'data-id': group.id
+      'data-id': plan.id
     },
-    image: pathOr(null, ['image', 'url'])(group),
+    image: pathOr(null, ['image', 'url'])(plan),
     icon: 'Shield',
-    text: toTitleCase(group.name)
+    text: toTitleCase(plan.name)
   }))
 ])
 
-const _navActions = (sources) => sources.DOM.select('.group')
+const _navActions = (sources) => sources.DOM.select('.plan')
     .events('click')
-    .map(ev => '/group/' + ev.ownerTarget.dataset.id + '/')
+    .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
   const route$ = _navActions(sources)
 
   const viewState = {
-    groups: sources.groups$
+    plans: sources.plans$
   }
 
   const DOM = combineLatestObj(viewState)

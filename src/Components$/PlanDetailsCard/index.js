@@ -12,53 +12,53 @@ import { DetailsCard, Icon } from 'StyleFn'
 import helpers from 'helpers.css'
 
 const _render = ({
-  group
-}) => group ? DetailsCard({
-  topCallout: (group.last_verified && moment(group.last_verified).isValid())
+  plan
+}) => plan ? DetailsCard({
+  topCallout: (plan.last_verified && moment(plan.last_verified).isValid())
     ? {
       key: 'Last Verified',
-      value: moment(group.last_verified).format('MMM D, Y'),
+      value: moment(plan.last_verified).format('MMM D, Y'),
       tick: true
     } : {
       key: 'Last Verified',
       value: 'Not verified yet'
     },
-  title: toTitleCase(getName(group)),
+  title: toTitleCase(getName(plan)),
   image: {
-    src: pathOr(null, ['image', 'url'])(group),
-    icon: 'Hospital'
+    src: pathOr(null, ['image', 'url'])(plan),
+    icon: 'Shield'
   },
   meta: [
     {
       key: 'ZWMID',
-      value: group.zwmid
+      value: plan.zwmid
     },
     {
       key: 'NPI',
-      value: group.npi
+      value: plan.npi
     }
   ],
   lists: [
     {
       title: 'Type:',
-      items: group.type ? [{
-        text: group.type
+      items: plan.type ? [{
+        text: plan.type
       }] : null
     },
     {
       title: 'Legal Structure:',
-      items: group.legal_structure ? [{
-        text: group.legal_structure
+      items: plan.legal_structure ? [{
+        text: plan.legal_structure
       }] : null
     },
     {
       title: 'Contact:',
-      items: group.contact ? [
+      items: plan.contact ? [
         {
-          text: getName(group.contact)
+          text: getName(plan.contact)
         },
         {
-          children: group.contact.email
+          children: plan.contact.email
             ? div({
               className: classNames({
                 [helpers.layout]: true,
@@ -72,12 +72,12 @@ const _render = ({
                   marginRight: '10px'
                 }
               }),
-              div(group.contact.email)
+              div(plan.contact.email)
             ])
             : null
         },
         {
-          children: group.contact.phone
+          children: plan.contact.phone
             ? div({
               className: classNames({
                 [helpers.layout]: true,
@@ -91,7 +91,7 @@ const _render = ({
                   marginRight: '10px'
                 }
               }),
-              div(group.contact.phone)
+              div(plan.contact.phone)
             ])
             : null
         }
@@ -100,9 +100,9 @@ const _render = ({
   ]
 }) : div()
 
-export const GroupDetailsCard = sources => {
+export const PlanDetailsCard = sources => {
   const viewState = {
-    group: sources.group
+    plan: sources.plan
   }
 
   const DOM = combineLatestObj(viewState).map(_render)

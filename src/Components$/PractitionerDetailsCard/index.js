@@ -2,6 +2,8 @@ import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
+import { pathOr } from 'ramda'
+
 import { toTitleCase, getName } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 
@@ -20,7 +22,7 @@ const _render = ({
   title: toTitleCase(getName(practitioner)),
   subTitle: practitioner.degrees ? practitioner.degrees.join(', ') : null,
   image: {
-    src: practitioner.image ? practitioner.image : null,
+    src: pathOr(null, ['image', 'url'])(practitioner),
     icon: toTitleCase(practitioner.gender)
   },
   meta: [
