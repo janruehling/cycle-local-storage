@@ -240,7 +240,7 @@ const _render = ({
               }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats)) + '%'])
             ])
           ]),
-          pathOr(null, ['average_practitioner', 'accepting_medicade'])(stats) && div([
+          pathOr(null, ['average_practitioner', 'accepting_medicaid'])(stats) && div([
             div({
               style: {
                 color: constants.additional11,
@@ -256,7 +256,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'average'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats)) + '%'
               }
             }, [
               div({
@@ -273,7 +273,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'average'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -282,7 +282,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'us'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats)) + '%'
               }
             }, [
               div({
@@ -299,7 +299,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicade', 'us'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats)) + '%')
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_medicare'])(stats) && div([

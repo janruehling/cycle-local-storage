@@ -42,7 +42,6 @@ const routes = {
 
 const AuthRedirectManager = sources => {
   const redirectLogin$ = sources.userProfile$
-    .do(console.log.bind(console))
     .filter(profile => !!profile)
     .map(profile => profile.isAdmin ? '/admin' : '/dash')
 
