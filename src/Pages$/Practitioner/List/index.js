@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon } from 'Components$'
+import { AppShell, SiteHeader, ComingSoon, Search } from 'Components$'
 
 import { getPractitioners$ } from 'Remote'
 
@@ -27,8 +27,11 @@ export default sources => {
 
   const header = SiteHeader({...sources})
 
+  const search = Search({...sources})
+
   const appShell = AppShell({
     headerDOM: header.DOM,
+    searchDOM: search.DOM,
     pageDOM: page$.pluck('DOM'),
     ...sources
   })
