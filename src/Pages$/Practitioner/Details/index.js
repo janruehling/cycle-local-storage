@@ -5,7 +5,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon, TabBar, PractitionerDetailsCard, Search } from 'Components$'
+import { AppShell, SiteHeader, TabBar, PractitionerDetailsCard, Search } from 'Components$'
 
 import { getPractitionersId$ } from 'Remote'
 
