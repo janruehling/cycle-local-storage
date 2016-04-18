@@ -14,7 +14,7 @@ import { MetricsCallout, MetricsCircle, Heading, List } from 'StyleFn'
 const _getChangeObject = (changeString) => {
   const number = Number(changeString)
 
-  if (Number.isNaN(number)) return null
+  if (typeof number === 'number' && isNaN(number)) return null
 
   if (number > 0) {
     return {
@@ -28,7 +28,7 @@ const _getChangeObject = (changeString) => {
       style: {
         backgroundColor: constants.secondary3
       },
-      text: '-' + changeString + ' this week'
+      text: changeString + ' this week'
     }
   } else {
     return {
@@ -482,3 +482,5 @@ export default sources => {
     DOM
   }
 }
+
+export { _getChangeObject }

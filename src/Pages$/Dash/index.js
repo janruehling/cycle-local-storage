@@ -1,5 +1,7 @@
-import { Observable } from 'rx'
 import R from 'ramda'
+import { Observable } from 'rx'
+import isolate from '@cycle/isolate'
+
 import { AppShell, SiteHeader, AccountInfo, Search } from 'Components$'
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
 
@@ -8,7 +10,7 @@ import { getInsuranceId$, getInsuranceIdStats$ } from 'Remote'
 import Landing from './Landing'
 
 const _routes = {
-  '/': Landing
+  '/': isolate(Landing)
 }
 
 export default sources => {

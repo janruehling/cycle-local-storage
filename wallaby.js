@@ -12,6 +12,11 @@ var wallabyPostprocessor = wallabyWebpack(webpackConfig)
 module.exports = function (wallaby) {
   return {
     files: [
+      { pattern: 'node_modules/rx/dist/rx.all.min.js', instrument: false },
+      { pattern: 'node_modules/history/umd/History.min.js', instrument: false },
+      { pattern: 'node_modules/@cycle/core/dist/cycle.min.js', instrument: false },
+      { pattern: 'node_modules/@cycle/dom/dist/cycle-dom.min.js', instrument: false },
+      { pattern: 'node_modules/ramda/dist/ramda.min.js', instrument: false },
       { pattern: 'src/**/*.js', load: false },
       { pattern: 'src/**/*.css', load: false },
       { pattern: 'src/**/*.spec.js', ignore: true }

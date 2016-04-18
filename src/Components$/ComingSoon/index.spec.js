@@ -4,8 +4,8 @@ import chai from 'chai'
 chai.use(require('chai-virtual-dom'))
 const {expect} = chai
 
-import {Observable} from 'rx'
-const {just} = Observable
+import { Observable } from 'rx'
+const { just } = Observable
 
 import { h4 } from '@cycle/dom'
 

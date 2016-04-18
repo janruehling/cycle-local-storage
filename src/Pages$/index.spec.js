@@ -4,7 +4,7 @@ import chai from 'chai'
 const {expect} = chai
 
 import { Observable } from 'rx'
-const {just} = Observable
+const { just } = Observable
 
 import { AuthRedirectManager, UserManager } from './index'
 
