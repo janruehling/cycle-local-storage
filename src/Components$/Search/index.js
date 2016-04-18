@@ -6,20 +6,20 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import styles from './Search.css'
 
 const _render = ({
-  just
+  placeholder
 }) => div({
   className: styles.container
 }, [
   input({
     className: styles.input,
-    placeholder: 'Search for a Person, Organization, Location or Plan',
+    placeholder: placeholder,
     type: 'text'
   })
 ])
 
 export const Search = sources => {
   const viewState = {
-    just: Observable.just('I am the searchbar')
+    placeholder: Observable.just('Search for a Person, Organization, Location or Plan')
   }
 
   const DOM = combineLatestObj(viewState).map(_render)

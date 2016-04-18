@@ -20,7 +20,7 @@ const {sources, sinks} = run(main, {
   router: makeRouterDriver(history),
   config$: () => Observable.just({
     api: 'https://apistagingdata.zipwire.com/',
-    dev: true
+    dev: false
   })
 })
 
