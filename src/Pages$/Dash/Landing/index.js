@@ -39,8 +39,7 @@ const _getChangeObject = (changeString) => {
 
 const _render = ({
   stats,
-  organization,
-  config
+  organization
 }) => {
   return div({
     className: styles.container
@@ -470,8 +469,7 @@ const _render = ({
 export default sources => {
   const viewState = {
     organization: sources.organization$,
-    stats: sources.stats$,
-    config: sources.config$
+    stats: sources.stats$
   }
 
   const DOM = combineLatestObj(viewState)

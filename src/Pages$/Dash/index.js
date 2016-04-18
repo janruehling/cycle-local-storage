@@ -18,6 +18,7 @@ export default sources => {
     .filter(byMatch('insurance_companies/1/stats'))
     .map(res => res.body)
     .map(data => data.stats)
+    .startWith({})
 
   const organization$ = sources.responses$
     .filter(res$ => {
@@ -27,10 +28,11 @@ export default sources => {
     })
     .map(res => res.body)
     .map(data => data.insurance_company)
+    .startWith({})
 
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    {...sources, stats$, organization$}
+    {stats$, organization$, ...sources}
   )
 
   const accountInfo = AccountInfo({...sources, organization$})
