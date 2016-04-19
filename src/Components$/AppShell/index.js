@@ -1,15 +1,17 @@
 import { Observable } from 'rx'
 import { DesktopFrame } from 'StyleFn'
+import combineLatestObj from 'rx-combine-latest-obj'
 
 export const AppShell = sources => {
   const layoutParams = {
-    header: sources.headerDOM,
-    accountInfo: sources.accountInfoDOM,
-    search: sources.searchDOM,
-    page: sources.pageDOM
+    noScroll: sources.noScroll || Observable.just(null),
+    header: sources.headerDOM || Observable.just(null),
+    accountInfo: sources.accountInfoDOM  || Observable.just(null),
+    search: sources.searchDOM || Observable.just(null),
+    page: sources.pageDOM || Observable.just(null)
   }
 
-  const DOM = Observable.just({}).map(just => DesktopFrame(layoutParams))
+  const DOM = combineLatestObj(layoutParams).map(DesktopFrame)
 
   return {
     DOM

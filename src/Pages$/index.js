@@ -1,3 +1,6 @@
+import Rx from 'rx'
+Rx.config.longStackSupport = true
+
 import { Observable } from 'rx'
 import R from 'ramda'
 import isolate from '@cycle/isolate'
@@ -79,9 +82,9 @@ const UserManager = sources => {
 
 const AuthedResponseManager = sources => ({
   responses$: sources.HTTP
-    .mergeAll()
     .catch(err => Observable.just(err))
     .filter(res => res.status !== 401)
+    .switch()
 })
 
 const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
@@ -91,20 +94,20 @@ const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
     .filter(errData => errData.status === 401)
     .flatMap(errData => {
       return auth$
-        .zip(config$)
-        .flatMap(([auth, config]) => {
-          if (!auth || !auth.refresh_token) {
-            return Observable.throw()
-          }
+        .combineLatest(config$, (auth, config) => ({auth, config}))
+    })
+    .map(({auth, config}) => {
+      if (!auth || !auth.refresh_token) {
+        return Observable.throw()
+      }
 
-          return Observable.just({
-            url: config.api + 'refresh',
-            method: 'POST',
-            send: {
-              refresh_token: auth.refresh_token
-            }
-          })
-        })
+      return Observable.just({
+        url: config.api + 'refresh',
+        method: 'POST',
+        send: {
+          refresh_token: auth.refresh_token
+        }
+      })
     })
 }
 
@@ -114,7 +117,6 @@ const refreshToken = ({HTTP, config$}) => {
       .filter(req$ => req$.request.url === config.api + 'refresh')
       .mergeAll()
       .map(res => res.body)
-      .catch(err => Observable.just(err))
     )
 
   const storage = response$

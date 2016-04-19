@@ -83,7 +83,7 @@ export default sources => {
     ...sources
   })
 
-  const children = [header, appShell, tabBar, page$]
+  const children = [header, search, appShell, tabBar, page$]
 
   const queue$ = Observable.merge(
     getPractitionersId$(sources),

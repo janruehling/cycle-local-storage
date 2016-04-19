@@ -1,4 +1,4 @@
-import { pathOr, match } from 'ramda'
+import { pathOr } from 'ramda'
 import { Observable } from 'rx'
 import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
@@ -70,7 +70,7 @@ export default sources => {
 
   const queue$ = formData$
     .sample(submit$)
-    .zip(sources.config$,
+    .combineLatest(sources.config$,
       (formData, config) => ({config, formData})
     )
     .map(({config, formData}) => {

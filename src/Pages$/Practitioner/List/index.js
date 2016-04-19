@@ -36,7 +36,7 @@ export default sources => {
     ...sources
   })
 
-  const children = [appShell, page$, header]
+  const children = [appShell, search, page$, header]
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 

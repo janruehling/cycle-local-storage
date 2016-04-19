@@ -1,12 +1,19 @@
 import { div } from '@cycle/dom'
+import classNames from 'classnames'
 
-const noSidenav = (header, accountInfo, search, page) => div([
+import styles from './DesktopFrame.css'
+
+const noSidenav = (noScroll, header, accountInfo, search, page) => div({
+  className: classNames({
+    [styles.noScroll]: noScroll
+  })
+}, [
   header,
   accountInfo,
   search,
   div({}, [page])
 ])
 
-export const DesktopFrame = ({header, accountInfo, search, page}) => div({}, [
-  noSidenav(header, accountInfo, search, page)
+export const DesktopFrame = ({noScroll, header, accountInfo, search, page}) => div({}, [
+  noSidenav(noScroll, header, accountInfo, search, page)
 ])

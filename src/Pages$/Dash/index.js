@@ -17,12 +17,13 @@ export default sources => {
   const stats$ = sources.responses$
     .filter(byMatch('insurance_companies/1/stats'))
     .map(res => res.body)
+    .filter(data => !!data)
     .map(data => data.stats)
     .startWith({})
 
   const organization$ = sources.responses$
     .filter(res$ => {
-      const url = res$.request.url
+      const url = R.pathOr('', ['request', 'url'])(res$)
       return R.contains('insurance_companies/1')(url) &&
         !R.contains('stats')(url)
     })
@@ -32,7 +33,11 @@ export default sources => {
 
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    {stats$, organization$, ...sources}
+    {
+      stats$,
+      organization$,
+      ...sources
+    }
   )
 
   const accountInfo = AccountInfo({...sources, organization$})
@@ -42,6 +47,7 @@ export default sources => {
   const search = Search({...sources})
 
   const appShell = AppShell({
+    noScroll: search.value$,
     headerDOM: header.DOM,
     accountInfoDOM: accountInfo.DOM,
     searchDOM: search.DOM,
@@ -49,7 +55,7 @@ export default sources => {
     ...sources
   })
 
-  const children = [header, appShell, page$]
+  const children = [header, search, appShell, page$]
 
   const queue$ = Observable.merge(
     getInsuranceId$({

@@ -7,8 +7,8 @@ export const getLocations$ = ({config$}) => {
 
 export const getLocationsId$ = ({locationId$, config$}) => {
   return config$
-    .zip(locationId$)
-    .map(([config, id]) => ({
+    .combineLatest(locationId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
       url: config.api + 'locations/' + id,
       method: 'GET'
     }))

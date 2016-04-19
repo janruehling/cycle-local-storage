@@ -7,8 +7,8 @@ export const getPractitioners$ = ({config$}) => {
 
 export const getPractitionersId$ = ({practitionerId$, config$}) => {
   return config$
-    .zip(practitionerId$)
-    .map(([config, id]) => ({
+    .combineLatest(practitionerId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
       url: config.api + 'practitioners/' + id,
       method: 'GET'
     }))

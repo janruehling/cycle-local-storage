@@ -7,8 +7,8 @@ export const getGroups$ = ({config$}) => {
 
 export const getGroupsId$ = ({groupId$, config$}) => {
   return config$
-    .zip(groupId$)
-    .map(([config, id]) => ({
+    .combineLatest(groupId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
       url: config.api + 'groups/' + id,
       method: 'GET'
     }))

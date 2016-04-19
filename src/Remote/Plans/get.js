@@ -7,8 +7,8 @@ export const getPlans$ = ({config$}) => {
 
 export const getPlansId$ = ({planId$, config$}) => {
   return config$
-    .zip(planId$)
-    .map(([config, id]) => ({
+    .combineLatest(planId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
       url: config.api + 'plans/' + id,
       method: 'GET'
     }))

@@ -29,37 +29,42 @@ const flag = Icon({
 
 const _render = ({
   profile
-}) => div({
-  className: styles.container
-}, [
+}) => div([
   div({
-    className: styles.wrap
+    className: styles.spacer
+  }),
+  div({
+    className: styles.container
   }, [
-    hamburger,
     div({
-      className: styles.logoContainer
+      className: styles.wrap
     }, [
-      a({
-        className: styles.logo,
-        href: '/#/dash'
+      hamburger,
+      div({
+        className: styles.logoContainer
       }, [
-        img({
-          src: logo
-        })
+        a({
+          className: styles.logo,
+          href: '/#/dash'
+        }, [
+          img({
+            src: logo
+          })
+        ])
+      ]),
+      div({
+        className: styles.userMenuContainer
+      }, [
+        Avatar({
+          image: R.pathOr(null, ['image', 'url'])(profile),
+          icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
+          size: 26
+        }),
+        R.pathOr(null, ['first_name'])(profile) && div({
+          className: styles.userName
+        }, 'Hi, ' + profile.first_name),
+        flag
       ])
-    ]),
-    div({
-      className: styles.userMenuContainer
-    }, [
-      Avatar({
-        image: R.pathOr(null, ['image', 'url'])(profile),
-        icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
-        size: 26
-      }),
-      R.pathOr(null, ['first_name'])(profile) && div({
-        className: styles.userName
-      }, 'Hi, ' + profile.first_name),
-      flag
     ])
   ])
 ])

@@ -1,10 +1,16 @@
 import { Observable } from 'rx'
-import { is } from 'ramda'
+import { is, pathOr } from 'ramda'
+
+export const toTitleCase = str => {
+  return window.String(str).split('_').join(' ').split('.').join('. ').replace(/([^\W_]+[^\s-]*) */g, s =>
+      s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+    )
+}
 
 export const byMatch = (matchPattern) =>
-  (responses$) => responses$.request.url.indexOf(matchPattern) > -1
+  (responses$) => (pathOr('', ['request', 'url'])(responses$)).indexOf(matchPattern) > -1
 
-export const getName = (entity = {}) => {
+export const getName = (entity) => {
   if (!is(Object, entity)) return ''
 
   if (entity.name) {
@@ -18,6 +24,35 @@ export const getName = (entity = {}) => {
   } else {
     return ''
   }
+}
+
+export const getIcon = (entity, type = '') => {
+  let icon = ''
+
+  if (!is(Object, entity)) return icon
+
+  switch (type) {
+    case 'practitioners':
+    case 'practitioner':
+      icon = entity.gender ? toTitleCase(entity.gender) : 'Male'
+      break
+    case 'locations':
+    case 'location':
+      icon = 'Hospital'
+      break
+    case 'groups':
+    case 'group':
+      icon = 'Shield'
+      break
+    case 'plans':
+    case 'plan':
+      icon = 'Sheet'
+      break
+    default:
+      icon = ''
+  }
+
+  return icon
 }
 
 export const getStaticMap = ({latitude, longitude, width, height, zoom}) => {
@@ -61,9 +96,3 @@ export const mergeOrFlatMapLatest = (prop, ...sourceArray) =>
   )
 
 export const log = label => emitted => console.log(label, ':', emitted)
-
-export const toTitleCase = str => {
-  return window.String(str).split('_').join(' ').split('.').join('. ').replace(/([^\W_]+[^\s-]*) */g, s =>
-      s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
-    )
-}
