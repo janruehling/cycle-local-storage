@@ -28,7 +28,9 @@ const flag = Icon({
 })
 
 const _render = ({
-  profile
+  profile,
+  isLoggedIn,
+  message
 }) => div([
   div({
     className: styles.spacer
@@ -39,7 +41,7 @@ const _render = ({
     div({
       className: styles.wrap
     }, [
-      hamburger,
+      isLoggedIn ? hamburger : null,
       div({
         className: styles.logoContainer
       }, [
@@ -52,26 +54,57 @@ const _render = ({
           })
         ])
       ]),
-      div({
-        className: styles.userMenuContainer
-      }, [
-        Avatar({
-          image: R.pathOr(null, ['image', 'url'])(profile),
-          icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
-          size: 26
-        }),
-        R.pathOr(null, ['first_name'])(profile) && div({
-          className: styles.userName
-        }, 'Hi, ' + profile.first_name),
-        flag
-      ])
+      isLoggedIn
+        ? div({
+          className: styles.userMenuContainer
+        }, [
+          Avatar({
+            image: R.pathOr(null, ['image', 'url'])(profile),
+            icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
+            size: 26
+          }),
+          R.pathOr(null, ['first_name'])(profile) && div({
+            className: styles.userName
+          }, 'Hi, ' + profile.first_name),
+          flag,
+          div([
+            a({
+              href: '/#/login/'
+            }, 'Logout')
+          ])
+        ])
+        : null
     ])
+  ]),
+  message && div({
+    className: styles.messageContainer,
+    style: {
+      ...message.styles
+    }
+  }, [
+    message.icon && Icon({
+      icon: message.icon,
+      style: {
+        marginRight: '5px',
+        fontSize: '17px',
+        color: 'inherit',
+        ...message.iconStyles
+      }
+    }),
+    div({
+      className: styles.messageText,
+      styles: {
+        ...message.textStyles
+      }
+    }, message.text)
   ])
 ])
 
 export const SiteHeader = sources => {
   const viewState = {
-    profile: sources.userProfile$ || just({})
+    profile: sources.userProfile$ || just({}),
+    isLoggedIn: sources.isLoggedIn$ || just(true),
+    message: sources.message$ || just(null)
   }
 
   const DOM = combineLatestObj(viewState).map(_render)

@@ -1,8 +1,8 @@
 @value primaryFontStack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 @value primary1: #21406A;
-@value primary1opaque: rgba(33, 64, 106, .8);
 @value primary1opaque5: rgba(33, 64, 106, .5);
+@value primary1opaque8: rgba(33, 64, 106, .8);
 @value primary2: #58708f;
 @value primary3: #90a0b5;
 @value primary4: #c8d0da;
@@ -11,6 +11,7 @@
 @value secondary2: #90bf5a;
 @value secondary3: #e42430;
 @value additional1: #f0f8fa;
+@value additional1opaque75: rgba(240, 248, 250, .75);
 @value additional2: #38216a;
 @value additional3: #8bc24a;
 @value additional4: #0e5a71;
@@ -25,5 +26,7 @@
 @value additional13: #cfdcec;
 @value additional14: #d0ddef;
 @value additional15: #6c89af;
+@value additional16: #e1ebee;
+@value additional17: #dc444d;
 
 @value maxWidth: 1200px;

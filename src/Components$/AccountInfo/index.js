@@ -17,7 +17,7 @@ const _render = ({
 }) => div({
   className: styles.container
 }, [
-  div({
+  organization && div({
     className: styles.wrap
   }, [
     Avatar({
@@ -56,7 +56,7 @@ const _render = ({
         })
       ])
     ]),
-    div({
+    profile && div({
       className: styles.userMeta
     }, [
       div({

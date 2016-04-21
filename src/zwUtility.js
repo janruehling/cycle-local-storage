@@ -8,7 +8,9 @@ export const toTitleCase = str => {
 }
 
 export const byMatch = (matchPattern) =>
-  (responses$) => (pathOr('', ['request', 'url'])(responses$)).indexOf(matchPattern) > -1
+  (responses$) => {
+    return (pathOr('', ['req', 'url'])(responses$)).indexOf(matchPattern) > -1
+  }
 
 export const getName = (entity) => {
   if (!is(Object, entity)) return ''

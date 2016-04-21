@@ -23,6 +23,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconInfo:before {
+    content: "\4e";
+}
+.iconWarn:before {
+    content: "\4f";
+}
 .iconEnvelope:before {
     content: "\4c";
 }

@@ -82,34 +82,29 @@ const UserManager = sources => {
 
 const AuthedResponseManager = sources => ({
   responses$: sources.HTTP
-    .catch(err => Observable.just(err))
-    .filter(res => res.status !== 401)
-    .switch()
+    .flatMap(response$ => {
+      return response$
+        .catch(err => Observable.just(err.response))
+    })
 })
 
-const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
-  return HTTP
-    .mergeAll()
-    .catch(err => Observable.just(err))
-    .filter(errData => errData.status === 401)
-    .flatMap(errData => {
-      return auth$
-        .combineLatest(config$, (auth, config) => ({auth, config}))
-    })
-    .map(({auth, config}) => {
-      if (!auth || !auth.refresh_token) {
-        return Observable.throw()
-      }
 
-      return Observable.just({
-        url: config.api + 'refresh',
-        method: 'POST',
-        send: {
-          refresh_token: auth.refresh_token
-        }
-      })
-    })
-}
+
+// const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
+//   return HTTP
+//     .catch(err => Observable.just(err))
+//     .withLatestFrom(config$)
+//     .flatMap(([auth, config]) => {
+//       return Observable.just({
+//         url: config.api + 'refresh',
+//         method: 'POST',
+//         send: {
+//           refresh_token: auth.refresh_token
+//         }
+//       })
+//     })
+//     .switch()
+// }
 
 const refreshToken = ({HTTP, config$}) => {
   const response$ = config$
@@ -152,7 +147,7 @@ export default sources => {
 
   const { responses$ } = AuthedResponseManager(sources)
 
-  const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
+  // const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
 
   const queue$ = Observable.empty()
 
@@ -168,12 +163,13 @@ export default sources => {
 
   const HTTP = page$
     .pluckFlat('queue$')
-    .merge(unauthedRequests$)
+    // .merge(unauthedRequests$)
     .distinctUntilChanged()
-    .flatMap(req => {
+    .withLatestFrom(user.auth$)
+    .flatMap(([req, auth]) => {
       if (req.skipToken) {
         return Observable.just(R.pick(['url', 'send', 'method'])(req))
-      } else if (!req || !req.url) {
+      } else if (!auth || !req || !req.url) {
         return Observable.empty()
       } else {
         return user.auth$
