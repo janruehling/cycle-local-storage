@@ -36,8 +36,8 @@ export const Avatar = (options = {}) => {
       [styles.container]: true
     }),
     style: {
-      paddingBottom: options.size ? options.size + 'px' : null,
-      width: options.size ? options.size + 'px' : null,
+      paddingBottom: options.size ? options.size + 'px' : '32px',
+      width: options.size ? options.size + 'px' : '32px',
       ...options.style
     }
   }, [

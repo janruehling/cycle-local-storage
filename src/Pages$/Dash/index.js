@@ -69,9 +69,11 @@ export default sources => {
     mergeOrFlatMapLatest('queue$', ...children)
   )
 
+  const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
+
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
-    sources.redirectLogout$
+    redirectOnLogout$
   )
 
   return {

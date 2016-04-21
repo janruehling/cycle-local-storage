@@ -1,0 +1,22 @@
+@value constants: 'constants.css';
+@value maxWidth from constants;
+
+.container {
+  display: flex;
+  margin: 0 auto 20px;
+  max-width: maxWidth;
+}
+
+.left {
+  display: flex;
+  margin-left: 15px;
+}
+
+.center {
+  flex: 1;
+}
+
+.right {
+  display: flex;
+  margin-right: 15px;
+}

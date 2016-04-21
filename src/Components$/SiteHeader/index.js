@@ -69,11 +69,6 @@ const _render = ({
   ])
 ])
 
-// const _logoClicks = (sources) => sources.DOM
-//   .select('.' + styles.logo)
-//   .events('click')
-//   .map(ev => '/dash')
-
 export const SiteHeader = sources => {
   const viewState = {
     profile: sources.userProfile$ || just({})

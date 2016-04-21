@@ -3,7 +3,7 @@ import classNames from 'classnames'
 
 import styles from './DesktopFrame.css'
 
-const noSidenav = (noScroll, header, accountInfo, search, page) => div({
+const noSidenav = (noScroll, header, accountInfo, search, toolBar, page) => div({
   className: classNames({
     [styles.noScroll]: noScroll
   })
@@ -11,9 +11,10 @@ const noSidenav = (noScroll, header, accountInfo, search, page) => div({
   header,
   accountInfo,
   search,
+  toolBar,
   div({}, [page])
 ])
 
-export const DesktopFrame = ({noScroll, header, accountInfo, search, page}) => div({}, [
-  noSidenav(noScroll, header, accountInfo, search, page)
+export const DesktopFrame = ({noScroll, header, accountInfo, search, toolBar, page}) => div({}, [
+  noSidenav(noScroll, header, accountInfo, search, toolBar, page)
 ])

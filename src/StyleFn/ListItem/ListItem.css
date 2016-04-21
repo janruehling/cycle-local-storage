@@ -1,0 +1,21 @@
+@value constants: 'constants.css';
+@value additional1, additional8 from constants;
+
+.container {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 3px 1px;
+  border-bottom: 1px solid additional1;
+  font-size: 12px;
+
+  &:hover {
+    background: additional1;
+    background-clip: content-box;
+  }
+}
+
+.column {
+  padding: 5px;
+  margin-right: 10px;
+}

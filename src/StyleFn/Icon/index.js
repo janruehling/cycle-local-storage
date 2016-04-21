@@ -15,6 +15,7 @@ export const Icon = (options = {}) => {
       [options.className]: true,
       [fonts[iconName]]: true,
       [fonts.icon]: true
-    })
+    }),
+    id: options.id || null
   }, [])
 }
