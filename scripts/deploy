@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ssh jan@54.172.136.227 <<EOF
+ssh jan@54.208.25.170 <<EOF
   cd /var/www/staging/app.zipwiremedical.com
   git checkout staging
   git pull origin staging
