@@ -88,8 +88,6 @@ const AuthedResponseManager = sources => ({
     })
 })
 
-
-
 // const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
 //   return HTTP
 //     .catch(err => Observable.just(err))
