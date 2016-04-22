@@ -6,6 +6,7 @@ import { makeHTTPDriver } from '@cycle/http'
 import localStorageDriver from 'cycle-local-storage'
 import { makeRouterDriver } from 'cyclic-router'
 import { createHashHistory } from 'history'
+import { config } from './env.js'
 
 import main from './Pages$'
 
@@ -18,10 +19,7 @@ const {sources, sinks} = run(main, {
   }),
   storage: localStorageDriver,
   router: makeRouterDriver(history),
-  config$: () => Observable.just({
-    api: 'https://apistagingdata.zipwire.com/',
-    dev: false
-  })
+  config$: () => Observable.just(config)
 })
 
 if (module.hot) {

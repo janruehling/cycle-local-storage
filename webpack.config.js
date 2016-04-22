@@ -18,7 +18,8 @@ module.exports = {
     'ramda': 'R',
     '@cycle/core': 'Cycle',
     '@cycle/dom': 'CycleDOM',
-    'history': 'History'
+    'history': 'History',
+    'moment': 'moment'
   },
   module: {
     loaders: [
