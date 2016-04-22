@@ -1,7 +1,5 @@
-import { Observable } from 'rx'
-const { just } = Observable
-
 import avatar from './styles/avatar'
+import colors from './styles/colors'
 import icon from './styles/icon'
 import metricsCallout from './styles/metricsCallout'
 import metricsCircle from './styles/metricsCircle'
@@ -13,7 +11,7 @@ import heading from './styles/heading'
 import list from './styles/list'
 
 export default sources => {
-  const StyleFns = [icon, quickFact, keyValue, heading, avatar, list, gridItem, metricsCallout, metricsCircle, detailsCard]
+  const StyleFns = [colors, icon, quickFact, keyValue, heading, avatar, list, gridItem, metricsCallout, metricsCircle, detailsCard]
   return {
     StyleFns: StyleFns
   }
