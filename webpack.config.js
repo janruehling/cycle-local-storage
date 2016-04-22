@@ -35,10 +35,10 @@ module.exports = {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss')
       },
-      {
-        test: /\.jpe?g$|\.gif$|\.png$|\.wav$|\.mp3$/,
-        loader: 'file'
-      },
+      // {
+      //   test: /\.jpe?g$|\.gif$|\.png$|\.wav$|\.mp3$/,
+      //   loader: 'file'
+      // },
       {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         loader: 'file'

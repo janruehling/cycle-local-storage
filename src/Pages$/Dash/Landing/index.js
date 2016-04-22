@@ -7,7 +7,7 @@ import constants from 'constants.css'
 import helpers from 'helpers.css'
 import styles from './Landing.css'
 
-import USAMap from 'assets/img/USA_Map.png'
+// import USAMap from 'assets/img/USA_Map.png'
 
 import { MetricsCallout, MetricsCircle, Heading, List } from 'StyleFn'
 
@@ -162,10 +162,10 @@ const _render = ({
               justifyContent: 'center',
               margin: '30px 0 20px'
             }
-          }),
-          img({
-            src: USAMap
           })
+          // img({
+          //   src: USAMap
+          // })
         ]),
         div({
           className: styles.practitionerProfileContainer
