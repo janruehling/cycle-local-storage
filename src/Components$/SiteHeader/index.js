@@ -56,7 +56,8 @@ const _render = ({
       ]),
       isLoggedIn
         ? div({
-          className: styles.userMenuContainer
+          className: styles.userMenuContainer,
+          id: 'userMenu'
         }, [
           Avatar({
             image: R.pathOr(null, ['image', 'url'])(profile),

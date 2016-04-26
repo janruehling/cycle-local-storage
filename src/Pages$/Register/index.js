@@ -1,29 +1,44 @@
-import { pathOr } from 'ramda'
 import { Observable } from 'rx'
-import { div, button, a, span } from '@cycle/dom'
+import { div, button, span } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
-import { byMatch, getUrlParams } from 'zwUtility'
+import { byMatch } from 'zwUtility'
 
 import constants from 'constants.css'
-import styles from './Login.css'
+import styles from './Register.css'
 
 const { just } = Observable
 
+const FirstNameInput = InputFactory({
+  id: 'firstName',
+  className: styles.input,
+  type: 'text',
+  placeholder: 'First Name (required)',
+  required: true
+})
+
+const LastNameInput = InputFactory({
+  id: 'lastName',
+  className: styles.input,
+  type: 'text',
+  placeholder: 'Last Name (required)',
+  required: true
+})
+
 const EmailInput = InputFactory({
   id: 'username',
-  className: 'email',
+  className: styles.input,
   type: 'email',
-  placeholder: 'Email',
+  placeholder: 'Email (required)',
   required: true
 })
 
 const PasswordInput = InputFactory({
   id: 'password',
+  className: styles.input,
   type: 'password',
-  placeholder: 'Password',
-  required: true,
-  className: 'password'
+  placeholder: 'Password (required)',
+  required: true
 })
 
 const _getContainerBorder = (message) => {
@@ -48,9 +63,10 @@ const _getContainerBorder = (message) => {
 }
 
 const _render = ({
-  params,
   headerDOM,
   formData$,
+  firstNameInputDOM,
+  lastNameInputDOM,
   emailInputDOM,
   passwordInputDOM,
   message
@@ -67,35 +83,22 @@ const _render = ({
     }, [
       div({
         className: styles.title
-      }, 'Log into Zipwire'),
-      emailInputDOM,
-      passwordInputDOM,
-      button({
-        id: 'submit',
-        className: styles.button
-      }, 'Log in'),
-      div([
-        a({
-          className: styles.link,
-          href: '/#/forgotPassword'
-        }, 'Forgotten Password? '),
-        a({
-          className: styles.link,
-          href: '/#/register'
-        }, 'Sign up for Zipwire')
-      ]),
-      div([
-        a({
-          className: styles.link,
-          href: '#'
-        }, 'Do you have a Zipwire Business log in?')
+      }, 'Sign up for Zipwire Healthcare Data'),
+      div({}, [
+        firstNameInputDOM,
+        lastNameInputDOM,
+        emailInputDOM,
+        passwordInputDOM,
+        button({
+          id: 'submit',
+          className: styles.button
+        }, 'Submit')
       ])
     ])
   ])
 ])
 
 export default sources => {
-  const urlParams$ = getUrlParams(sources)
   // const messageInfo$ = just({
   //   text: 'You must login to continue',
   //   icon: 'Info',
@@ -106,14 +109,21 @@ export default sources => {
   //   }
   // })
 
-  const messageWarn$ = just({
+  const messageInfo$ = message => just({
     text: div([
-      span('The data you’ve entered is incorrect. Have you'),
-      a({
-        style: {
-          fontWeight: 'bold'
-        }
-      }, ' forgotten your username or password? ')
+      span(message)
+    ]),
+    icon: 'Info',
+    type: 'info',
+    styles: {
+      background: constants.additional16,
+      color: constants.primary1
+    }
+  })
+
+  const messageWarn$ = message => just({
+    text: div([
+      span(message)
     ]),
     icon: 'Warn',
     type: 'warn',
@@ -123,19 +133,30 @@ export default sources => {
     }
   })
 
-  const emailInput = EmailInput({
-    ...sources,
-    value$: urlParams$.map(params => params.email)
-  })
+  const backendResponse$ = sources.responses$
+    .filter(byMatch('/register'))
+    .map(res => res.body)
+
+  const successResponses$ = backendResponse$
+    .filter(response => response && !response.error)
+
+  const errorResponses$ = backendResponse$
+    .filter(response => response && response.error)
+
+  const firstNameInput = FirstNameInput(sources)
+  const lastNameInput = LastNameInput(sources)
+  const emailInput = EmailInput(sources)
   const passwordInput = PasswordInput(sources)
 
   const formData$ = combineLatestObj({
-    username: emailInput.value$,
-    password: passwordInput.value$
+    email: emailInput.value$,
+    password: passwordInput.value$,
+    first_name: firstNameInput.value$,
+    last_name: lastNameInput.value$
   })
 
   const submit$ = sources.DOM
-    .select('#submit')
+    .select('.' + styles.button)
     .events('click')
     .map(true)
 
@@ -147,43 +168,29 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/login',
+        url: config.api + '/register',
         method: 'POST',
         send: formData
       }
     })
-
-  const loginResponse$ = sources.responses$
-    .filter(byMatch('/login'))
-    .map(res => res.body)
     .startWith({})
 
-  const message$ = loginResponse$
-    .filter(response => response && response.error)
-    .flatMap(response => {
+  const message$ = errorResponses$
+    .map(res => messageWarn$(res.message))
+    .merge(successResponses$.map(res => messageInfo$('Welcome to Zipwire. Please check your inbox for a confirmation email')))
+    .do(console.log.bind(console))
+    .flatMap(message => {
       return Observable
         .timer(0, 1000)
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return messageWarn$
+            return message
           } else {
             return just(null)
           }
         }
       )
-    })
-    .startWith(null)
-
-  const storageRequest$ = loginResponse$
-    .filter(response => response && !response.error)
-    .flatMap(data => {
-      const auth = pathOr(null, ['auth'])(data)
-      const profile = pathOr(null, ['profile'])(data)
-      return just({
-        auth: auth ? JSON.stringify(auth) : null,
-        profile: profile ? JSON.stringify(profile) : null
-      })
     })
     .startWith(null)
 
@@ -194,9 +201,10 @@ export default sources => {
   })
 
   const viewState = {
-    params: urlParams$,
     headerDOM$: header.DOM,
     formData$,
+    firstNameInputDOM$: firstNameInput.DOM,
+    lastNameInputDOM$: lastNameInput.DOM,
     emailInputDOM$: emailInput.DOM,
     passwordInputDOM$: passwordInput.DOM,
     message$
@@ -207,8 +215,6 @@ export default sources => {
   return {
     ...sources,
     DOM,
-    storage: storageRequest$,
-    formData$,
     queue$,
     route$: sources.redirectLogin$,
     message$

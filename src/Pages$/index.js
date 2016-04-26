@@ -8,6 +8,7 @@ import { nestedComponent } from 'zwUtility'
 
 import { ComingSoon } from 'Components$'
 import Login from './Login'
+import Register from './Register'
 import UserWelcome from './UserWelcome'
 import ForgotPassword from './ForgotPassword'
 import ResetPassword from './ResetPassword'
@@ -24,8 +25,8 @@ import StyleGuide from './StyleGuide'
 
 const routes = {
   '/': isolate(Login),
+  '/register': isolate(Register),
   '/forgotPassword': isolate(ForgotPassword),
-  // '/resetPassword': ComingSoon('reset Password'),
   '/resetPassword/:code': code => sources =>
       isolate(ResetPassword)({
         resetCode$: Observable.just(code),
@@ -176,7 +177,7 @@ export default sources => {
     .distinctUntilChanged()
     .withLatestFrom(user.auth$)
     .filter(([req, auth]) => {
-      return req.skipToken || auth
+      return (req && req.skipToken) || auth
     })
     .flatMap(([req, auth]) => {
       if (req.skipToken) {

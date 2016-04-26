@@ -1,6 +1,5 @@
 import { Observable } from 'rx'
 import { div, button, a, span } from '@cycle/dom'
-import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
 import { byMatch } from 'zwUtility'
@@ -10,21 +9,21 @@ import styles from './ResetPassword.css'
 
 const { just } = Observable
 
-const PasswordInput = isolate(InputFactory({
+const PasswordInput = InputFactory({
   id: 'password',
   className: styles.input,
   type: 'password',
   placeholder: 'Password',
   required: true
-}))
+})
 
-const ConfirmPasswordInput = isolate(InputFactory({
-  id: 'password',
+const ConfirmPasswordInput = InputFactory({
+  id: 'passwordConfirm',
   className: styles.input,
   type: 'password',
   placeholder: 'Confirm Password',
   required: true
-}))
+})
 
 const _getContainerBorder = (message) => {
   let border

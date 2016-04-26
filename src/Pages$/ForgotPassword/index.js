@@ -1,6 +1,5 @@
 import { Observable } from 'rx'
 import { div, button, span } from '@cycle/dom'
-import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
 import { byMatch } from 'zwUtility'
@@ -10,13 +9,13 @@ import styles from './ForgotPassword.css'
 
 const { just } = Observable
 
-const EmailInput = isolate(InputFactory({
+const EmailInput = InputFactory({
   id: 'username',
   className: styles.input,
   type: 'email',
   placeholder: 'Email',
   required: true
-}))
+})
 
 const _getContainerBorder = (message) => {
   let border

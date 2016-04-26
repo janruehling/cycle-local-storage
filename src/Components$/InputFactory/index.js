@@ -6,10 +6,13 @@ import { input } from '@cycle/dom'
 import styles from './InputFactory.css'
 
 const InputFactory = (attributes) => sources => {
+  if (!attributes.id) {
+    throw new Error('InputFactory needs an id to work properly')
+  }
   const _render = ({value}) =>
     input({
       ...attributes,
-      id: attributes.id || '',
+      id: attributes.id,
       className: classNames({
         [styles.input]: true,
         [attributes.className]: !!attributes.className
@@ -18,7 +21,7 @@ const InputFactory = (attributes) => sources => {
     })
 
   const input$ = sources.DOM
-    .select('.' + attributes.className)
+    .select('#' + attributes.id)
     .events('input')
 
   const value$ = (sources.value$ || Observable.just(null))
