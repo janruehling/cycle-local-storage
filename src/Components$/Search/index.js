@@ -128,7 +128,7 @@ export const Search = sources => {
     .flatMapLatest(({config, formData}) => {
       return Observable.just({
         skipToken: false,
-        url: config.api + 'search?q=' + encodeURI(formData),
+        url: config.api + '/search?q=' + encodeURI(formData),
         method: 'GET'
       })
     })

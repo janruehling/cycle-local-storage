@@ -42,8 +42,8 @@ export default sources => {
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const queue$ = Observable.merge(
-    getGroups$(sources),
-    mergeOrFlatMapLatest('queue$', ...children)
+    getGroups$(sources)
+    // mergeOrFlatMapLatest('queue$', ...children)
   )
 
   const route$ = Observable.merge(

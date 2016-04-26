@@ -17,6 +17,7 @@ module.exports = {
     'ramda': 'R',
     '@cycle/core': 'Cycle',
     '@cycle/dom': 'CycleDOM',
+    '@cycle/http': 'CycleHTTPDriver',
     'history': 'History',
     'moment': 'moment'
   },

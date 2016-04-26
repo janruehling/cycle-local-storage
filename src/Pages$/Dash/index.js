@@ -40,19 +40,22 @@ export default sources => {
     }
   )
 
-  const accountInfo = AccountInfo({...sources, organization$})
+  const accountInfo = AccountInfo({
+    ...sources,
+    organization$
+  })
 
   const header = SiteHeader({...sources})
 
   const search = Search({...sources})
 
   const appShell = AppShell({
+    ...sources,
     noScroll: search.value$,
     headerDOM: header.DOM,
     accountInfoDOM: accountInfo.DOM,
     searchDOM: search.DOM,
-    pageDOM: page$.pluck('DOM'),
-    ...sources
+    pageDOM: page$.pluck('DOM')
   })
 
   const children = [header, search, appShell, page$]
@@ -65,10 +68,9 @@ export default sources => {
     getInsuranceIdStats$({
       ...sources,
       insuranceId$: Observable.just('1')
-    }),
-    mergeOrFlatMapLatest('queue$', ...children)
+    })
+    // mergeOrFlatMapLatest('queue$', ...children)
   )
-  .distinctUntilChanged()
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/#/login')
 

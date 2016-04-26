@@ -1,30 +1,30 @@
-import { pathOr } from 'ramda'
 import { Observable } from 'rx'
 import { div, button, a, span } from '@cycle/dom'
+import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
-import { byMatch, getUrlParams } from 'zwUtility'
+import { byMatch } from 'zwUtility'
 
 import constants from 'constants.css'
-import styles from './Login.css'
+import styles from './ResetPassword.css'
 
 const { just } = Observable
 
-const EmailInput = InputFactory({
-  id: 'username',
-  className: 'email',
-  type: 'email',
-  placeholder: 'Email',
-  required: true
-})
-
-const PasswordInput = InputFactory({
+const PasswordInput = isolate(InputFactory({
   id: 'password',
+  className: styles.input,
   type: 'password',
   placeholder: 'Password',
-  required: true,
-  className: 'password'
-})
+  required: true
+}))
+
+const ConfirmPasswordInput = isolate(InputFactory({
+  id: 'password',
+  className: styles.input,
+  type: 'password',
+  placeholder: 'Confirm Password',
+  required: true
+}))
 
 const _getContainerBorder = (message) => {
   let border
@@ -48,11 +48,10 @@ const _getContainerBorder = (message) => {
 }
 
 const _render = ({
-  params,
   headerDOM,
   formData$,
-  emailInputDOM,
   passwordInputDOM,
+  confirmPasswordInputDOM,
   message
 }) => div([
   headerDOM,
@@ -67,35 +66,22 @@ const _render = ({
     }, [
       div({
         className: styles.title
-      }, 'Log into Zipwire'),
-      emailInputDOM,
+      }, 'Reset Password'),
       passwordInputDOM,
+      confirmPasswordInputDOM,
       button({
         id: 'submit',
         className: styles.button
-      }, 'Log in'),
-      div([
-        a({
-          className: styles.link,
-          href: '/#/forgotPassword'
-        }, 'Forgotten Password? '),
-        a({
-          className: styles.link,
-          href: '#'
-        }, 'Sign up for Zipwire')
-      ]),
-      div([
-        a({
-          className: styles.link,
-          href: '#'
-        }, 'Do you have a Zipwire Business log in?')
-      ])
+      }, 'Submit'),
+      a({
+        href: '/#/login'
+      }, 'Cancel')
     ])
   ])
 ])
 
 export default sources => {
-  const urlParams$ = getUrlParams(sources)
+  console.log(sources.resetCode$)
   // const messageInfo$ = just({
   //   text: 'You must login to continue',
   //   icon: 'Info',
@@ -106,14 +92,9 @@ export default sources => {
   //   }
   // })
 
-  const messageWarn$ = just({
+  const messageWarn$ = message => just({
     text: div([
-      span('The data you’ve entered is incorrect. Have you'),
-      a({
-        style: {
-          fontWeight: 'bold'
-        }
-      }, ' forgotten your username or password? ')
+      span(message)
     ]),
     icon: 'Warn',
     type: 'warn',
@@ -123,30 +104,24 @@ export default sources => {
     }
   })
 
-  // const message$ = Observable
-  //   .interval(1000)
-  //   .take(10)
-  //   .flatMap(count => {
-  //     if (count < 4) {
-  //       return messageWarn$
-  //     } else if (count < 8) {
-  //       return messageInfo$
-  //     } else {
-  //       return just(null)
-  //     }
-  //   }
-  // )
+  const backendResponse$ = sources.responses$
+    .filter(byMatch('/reset_password'))
+    .map(res => res.body)
+    .startWith({})
 
-  const emailInput = EmailInput(sources)
+  const errorResponses$ = backendResponse$
+    .filter(response => response && response.error)
+
   const passwordInput = PasswordInput(sources)
+  const confirmPasswordInput = ConfirmPasswordInput(sources)
 
   const formData$ = combineLatestObj({
-    username: emailInput.value$,
+    code: sources.resetCode$,
     password: passwordInput.value$
   })
 
   const submit$ = sources.DOM
-    .select('#submit')
+    .select('.' + styles.button)
     .events('click')
     .map(true)
 
@@ -158,43 +133,26 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/login',
+        url: config.api + '/forgot_password',
         method: 'POST',
         send: formData
       }
     })
-
-  const loginResponse$ = sources.responses$
-    .filter(byMatch('/login'))
-    .map(res => res.body)
     .startWith({})
 
-  const message$ = loginResponse$
-    .filter(response => response && response.error)
+  const message$ = errorResponses$
     .flatMap(response => {
       return Observable
         .timer(0, 1000)
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return messageWarn$
+            return messageWarn$(response.message)
           } else {
             return just(null)
           }
         }
       )
-    })
-    .startWith(null)
-
-  const storageRequest$ = loginResponse$
-    .filter(response => response && !response.error)
-    .flatMap(data => {
-      const auth = pathOr(null, ['auth'])(data)
-      const profile = pathOr(null, ['profile'])(data)
-      return just({
-        auth: auth ? JSON.stringify(auth) : null,
-        profile: profile ? JSON.stringify(profile) : null
-      })
     })
     .startWith(null)
 
@@ -205,11 +163,10 @@ export default sources => {
   })
 
   const viewState = {
-    // params: urlParams$,
     headerDOM$: header.DOM,
     formData$,
-    emailInputDOM$: emailInput.DOM,
     passwordInputDOM$: passwordInput.DOM,
+    confirmPasswordInputDOM$: confirmPasswordInput.DOM,
     message$
   }
 
@@ -218,7 +175,6 @@ export default sources => {
   return {
     ...sources,
     DOM,
-    storage: storageRequest$,
     formData$,
     queue$,
     route$: sources.redirectLogin$,

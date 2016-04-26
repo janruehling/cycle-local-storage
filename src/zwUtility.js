@@ -12,6 +12,28 @@ export const byMatch = (matchPattern) =>
     return (pathOr('', ['req', 'url'])(responses$)).indexOf(matchPattern) > -1
   }
 
+export const getUrlParams = sources => {
+  return sources.router.observable
+    .map(route => route.search)
+    .map(search => decodeURIComponent(search))
+    .map(search => search.split('?')[1])
+    .map(search => {
+      search = search || ''
+      return search.split('&')
+    })
+    .map(parts => {
+      const obj = {}
+
+      parts
+        .map(part => part.split('='))
+        .map(arr => {
+          obj[arr[0]] = arr[1]
+        })
+
+      return obj
+    })
+}
+
 export const getName = (entity) => {
   if (!is(Object, entity)) return ''
 

@@ -8,6 +8,9 @@ import { nestedComponent } from 'zwUtility'
 
 import { ComingSoon } from 'Components$'
 import Login from './Login'
+import UserWelcome from './UserWelcome'
+import ForgotPassword from './ForgotPassword'
+import ResetPassword from './ResetPassword'
 import Dash from './Dash'
 import GroupList from './Group/List'
 import GroupDetails from './Group/Details'
@@ -21,9 +24,17 @@ import StyleGuide from './StyleGuide'
 
 const routes = {
   '/': isolate(Login),
+  '/forgotPassword': isolate(ForgotPassword),
+  // '/resetPassword': ComingSoon('reset Password'),
+  '/resetPassword/:code': code => sources =>
+      isolate(ResetPassword)({
+        resetCode$: Observable.just(code),
+        ...sources
+      }),
+  '/confirmed': isolate(UserWelcome),
   '/admin': isolate(ComingSoon('Admin')),
   '/dash': isolate(Dash),
-  '/styleGuide': StyleGuide,
+  '/styleGuide': isolate(StyleGuide),
   '/groups': isolate(GroupList),
   '/group/:id': id => sources =>
       isolate(GroupDetails)({
@@ -94,7 +105,7 @@ const AuthedResponseManager = sources => ({
 //     .withLatestFrom(config$)
 //     .flatMap(([auth, config]) => {
 //       return Observable.just({
-//         url: config.api + 'refresh',
+//         url: config.api + '/refresh',
 //         method: 'POST',
 //         send: {
 //           refresh_token: auth.refresh_token
@@ -107,7 +118,7 @@ const AuthedResponseManager = sources => ({
 const refreshToken = ({HTTP, config$}) => {
   const response$ = config$
     .flatMap(config => HTTP
-      .filter(req$ => req$.request.url === config.api + 'refresh')
+      .filter(req$ => req$.request.url === config.api + '/refresh')
       .mergeAll()
       .map(res => res.body)
     )
@@ -130,7 +141,7 @@ const refreshToken = ({HTTP, config$}) => {
 //   HTTP: sources.queue$
 //     .withLatestFrom(sources.auth$, sources.config$)
 //     .map(([action, auth, config]) => Observable.just({
-//       url: config.api + action.url,
+//       url: config.api + '/' + action.url,
 //       method: action.method || 'GET',
 //       headers: {
 //         Authorization: 'Bearer ' + auth.token
@@ -147,13 +158,13 @@ export default sources => {
 
   // const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
 
-  const queue$ = Observable.empty()
+  const queue$ = Observable.empty
 
   const page$ = nestedComponent(sources.router.define(routes), {
     ...sources,
     ...user,
     ...redirects,
-    queue$,
+    queue$: queue$ || Observable.empty(),
     responses$
   })
 
@@ -164,6 +175,9 @@ export default sources => {
     // .merge(unauthedRequests$)
     .distinctUntilChanged()
     .withLatestFrom(user.auth$)
+    .filter(([req, auth]) => {
+      return req.skipToken || auth
+    })
     .flatMap(([req, auth]) => {
       if (req.skipToken) {
         return Observable.just(R.pick(['url', 'send', 'method'])(req))

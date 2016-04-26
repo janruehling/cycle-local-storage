@@ -1,3 +1,4 @@
+import { Observable } from 'rx'
 import { div, span, a, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
@@ -468,8 +469,8 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    organization: sources.organization$,
-    stats: sources.stats$
+    organization: sources.organization$ || Observable.just({}),
+    stats: sources.stats$ || Observable.just({})
   }
 
   const DOM = combineLatestObj(viewState)

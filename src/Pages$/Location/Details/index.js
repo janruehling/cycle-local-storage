@@ -83,8 +83,8 @@ export default sources => {
   const children = [header, search, appShell, tabBar, page$]
 
   const queue$ = Observable.merge(
-    getLocationsId$(sources),
-    mergeOrFlatMapLatest('queue$', ...children)
+    getLocationsId$(sources)
+    // mergeOrFlatMapLatest('queue$', ...children)
   )
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
