@@ -59,7 +59,8 @@ const routes = {
       isolate(PractitionerDetails)({
         practitionerId$: Observable.just(id),
         ...sources
-      })
+      }),
+  '/practitioner/edit/:id': () => ComingSoon('Practitioner Edit')
 }
 
 const AuthRedirectManager = sources => {
