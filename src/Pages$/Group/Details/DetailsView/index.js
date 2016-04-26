@@ -21,7 +21,7 @@ const _render = ({
     }, [
       List({
         icon: 'Hospital',
-        title: 'Has Locations',
+        title: 'Locations',
         items: group.has_locations ? group.has_locations
           .map(location => ({
             text: toTitleCase(getName(location)),
@@ -30,7 +30,7 @@ const _render = ({
       }),
       List({
         icon: 'Shield',
-        title: 'Owns Groups',
+        title: 'Organizations',
         items: group.owns_groups ? group.owns_groups
           .map(group => ({
             text: toTitleCase(getName(group)),

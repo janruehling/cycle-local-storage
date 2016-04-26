@@ -7,7 +7,7 @@ import { div } from '@cycle/dom'
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
 import { AppShell, SiteHeader, TabBar, LocationDetailsCard, Search } from 'Components$'
 
-import { getLocationsId$ } from 'Remote'
+import { getLocationsId$, getLocationsPractitioners$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
@@ -48,9 +48,15 @@ export default sources => {
     .map(data => data.location)
     .startWith({})
 
+  const practitioners$ = sources.responses$
+    .filter(byMatch('practitioners'))
+    .map(res => res.body)
+    .map(data => data.practitioners)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { location$, ...sources }
+    { location$, practitioners$, ...sources }
   )
 
   const detailsCard = LocationDetailsCard({
@@ -83,7 +89,8 @@ export default sources => {
   const children = [header, search, appShell, tabBar, page$]
 
   const queue$ = Observable.merge(
-    getLocationsId$(sources)
+    getLocationsId$(sources),
+    getLocationsPractitioners$(sources)
     // mergeOrFlatMapLatest('queue$', ...children)
   )
 

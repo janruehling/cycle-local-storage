@@ -13,3 +13,16 @@ export const getLocationsId$ = ({locationId$, config$}) => {
       method: 'GET'
     }))
 }
+
+export const getLocationsPractitioners$ = ({locationId$, config$}) => {
+  return config$
+    .combineLatest(locationId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
+      url: config.api + '/practitioners?filter=' + encodeURIComponent({
+        locations: {
+          id: id
+        }
+      }),
+      method: 'GET'
+    }))
+}

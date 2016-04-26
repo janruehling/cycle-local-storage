@@ -1,4 +1,4 @@
-export { getLocations$, getLocationsId$ } from './Locations/get'
+export { getLocations$, getLocationsId$, getLocationsPractitioners$ } from './Locations/get'
 export { getPractitioners$, getPractitionersId$ } from './Practitioners/get'
 export { getGroups$, getGroupsId$ } from './Groups/get'
 export { getPlans$, getPlansId$ } from './Plans/get'

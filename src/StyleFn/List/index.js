@@ -5,7 +5,7 @@ import { Avatar, Heading } from 'StyleFn'
 import styles from './List.css'
 
 export const List = (options = {}) => {
-  return div({
+  return (options.items && options.items.length) ? div({
     className: styles.container
   }, [
     options.title && Heading({
@@ -22,7 +22,10 @@ export const List = (options = {}) => {
         item.avatar && Avatar({
           image: item.avatar.image,
           icon: item.avatar.icon,
-          size: '30px'
+          size: 30,
+          style: {
+            borderRadius: '2px'
+          }
         }),
         item.text && (item.link
           ? a({
@@ -33,10 +36,10 @@ export const List = (options = {}) => {
             className: styles.itemText
           }, item.text)
         ),
-        div({
+        item.children && div({
           className: styles.itemText
         }, [item.children])
       ]))
       : null
-  ])
+  ]) : null
 }

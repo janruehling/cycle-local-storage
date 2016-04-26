@@ -36,7 +36,7 @@ export const Avatar = (options = {}) => {
       [styles.container]: true
     }),
     style: {
-      paddingBottom: options.size ? options.size + 'px' : '32px',
+      height: options.size ? options.size + 'px' : '32px',
       width: options.size ? options.size + 'px' : '32px',
       ...options.style
     }

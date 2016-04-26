@@ -1,6 +1,6 @@
 import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
-import { div, a } from '@cycle/dom'
+import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
 import { AppShell, SiteHeader, Search, ToolBar } from 'Components$'
@@ -53,10 +53,9 @@ export default sources => {
         ])
       ],
       right: [
-        a({
-          href: '/#/practitioners/',
+        div({
+          id: 'list',
           style: {
-            textDecoration: 'none',
             color: 'inherit',
             cursor: 'pointer'
           }
@@ -68,24 +67,42 @@ export default sources => {
             }
           })
         ]),
-        a({
-          href: '/#/practitioners/grid',
+        div({
+          id: 'grid',
           style: {
-            textDecoration: 'none',
-            color: 'inherit'
+            color: 'inherit',
+            cursor: 'pointer'
           }
         }, [
           Icon({
             icon: 'Grid',
             style: {
-              marginRight: '10px',
-              cursor: 'pointer'
+              marginRight: '10px'
             }
           })
         ])
       ]
     })
   })
+
+  const backClicks$ = sources.DOM.select('#back')
+    .events('click')
+    .map(ev => ({
+      type: 'go',
+      value: -1
+    }))
+
+  const listClick$ = sources.DOM.select('#list')
+    .events('click')
+    .map(ev => ({
+      pathname: '/practitioners'
+    }))
+
+  const gridClick$ = sources.DOM.select('#grid')
+    .events('click')
+    .map(ev => ({
+      pathname: '/practitioners/grid'
+    }))
 
   const appShell = AppShell({
     headerDOM: header.DOM,
@@ -106,6 +123,9 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
+    backClicks$,
+    listClick$,
+    gridClick$,
     redirectOnLogout$
   )
 

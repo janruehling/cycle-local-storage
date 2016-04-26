@@ -1,15 +1,17 @@
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
+import R from 'ramda'
 
 import { List, Heading, Calendar } from 'StyleFn'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, getIcon } from 'zwUtility'
 
 import styles from './DetailsView.css'
 import constants from 'constants.css'
 
 const _render = ({
-  location
+  location,
+  practitioners
 }) => div({
   className: styles.container
 }, [
@@ -31,8 +33,12 @@ const _render = ({
       List({
         icon: 'Contact',
         title: 'Practitioners',
-        items: location.practitioners
-          ? location.practitioners.map(practitioner => ({
+        items: practitioners
+          ? practitioners.map(practitioner => ({
+            avatar: {
+              image: R.pathOr(null, ['image', 'url'])(practitioner),
+              icon: getIcon(practitioner, 'practitioner')
+            },
             text: toTitleCase(getName(practitioner)),
             link: '/#/practitioner/' + practitioner.id + '/'
           }))
@@ -78,7 +84,8 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    location: sources.location$
+    location: sources.location$,
+    practitioners: sources.practitioners$
   }
 
   const DOM = combineLatestObj(viewState)
