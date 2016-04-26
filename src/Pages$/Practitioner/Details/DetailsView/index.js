@@ -1,3 +1,4 @@
+import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
@@ -41,7 +42,7 @@ const _render = ({
           .map(group => ({
             text: toTitleCase(getName(group)),
             avatar: {
-              image: group.image,
+              image: R.pathOr(null, ['image', 'url'])(group),
               icon: 'Shield'
             },
             link: '/#/group/' + group.id + '/'

@@ -27,6 +27,10 @@ const _render = ({
         items: location.belongs_to_groups ? location.belongs_to_groups
           .map(group => ({
             text: toTitleCase(getName(group)),
+            avatar: {
+              image: R.pathOr(null, ['image', 'url'])(group),
+              icon: 'Shield'
+            },
             link: '/#/group/' + location.id + '/'
           })) : []
       }),

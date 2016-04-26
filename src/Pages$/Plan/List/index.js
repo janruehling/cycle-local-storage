@@ -1,8 +1,10 @@
 import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
+import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon, Search } from 'Components$'
+import { AppShell, SiteHeader, ComingSoon, Search, ToolBar } from 'Components$'
+import { Icon } from 'StyleFn'
 
 import { getPlans$ } from 'Remote'
 
@@ -30,9 +32,40 @@ export default sources => {
 
   const search = Search({...sources})
 
+  const toolBar = ToolBar({
+    ...sources,
+    tools$: Observable.just({
+      left: [
+        div({
+          style: {
+            cursor: 'pointer',
+            display: 'flex'
+          },
+          id: 'back'
+        }, [
+          Icon({
+            icon: 'Back',
+            style: {
+              marginRight: '10px'
+            }
+          }),
+          div('Back')
+        ])
+      ]
+    })
+  })
+
+  const backClick$ = sources.DOM.select('#back')
+    .events('click')
+    .map(ev => ({
+      type: 'go',
+      value: -1
+    }))
+
   const appShell = AppShell({
     headerDOM: header.DOM,
     searchDOM: search.DOM,
+    toolBarDOM: toolBar.DOM,
     pageDOM: page$.pluck('DOM'),
     ...sources
   })
@@ -48,6 +81,7 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
+    backClick$,
     redirectOnLogout$
   )
 
