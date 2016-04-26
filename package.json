@@ -12,7 +12,7 @@
     "e2e:stop": "(se stop && pm2 stop webapp)",
     "dev:serve": "webpack-dev-server --inline --hot",
     "prod:build": "webpack --optimize-minimize --optimize-occurence-order --optimize-dedupe",
-    "prod:serve": "pm2 reload webapp || pm2 start app.js --force --name webapp",
+    "prod:serve": "pm2 restart webapp || (pm2 delete webapp && pm2 start app.js --force --name webapp)",
     "dev": "npm run clean && parallelshell 'npm run dev:serve -s'",
     "prod": "npm run clean && npm run prod:build && npm run prod:serve",
     "copy:cq-prolyfill": "cp node_modules/cq-prolyfill/cq-prolyfill.min.js dist/lib/",
