@@ -29,7 +29,8 @@ const colors = [
   'additional14',
   'additional15',
   'additional16',
-  'additional17'
+  'additional17',
+  'additional18'
 ]
 
 const children = colors.map(color => {

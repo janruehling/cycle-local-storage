@@ -24,14 +24,14 @@
 .styleChild {
   border: 1px solid primary1;
   overflow: hidden;
-  resize: both;
+  /*resize: both;*/
   margin: 5px;
 }
 
-.styleChild:active {
+/*.styleChild:active {
   height: 0;
   width: 0;
-}
+}*/
 
 .styleChild ~ div {
   font-size: 10px;

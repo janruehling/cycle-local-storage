@@ -4,7 +4,9 @@ import classNames from 'classnames'
 import styles from './zwInput.css'
 
 export const zwInput = (attributes = {}) =>
-  div([
+  div({
+    className: attributes.skin ? styles[attributes.skin] : styles.default
+  }, [
     attributes.label && div({
       className: styles.label
     }, attributes.label),

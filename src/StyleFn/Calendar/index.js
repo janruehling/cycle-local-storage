@@ -50,13 +50,13 @@ const _render = ({
   ])
 ])
 
-export const Calendar = (data) => {
-  data = data || {
+export const Calendar = (attributes) => {
+  const attr = {
     data: {
-      year: '2016',
-      month: 'April'
+      year: attributes.year || '2016',
+      month: attributes.month || 'April'
     }
   }
 
-  return _render(data)
+  return _render(attr)
 }
