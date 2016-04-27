@@ -80,7 +80,6 @@ export default sources => {
   )
 
   return {
-    ...sources,
     DOM: appShell.DOM,
     queue$,
     route$

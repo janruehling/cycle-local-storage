@@ -54,11 +54,7 @@ const routes = {
         planId$: Observable.just(id),
         ...sources
       }),
-  '/practitioners/:viewType': viewType => sources =>
-    isolate(PractitionerList)({
-      ...sources,
-      viewType$: Observable.just(viewType)
-    }),
+  '/practitioners': isolate(PractitionerList),
   '/practitioner/:id': id => sources =>
       isolate(PractitionerDetails)({
         practitionerId$: Observable.just(id),
@@ -184,7 +180,7 @@ export default sources => {
     .filter(([req, auth]) => {
       return (req && req.skipToken) || auth
     })
-    .flatMap(([req, auth]) => {
+    .flatMapLatest(([req, auth]) => {
       if (req.skipToken) {
         return Observable.just(R.pick(['url', 'send', 'method'])(req))
       } else if (!auth || !req || !req.url) {
@@ -210,7 +206,6 @@ export default sources => {
   )
 
   return {
-    ...sources,
     DOM,
     HTTP,
     storage,

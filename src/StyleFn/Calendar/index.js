@@ -50,7 +50,7 @@ const _render = ({
   ])
 ])
 
-export const Calendar = (attributes) => {
+export const Calendar = (attributes = {}) => {
   const attr = {
     data: {
       year: attributes.year || '2016',

@@ -53,7 +53,6 @@ export default sources => {
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
-    ...sources,
     DOM
   }
 }

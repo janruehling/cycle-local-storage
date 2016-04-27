@@ -154,7 +154,6 @@ export const Search = sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
   return {
-    ...sources,
     queue$,
     value$: searchInput.value$,
     DOM

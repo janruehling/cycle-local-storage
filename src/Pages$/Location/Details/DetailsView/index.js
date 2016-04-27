@@ -96,7 +96,6 @@ export default sources => {
     .map(_render)
 
   return {
-    ...sources,
     DOM
   }
 }
