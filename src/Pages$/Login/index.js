@@ -160,7 +160,7 @@ export default sources => {
 
   const message$ = loginResponse$
     .filter(response => response && response.error)
-    .flatMap(response => {
+    .flatMapLatest(response => {
       return Observable
         .timer(0, 1000)
         .take(5)

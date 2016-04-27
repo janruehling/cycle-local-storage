@@ -166,7 +166,7 @@ export default sources => {
     ...sources,
     ...user,
     ...redirects,
-    queue$: queue$ || Observable.empty(),
+    queue$,
     responses$
   })
 
