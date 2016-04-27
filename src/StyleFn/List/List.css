@@ -13,12 +13,10 @@
 
 .itemLink {
   flex: 1;
-  padding-left: 10px;
   text-decoration: none;
 }
 
 .itemText {
   color: primary3;
   flex: 1;
-  padding-left: 10px;
 }

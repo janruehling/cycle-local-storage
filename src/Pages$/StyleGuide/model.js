@@ -9,9 +9,11 @@ import quickFact from './styles/quickFact'
 import keyValue from './styles/keyValue'
 import heading from './styles/heading'
 import list from './styles/list'
+import input from './styles/input'
 
 export default sources => {
-  const StyleFns = [colors, icon, quickFact, keyValue, heading, avatar, list, gridItem, metricsCallout, metricsCircle, detailsCard]
+  const StyleFns = [colors, icon, quickFact, keyValue, heading, avatar, list,
+    gridItem, metricsCallout, metricsCircle, detailsCard, input]
   return {
     StyleFns: StyleFns
   }

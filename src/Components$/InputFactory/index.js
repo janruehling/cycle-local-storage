@@ -1,24 +1,12 @@
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
-import classNames from 'classnames'
-import { input } from '@cycle/dom'
+import { zwInput } from 'StyleFn'
 
-import styles from './InputFactory.css'
-
-const InputFactory = (attributes) => sources => {
+const InputFactory = (attributes = {}) => sources => {
   if (!attributes.id) {
     throw new Error('InputFactory needs an id to work properly')
   }
-  const _render = ({value}) =>
-    input({
-      ...attributes,
-      id: attributes.id,
-      className: classNames({
-        [styles.input]: true,
-        [attributes.className]: !!attributes.className
-      }),
-      value
-    })
+  const _render = zwInput(attributes)
 
   const input$ = sources.DOM
     .select('#' + attributes.id)

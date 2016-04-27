@@ -54,13 +54,17 @@ const routes = {
         planId$: Observable.just(id),
         ...sources
       }),
-  '/practitioners': isolate(PractitionerList),
+  '/practitioners/:viewType': viewType => sources =>
+    isolate(PractitionerList)({
+      ...sources,
+      viewType$: Observable.just(viewType)
+    }),
   '/practitioner/:id': id => sources =>
       isolate(PractitionerDetails)({
         practitionerId$: Observable.just(id),
         ...sources
       }),
-  '/practitioner/edit/:id': () => ComingSoon('Practitioner Edit')
+  '/practitioner/edit/:id/:viewType': (id, viewType) => ComingSoon('Practitioner Edit for ' + id + ' ' + viewType)
 }
 
 const AuthRedirectManager = sources => {

@@ -17,6 +17,7 @@ module.exports = function (wallaby) {
       { pattern: 'node_modules/@cycle/core/dist/cycle.min.js', instrument: false },
       { pattern: 'node_modules/@cycle/dom/dist/cycle-dom.min.js', instrument: false },
       { pattern: 'node_modules/ramda/dist/ramda.min.js', instrument: false },
+      { pattern: 'node_modules/moment/min/moment.min.js', instrument: false },
       { pattern: 'src/**/*.js', load: false },
       { pattern: 'src/**/*.css', load: false },
       { pattern: 'src/**/*.spec.js', ignore: true }

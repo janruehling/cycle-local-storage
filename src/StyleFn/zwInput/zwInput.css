@@ -1,0 +1,56 @@
+@value constants: 'constants.css';
+@value primary1, secondary1, additional7 from constants;
+
+:global :invalid {
+  box-shadow: none;
+}
+
+:global :-moz-submit-invalid {
+  box-shadow: none;
+}
+
+:global :-moz-ui-invalid {
+  box-shadow:none;
+}
+
+.label {
+  color: primary1;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+.input {
+  border: 1px solid additional7;
+  border-radius: 4px;
+  color: primary1;
+  display: block;
+  font-size: 18px;
+  line-height: 35px;
+  margin-bottom: 15px;
+  outline: none;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.input::-webkit-input-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input::-moz-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input:-ms-input-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+.input:-moz-placeholder {
+  color: secondary1;
+  opacity: .3;
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}

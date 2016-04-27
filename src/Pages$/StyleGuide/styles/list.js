@@ -9,9 +9,9 @@ const children = [{
       items: [{
         text: 'first item'
       },
-      {
-        text: 'second item'
-      }]
+        {
+          text: 'second item'
+        }]
     }),
     List({
       title: 'With Icon in Title',

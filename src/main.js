@@ -14,9 +14,7 @@ const history = createHashHistory()
 
 const {sources, sinks} = run(main, {
   DOM: makeDOMDriver('#app'),
-  HTTP: makeHTTPDriver({
-    eager: true
-  }),
+  HTTP: makeHTTPDriver(),
   storage: localStorageDriver,
   router: makeRouterDriver(history),
   config$: () => Observable.just(config)

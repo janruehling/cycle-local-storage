@@ -24,7 +24,8 @@ export const List = (options = {}) => {
           icon: item.avatar.icon,
           size: 30,
           style: {
-            borderRadius: '2px'
+            borderRadius: '2px',
+            marginRight: '10px'
           }
         }),
         item.text && (item.link
