@@ -106,22 +106,6 @@ const AuthedResponseManager = sources => ({
     })
 })
 
-// const UnauthedResponseManager = ({auth$, config$, HTTP}) => {
-//   return HTTP
-//     .catch(err => Observable.just(err))
-//     .withLatestFrom(config$)
-//     .flatMap(([auth, config]) => {
-//       return Observable.just({
-//         url: config.api + '/refresh',
-//         method: 'POST',
-//         send: {
-//           refresh_token: auth.refresh_token
-//         }
-//       })
-//     })
-//     .switch()
-// }
-
 const refreshToken = ({HTTP, config$}) => {
   const response$ = config$
     .flatMap(config => HTTP
@@ -165,12 +149,11 @@ export default sources => {
   const HTTP = page$
     .pluckFlat('HTTP')
     // .merge(unauthedRequests$)
-    .distinctUntilChanged()
     .withLatestFrom(user.auth$)
     .filter(([req, auth]) => {
       return (req && req.skipToken) || auth
     })
-    .flatMapLatest(([req, auth]) => {
+    .flatMap(([req, auth]) => {
       if (req.skipToken) {
         return Observable.just(R.pick(['url', 'send', 'method'])(req))
       } else if (!auth || !req || !req.url) {

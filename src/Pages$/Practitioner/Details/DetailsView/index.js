@@ -29,16 +29,16 @@ const _render = ({
       List({
         icon: 'Hospital',
         title: 'Locations',
-        items: locations ? locations
+        items: locations
           .map(location => ({
             text: toTitleCase(getName(location)),
             link: '/#/location/' + location.id + '/'
-          })) : null
+          }))
       }),
       List({
         icon: 'Shield',
         title: 'Organizations',
-        items: organizations ? organizations
+        items: organizations
           .map(group => ({
             text: toTitleCase(getName(group)),
             avatar: {
@@ -46,15 +46,15 @@ const _render = ({
               icon: 'Shield'
             },
             link: '/#/group/' + group.id + '/'
-          })) : null
+          }))
       }),
       List({
         icon: 'Sheet',
         title: 'Plans Covered',
-        items: plans ? plans
+        items: plans
           .map(plan => ({
             text: toTitleCase(getName(plan))
-          })) : null
+          }))
       })
     ]),
     div({
@@ -103,8 +103,7 @@ export default sources => {
     .startWith([])
 
   const locations$ = sources.responses$
-  .do(console.log.bind(console))
-    .filter(byMatch('locations'))
+    .filter(byMatch('/locations'))
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
@@ -122,12 +121,13 @@ export default sources => {
     plans: plans$
   }
 
-  const HTTP = Observable.merge(
+  const HTTP = Observable.from([
     getPractitionersId$(sources),
+    getPractitionersPlans$(sources),
     getPractitionersLocations$(sources),
-    getPractitionersOrganizations$(sources),
-    getPractitionersPlans$(sources)
-  )
+    getPractitionersOrganizations$(sources)
+  ])
+  .mergeAll()
 
   const DOM = combineLatestObj(viewState)
     .map(_render)
