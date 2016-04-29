@@ -21,6 +21,7 @@ import PlanList from './Plan/List'
 import PlanDetails from './Plan/Details'
 import PractitionerList from './Practitioner/List'
 import PractitionerDetails from './Practitioner/Details'
+import PractitionerEdit from './Practitioner/Edit'
 import StyleGuide from './StyleGuide'
 
 const routes = {
@@ -60,7 +61,11 @@ const routes = {
         practitionerId$: Observable.just(id),
         ...sources
       }),
-  '/practitioner/edit/:id/:viewType': (id, viewType) => ComingSoon('Practitioner Edit for ' + id + ' ' + viewType)
+  '/practitioner/edit/:id': id => sources =>
+      isolate(PractitionerEdit)({
+        ...sources,
+        practitionerId$: Observable.just(id)
+      })
 }
 
 const AuthRedirectManager = sources => {
@@ -138,18 +143,6 @@ const refreshToken = ({HTTP, config$}) => {
     storage
   }
 }
-//
-// const AuthedActionManager = sources => ({
-//   HTTP: sources.queue$
-//     .withLatestFrom(sources.auth$, sources.config$)
-//     .map(([action, auth, config]) => Observable.just({
-//       url: config.api + '/' + action.url,
-//       method: action.method || 'GET',
-//       headers: {
-//         Authorization: 'Bearer ' + auth.token
-//       }
-//     }))
-// })
 
 export default sources => {
   const user = UserManager(sources)
@@ -160,20 +153,17 @@ export default sources => {
 
   // const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
 
-  const queue$ = Observable.empty
-
   const page$ = nestedComponent(sources.router.define(routes), {
     ...sources,
     ...user,
     ...redirects,
-    queue$,
     responses$
   })
 
   const DOM = page$.pluckFlat('DOM')
 
   const HTTP = page$
-    .pluckFlat('queue$')
+    .pluckFlat('HTTP')
     // .merge(unauthedRequests$)
     .distinctUntilChanged()
     .withLatestFrom(user.auth$)

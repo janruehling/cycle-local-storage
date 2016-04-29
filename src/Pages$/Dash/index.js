@@ -60,7 +60,7 @@ export default sources => {
 
   const children = [header, search, appShell, page$]
 
-  const queue$ = Observable.merge(
+  const HTTP = Observable.merge(
     getInsuranceId$({
       ...sources,
       insuranceId$: Observable.just('1')
@@ -69,7 +69,7 @@ export default sources => {
       ...sources,
       insuranceId$: Observable.just('1')
     })
-    // mergeOrFlatMapLatest('queue$', ...children)
+    // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/#/login')
@@ -81,7 +81,7 @@ export default sources => {
 
   return {
     DOM: appShell.DOM,
-    queue$,
+    HTTP,
     route$
   }
 }

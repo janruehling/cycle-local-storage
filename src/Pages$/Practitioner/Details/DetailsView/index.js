@@ -1,8 +1,11 @@
 import R from 'ramda'
+import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, byMatch } from 'zwUtility'
+import { getPractitionersId$, getPractitionersLocations$,
+  getPractitionersOrganizations$, getPractitionersPlans$ } from 'Remote'
 
 import { List, Heading, Calendar } from 'StyleFn'
 
@@ -10,7 +13,10 @@ import styles from './DetailsView.css'
 import constants from 'constants.css'
 
 const _render = ({
-  practitioner
+  practitioner,
+  locations,
+  organizations,
+  plans
 }) => div({
   className: styles.container
 }, [
@@ -23,10 +29,7 @@ const _render = ({
       List({
         icon: 'Hospital',
         title: 'Locations',
-        items: practitioner.works_at ? practitioner.works_at
-          .map(relation => {
-            return relation.location
-          })
+        items: locations ? locations
           .map(location => ({
             text: toTitleCase(getName(location)),
             link: '/#/location/' + location.id + '/'
@@ -35,10 +38,7 @@ const _render = ({
       List({
         icon: 'Shield',
         title: 'Organizations',
-        items: practitioner.works_at ? practitioner.works_at
-          .map(relation => {
-            return relation.group
-          })
+        items: organizations ? organizations
           .map(group => ({
             text: toTitleCase(getName(group)),
             avatar: {
@@ -51,10 +51,7 @@ const _render = ({
       List({
         icon: 'Sheet',
         title: 'Plans Covered',
-        items: practitioner.works_at ? practitioner.works_at
-          .map(relation => {
-            return relation.plan
-          })
+        items: plans ? plans
           .map(plan => ({
             text: toTitleCase(getName(plan))
           })) : null
@@ -93,14 +90,50 @@ const _render = ({
 ])
 
 export default sources => {
+  const practitioner$ = sources.responses$
+    .filter(byMatch('/practitioners'))
+    .map(res => res.body)
+    .map(data => data.practitioner)
+    .startWith({})
+
+  const organizations$ = sources.responses$
+    .filter(byMatch('/groups'))
+    .map(res => res.body)
+    .map(data => data.groups)
+    .startWith([])
+
+  const locations$ = sources.responses$
+  .do(console.log.bind(console))
+    .filter(byMatch('locations'))
+    .map(res => res.body)
+    .map(data => data.locations)
+    .startWith([])
+
+  const plans$ = sources.responses$
+    .filter(byMatch('/plans'))
+    .map(res => res.body)
+    .map(data => data.plans)
+    .startWith([])
+
   const viewState = {
-    practitioner: sources.practitioner$
+    practitioner: practitioner$,
+    locations: locations$,
+    organizations: organizations$,
+    plans: plans$
   }
+
+  const HTTP = Observable.merge(
+    getPractitionersId$(sources),
+    getPractitionersLocations$(sources),
+    getPractitionersOrganizations$(sources),
+    getPractitionersPlans$(sources)
+  )
 
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
   return {
+    HTTP,
     DOM
   }
 }

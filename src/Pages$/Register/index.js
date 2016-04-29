@@ -1,10 +1,10 @@
 import { Observable } from 'rx'
-import { div, button, span } from '@cycle/dom'
+import { div, button } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
 import { byMatch } from 'zwUtility'
+import { FormContainer, InfoMessage, ErrorMessage } from 'StyleFn'
 
-import constants from 'constants.css'
 import styles from './Register.css'
 
 const { just } = Observable
@@ -41,27 +41,6 @@ const PasswordInput = InputFactory({
   required: true
 })
 
-const _getContainerBorder = (message) => {
-  let border
-
-  if (!message) {
-    return '2px solid transparent'
-  }
-
-  switch (message.type) {
-    case 'info':
-      border = '2px solid ' + constants.additional16
-      break
-    case 'warn':
-      border = '2px solid ' + constants.additional17
-      break
-    default:
-      border = '2px solid transparent'
-      break
-  }
-  return border
-}
-
 const _render = ({
   headerDOM,
   formData$,
@@ -75,11 +54,8 @@ const _render = ({
   div({
     className: styles.container
   }, [
-    div({
-      className: styles.form,
-      style: {
-        border: _getContainerBorder(message)
-      }
+    FormContainer({
+      message: message
     }, [
       div({
         className: styles.title
@@ -99,49 +75,15 @@ const _render = ({
 ])
 
 export default sources => {
-  // const messageInfo$ = just({
-  //   text: 'You must login to continue',
-  //   icon: 'Info',
-  //   type: 'info',
-  //   styles: {
-  //     background: constants.additional16,
-  //     color: constants.primary1
-  //   }
-  // })
-
-  const messageInfo$ = message => just({
-    text: div([
-      span(message)
-    ]),
-    icon: 'Info',
-    type: 'info',
-    styles: {
-      background: constants.additional16,
-      color: constants.primary1
-    }
-  })
-
-  const messageWarn$ = message => just({
-    text: div([
-      span(message)
-    ]),
-    icon: 'Warn',
-    type: 'warn',
-    styles: {
-      background: constants.additional17,
-      color: '#fff'
-    }
-  })
-
   const backendResponse$ = sources.responses$
     .filter(byMatch('/register'))
     .map(res => res.body)
 
   const successResponses$ = backendResponse$
-    .filter(response => response && !response.error)
+    .filter(response => response && !response.error && response.message)
 
   const errorResponses$ = backendResponse$
-    .filter(response => response && response.error)
+    .filter(response => response && response.error && response.message)
 
   const firstNameInput = FirstNameInput(sources)
   const lastNameInput = LastNameInput(sources)
@@ -160,7 +102,7 @@ export default sources => {
     .events('click')
     .map(true)
 
-  const queue$ = formData$
+  const HTTP = formData$
     .sample(submit$)
     .combineLatest(sources.config$,
       (formData, config) => ({config, formData})
@@ -176,9 +118,8 @@ export default sources => {
     .startWith({})
 
   const message$ = errorResponses$
-    .map(res => messageWarn$(res.message))
-    .merge(successResponses$.map(res => messageInfo$('Welcome to Zipwire. Please check your inbox for a confirmation email')))
-    .do(console.log.bind(console))
+    .map(res => ErrorMessage(res.message))
+    .merge(successResponses$.map(res => InfoMessage('Welcome to Zipwire. Please check your inbox for a confirmation email')))
     .flatMap(message => {
       return Observable
         .timer(0, 1000)
@@ -214,7 +155,7 @@ export default sources => {
 
   return {
     DOM,
-    queue$,
+    HTTP,
     route$: sources.redirectLogin$,
     message$
   }

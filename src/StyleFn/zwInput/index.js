@@ -8,13 +8,19 @@ export const zwInput = (attributes = {}) =>
     className: attributes.skin ? styles[attributes.skin] : styles.default
   }, [
     attributes.label && div({
-      className: styles.label
+      className: styles.label,
+      style: {
+        ...attributes.styleLabel
+      }
     }, attributes.label),
     input({
       ...attributes,
       className: classNames({
         [styles.input]: true,
         [attributes.className]: !!attributes.className
-      })
+      }),
+      style: {
+        ...attributes.styleInput
+      }
     })
   ])

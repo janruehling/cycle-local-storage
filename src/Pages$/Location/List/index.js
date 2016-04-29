@@ -74,9 +74,9 @@ export default sources => {
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
-  const queue$ = Observable.merge(
+  const HTTP = Observable.merge(
     getLocations$(sources)
-    // mergeOrFlatMapLatest('queue$', ...children)
+    // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const route$ = Observable.merge(
@@ -87,7 +87,7 @@ export default sources => {
 
   return {
     DOM: appShell.DOM,
-    queue$,
+    HTTP,
     route$
   }
 }

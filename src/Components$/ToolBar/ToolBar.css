@@ -2,8 +2,9 @@
 @value maxWidth from constants;
 
 .container {
+  align-items: flex-end;
   display: flex;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
   max-width: maxWidth;
 }
 

@@ -41,6 +41,7 @@ const _highlightText = (string, match) => {
 const SearchInput = InputFactory({
   id: 'search',
   type: 'text',
+  skin: 'search',
   placeholder: 'Search for a Person, Organization, Location or Plan',
   className: styles.input
 })
@@ -119,7 +120,7 @@ export const Search = sources => {
 
   const formData$ = searchInput.value$.startWith('')
 
-  const queue$ = formData$
+  const HTTP = formData$
     .debounce(100)
     .filter(data => data && data.length >= 3)
     .combineLatest(sources.config$,
@@ -154,7 +155,7 @@ export const Search = sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
   return {
-    queue$,
+    HTTP,
     value$: searchInput.value$,
     DOM
   }

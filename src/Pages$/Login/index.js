@@ -1,11 +1,11 @@
 import { pathOr } from 'ramda'
 import { Observable } from 'rx'
-import { div, button, a, span } from '@cycle/dom'
+import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader } from 'Components$'
 import { byMatch, getUrlParams } from 'zwUtility'
+import { FormContainer, ErrorMessage } from 'StyleFn'
 
-import constants from 'constants.css'
 import styles from './Login.css'
 
 const { just } = Observable
@@ -26,27 +26,6 @@ const PasswordInput = InputFactory({
   className: 'password'
 })
 
-const _getContainerBorder = (message) => {
-  let border
-
-  if (!message) {
-    return '2px solid transparent'
-  }
-
-  switch (message.type) {
-    case 'info':
-      border = '2px solid ' + constants.additional16
-      break
-    case 'warn':
-      border = '2px solid ' + constants.additional17
-      break
-    default:
-      border = '2px solid transparent'
-      break
-  }
-  return border
-}
-
 const _render = ({
   params,
   headerDOM,
@@ -59,11 +38,8 @@ const _render = ({
   div({
     className: styles.container
   }, [
-    div({
-      className: styles.form,
-      style: {
-        border: _getContainerBorder(message)
-      }
+    FormContainer({
+      message: message
     }, [
       div({
         className: styles.title
@@ -96,32 +72,6 @@ const _render = ({
 
 export default sources => {
   const urlParams$ = getUrlParams(sources)
-  // const messageInfo$ = just({
-  //   text: 'You must login to continue',
-  //   icon: 'Info',
-  //   type: 'info',
-  //   styles: {
-  //     background: constants.additional16,
-  //     color: constants.primary1
-  //   }
-  // })
-
-  const messageWarn$ = just({
-    text: div([
-      span('The data you’ve entered is incorrect. Have you'),
-      a({
-        style: {
-          fontWeight: 'bold'
-        }
-      }, ' forgotten your username or password? ')
-    ]),
-    icon: 'Warn',
-    type: 'warn',
-    styles: {
-      background: constants.additional17,
-      color: '#fff'
-    }
-  })
 
   const emailInput = EmailInput({
     ...sources,
@@ -139,7 +89,7 @@ export default sources => {
     .events('click')
     .map(true)
 
-  const queue$ = formData$
+  const HTTP = formData$
     .sample(submit$)
     .combineLatest(sources.config$,
       (formData, config) => ({config, formData})
@@ -166,7 +116,7 @@ export default sources => {
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return messageWarn$
+            return ErrorMessage(response.message)
           } else {
             return just(null)
           }
@@ -208,7 +158,7 @@ export default sources => {
     DOM,
     storage: storageRequest$,
     formData$,
-    queue$,
+    HTTP,
     route$: sources.redirectLogin$,
     message$
   }

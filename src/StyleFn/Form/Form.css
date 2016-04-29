@@ -1,0 +1,11 @@
+@value constants: 'constants.css';
+@value additional1opaque75 from constants;
+
+.form {
+  background: additional1opaque75;
+  border-radius: 4px;
+  margin-top: 120px;
+  text-align: center;
+  padding: 30px 70px;
+  width: 614px;
+}

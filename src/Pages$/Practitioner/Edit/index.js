@@ -4,21 +4,18 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, TabBar, PractitionerDetailsCard,
-  Search, ToolBar } from 'Components$'
-import { Icon } from 'StyleFn'
+import { nestedComponent, mergeOrFlatMapLatest, byMatch, getName } from 'zwUtility'
+import { AppShell, SiteHeader, TabBar, Search, ToolBar } from 'Components$'
 
-import DetailsView from './DetailsView'
-import Relations from './Relations'
-// import EditView from './EditView'
+import { getPractitionersId$ } from 'Remote'
+
+import EditView from './EditView'
 
 import constants from 'constants.css'
-import styles from './Details.css'
+import styles from './Edit.css'
 
 const _routes = {
-  '/': isolate(DetailsView),
-  '/relations': isolate(Relations)
+  '/': isolate(EditView)
 }
 
 const _tabs = [
@@ -27,36 +24,25 @@ const _tabs = [
 ]
 
 const _render = ({
-  detailsCard,
-  tabBar,
   page,
   path
 }) => div({
   className: styles.container
 }, [
-  div({
-    className: styles.sidebarLeft
-  }, [
-    detailsCard
-  ]),
-  div({
-    className: styles.main
-  }, [
-    tabBar,
-    page
-  ])
+  page
 ])
 
 export default sources => {
+  const practitioner$ = sources.responses$
+    .filter(byMatch('practitioners'))
+    .map(res => res.body)
+    .map(data => data.practitioner)
+    .startWith({})
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { ...sources }
+    { practitioner$, ...sources }
   )
-
-  const detailsCard = PractitionerDetailsCard({
-    id: sources.practitionerId$,
-    ...sources
-  })
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
 
@@ -70,55 +56,57 @@ export default sources => {
       left: [
         div({
           style: {
-            cursor: 'pointer',
-            display: 'flex'
-          },
-          id: 'back'
+            fontSize: '24px',
+            fontWeight: 'bold'
+          }
         }, [
-          Icon({
-            icon: 'Back',
-            style: {
-              marginRight: '10px'
-            }
-          }),
-          div('Back')
+          practitioner$.map(practitioner => div(getName(practitioner)))
         ])
       ],
       right: [
         div({
-          id: 'editData',
+          id: 'cancel',
           style: {
             alignItems: 'center',
-            border: '1px solid currentColor',
-            color: constants.secondary3,
+            background: constants.primary3,
+            color: '#fff',
+            cursor: 'pointer',
+            display: 'flex',
+            fontSize: '12px',
+            lineHeight: '18px',
+            marginRight: '5px',
+            padding: '0 5px'
+          }
+        }, 'Cancel'),
+        div({
+          id: 'save',
+          style: {
+            alignItems: 'center',
+            background: constants.secondary3,
+            color: '#fff',
             cursor: 'pointer',
             display: 'flex',
             fontSize: '12px',
             lineHeight: '18px',
             padding: '0 5px'
           }
-        }, '+ Edit Data')
+        }, 'Save & Close')
       ]
     })
   })
 
-  const backClick$ = sources.DOM.select('#back')
+  const saveClick$ = sources.DOM.select('#save')
     .events('click')
-    .map(ev => ({
-      type: 'go',
-      value: -1
-    }))
+    .map(ev => true)
 
-  const editClick$ = sources.DOM.select('#editData')
+  const cancelClick$ = sources.DOM.select('#cancel')
     .events('click')
-    .withLatestFrom(sources.practitionerId$)
-    .map(([ev, id]) => ({
-      pathname: '/practitioner/edit/' + id
+    .withLatestFrom(practitioner$)
+    .map(([ev, practitioner]) => ({
+      pathname: '/practitioner/' + practitioner.id
     }))
 
   const viewState = {
-    detailsCard: detailsCard.DOM,
-    tabBar: tabBar.DOM,
     page: page$.pluck('DOM'),
     path: sources.router.observable
   }
@@ -134,18 +122,18 @@ export default sources => {
     ...sources
   })
 
-  const children = [header, search, appShell, tabBar, detailsCard, page$]
+  const children = [header, search, appShell, tabBar, page$]
 
   const HTTP = Observable.merge(
-    mergeOrFlatMapLatest('HTTP', ...children)
+    getPractitionersId$(sources)
+    // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
-    backClick$,
-    editClick$,
+    cancelClick$,
     redirectOnLogout$
   )
 

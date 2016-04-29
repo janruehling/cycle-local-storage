@@ -77,7 +77,7 @@ const _render = ({
         : null
     ])
   ]),
-  message && div({
+  (message && message.text) && div({
     className: styles.messageContainer,
     style: {
       ...message.styles
