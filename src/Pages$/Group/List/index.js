@@ -3,7 +3,7 @@ import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, ComingSoon, Search, ToolBar } from 'Components$'
+import { AppShell, SiteHeader$, ComingSoon, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
 import { getGroups$ } from 'Remote'
@@ -28,7 +28,7 @@ export default sources => {
     }
   )
 
-  const header = SiteHeader({...sources})
+  const header = SiteHeader$({...sources})
 
   const search = Search({...sources})
 

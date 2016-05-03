@@ -1,39 +1,36 @@
 @value constants: 'constants.css';
-@value primary1 from constants;
+@value primary1, maxWidth from constants;
 
 .container {
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: maxWidth;
 }
 
-.styleContainer {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 10px;
-}
+.styleContainer {}
 
-.styleTitle {}
+.styleTitle {
+  border-bottom: 1px solid currentColor;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 25px;
+}
 
 .styleChildren {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .styleChild {
-  border: 1px solid primary1;
   overflow: hidden;
-  /*resize: both;*/
-  margin: 5px;
+  position: relative;
 }
 
-/*.styleChild:active {
-  height: 0;
-  width: 0;
-}*/
-
-.styleChild ~ div {
-  font-size: 10px;
-  text-align: center;
+.styleChildTitle {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }

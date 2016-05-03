@@ -1,0 +1,61 @@
+.container {
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+
+  &:hover, &.isHover {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, .25), rgba(0, 0, 0, .25));
+  }
+
+  &:active, &.isActive {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, .25), rgba(255, 255, 255, .25));
+  }
+
+  &.isBusy {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, .8), rgba(255, 255, 255, .8));
+    color: transparent;
+    cursor: wait;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+}
+
+.spinnerContainer {
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  display: flex;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.spinner {
+  height: 66%;
+}
+
+.default {
+  font-size: 18px;
+  font-weight: bold;
+  height: 35px;
+  line-height: 35px;
+  padding: 0 26px;
+}
+
+.narrow {
+  border-radius: 3px;
+  font-size: 12px;
+  height: 18px;
+  line-height: 18px;
+  padding: 0 5px;
+}

@@ -1,7 +1,7 @@
 export { AppShell } from './AppShell'
 export { ComingSoon } from './ComingSoon'
 export { InputFactory } from './InputFactory'
-export { SiteHeader } from './SiteHeader'
+export { SiteHeader$ } from './SiteHeader$'
 export { Search } from './Search'
 export { TabBar } from './TabBar'
 export { ToolBar } from './ToolBar'

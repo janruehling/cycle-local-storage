@@ -9,7 +9,8 @@ export default model$ => {
   const styles$ = model$.StyleFns
     .map(stylesFn => {
       return div({
-        className: styles.styleContainer
+        className: styles.styleContainer,
+        style: stylesFn.style || null
       }, [
         h4({
           className: styles.styleTitle
@@ -19,10 +20,13 @@ export default model$ => {
         }, [
           stylesFn.children.map(child => {
             return div({
-              className: styles.styleChild
+              className: styles.styleChild,
+              style: child.style
             }, [
-              div(child.fn),
-              div(child.name)
+              div({
+                className: styles.styleChildTitle
+              }, child.name),
+              div(child.fn)
             ])
           })
         ])

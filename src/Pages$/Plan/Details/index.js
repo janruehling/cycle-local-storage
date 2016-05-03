@@ -5,7 +5,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, TabBar, PlanDetailsCard, Search } from 'Components$'
+import { AppShell, SiteHeader$, TabBar, PlanDetailsCard, Search } from 'Components$'
 
 import { getPlansId$ } from 'Remote'
 
@@ -60,7 +60,7 @@ export default sources => {
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
 
-  const header = SiteHeader({...sources})
+  const header = SiteHeader$({...sources})
 
   const search = Search({...sources})
 

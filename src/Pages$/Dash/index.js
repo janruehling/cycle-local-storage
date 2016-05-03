@@ -2,7 +2,7 @@ import R from 'ramda'
 import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
-import { AppShell, SiteHeader, AccountInfo, Search } from 'Components$'
+import { AppShell, SiteHeader$, AccountInfo, Search } from 'Components$'
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
 
 import { getInsuranceId$, getInsuranceIdStats$ } from 'Remote'
@@ -45,7 +45,7 @@ export default sources => {
     organization$
   })
 
-  const header = SiteHeader({...sources})
+  const header = SiteHeader$({...sources})
 
   const search = Search({...sources})
 

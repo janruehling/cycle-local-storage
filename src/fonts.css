@@ -23,17 +23,44 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconAccount:before {
+    content: "\56";
+}
+.iconFeedback:before {
+    content: "\55";
+}
+.iconTOS:before {
+    content: "\54";
+}
+.iconZCards:before {
+    content: "\53";
+}
+.iconPlus:before {
+    content: "\52";
+}
+.iconRemove:before {
+  content: "\51";
+}
+.iconEdit:before {
+    content: "\50";
+}
+.iconWarn:before {
+  content: "\4f";
+}
 .iconInfo:before {
     content: "\4e";
 }
-.iconWarn:before {
-    content: "\4f";
+.iconPhone:before {
+  content: "\4d";
 }
 .iconEnvelope:before {
     content: "\4c";
 }
-.iconPhone:before {
-    content: "\4d";
+.iconBack:before {
+  content: "\4b";
+}
+.iconDown:before {
+  content: "\4a";
 }
 .iconForward:before {
     content: "\49";
@@ -41,57 +68,51 @@
 .iconUp:before {
     content: "\48";
 }
-.iconBack:before {
-    content: "\4b";
-}
-.iconDown:before {
-    content: "\4a";
+.iconCrossRound:before {
+  content: "\47";
 }
 .iconTickRound:before {
     content: "\46";
 }
-.iconCrossRound:before {
-    content: "\47";
-}
 .iconDrop:before {
     content: "\45";
+}
+.iconList:before {
+  content: "\44";
 }
 .iconGrid:before {
     content: "\43";
 }
-.iconList:before {
-    content: "\44";
+.iconMale:before {
+  content: "\42";
 }
 .iconFemale:before {
     content: "\41";
 }
-.iconMale:before {
-    content: "\42";
+.iconTick:before {
+  content: "\39";
 }
-.iconHamburger:before {
-    content: "\30";
+.iconShield:before {
+  content: "\38";
 }
-.iconCalendar:before {
-    content: "\32";
+.iconSheet:before {
+  content: "\37";
+}
+.iconPhoto:before {
+  content: "\36";
+}
+.iconHospital:before {
+  content: "\35";
+}
+.iconFlag:before {
+  content: "\34";
 }
 .iconContact:before {
     content: "\33";
 }
-.iconFlag:before {
-    content: "\34";
+.iconCalendar:before {
+  content: "\32";
 }
-.iconHospital:before {
-    content: "\35";
-}
-.iconPhoto:before {
-    content: "\36";
-}
-.iconSheet:before {
-    content: "\37";
-}
-.iconShield:before {
-    content: "\38";
-}
-.iconTick:before {
-    content: "\39";
+.iconHamburger:before {
+  content: "\30";
 }

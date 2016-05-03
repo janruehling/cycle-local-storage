@@ -2,7 +2,7 @@ import { pathOr } from 'ramda'
 import { Observable } from 'rx'
 import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
-import { InputFactory, SiteHeader } from 'Components$'
+import { InputFactory, SiteHeader$ } from 'Components$'
 import { byMatch, getUrlParams } from 'zwUtility'
 import { FormContainer, ErrorMessage } from 'StyleFn'
 
@@ -137,7 +137,7 @@ export default sources => {
     })
     .startWith(null)
 
-  const header = SiteHeader({
+  const header = SiteHeader$({
     ...sources,
     isLoggedIn$: just(false),
     message$: message$

@@ -1,15 +1,17 @@
 import { Icon } from 'StyleFn'
 
 const icons = ['Info', 'Warn', 'Phone', 'Envelope', 'Hamburger', 'Up', 'Forward', 'Down', 'Back', 'Drop', 'Grid', 'List', 'TickRound', 'CrossRound', 'Calendar', 'Contact', 'Flag', 'Hospital',
-  'Photo', 'Sheet', 'Shield', 'Tick', 'Female', 'Male']
+  'Photo', 'Sheet', 'Shield', 'Tick', 'Female', 'Male', 'Edit', 'Remove', 'Plus', 'Account', 'TOS', 'ZCard', 'Feedback']
 
 const children = icons.map(icon => {
   return {
-    name: icon,
+    name: '',
     fn: Icon({
       icon: icon,
       style: {
-        fontSize: '32px'
+        fontSize: '28px',
+        marginRight: '20px',
+        marginBottom: '20px'
       }
     })
   }
@@ -17,7 +19,10 @@ const children = icons.map(icon => {
 
 const iconArr = {
   name: 'Icon',
-  children: children
+  children: children,
+  style: {
+    width: '310px'
+  }
 }
 
 export default iconArr

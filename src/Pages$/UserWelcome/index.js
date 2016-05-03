@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import { div, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { SiteHeader } from 'Components$'
+import { SiteHeader$ } from 'Components$'
 import { getUrlParams } from 'zwUtility'
 
 import styles from './UserWelcome.css'
@@ -40,7 +40,7 @@ const _render = ({
 export default sources => {
   const urlParams$ = getUrlParams(sources)
 
-  const header = SiteHeader({
+  const header = SiteHeader$({
     ...sources,
     isLoggedIn$: Observable.just(false)
   })

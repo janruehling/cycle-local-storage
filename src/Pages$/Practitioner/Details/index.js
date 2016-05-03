@@ -4,8 +4,8 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
-import { AppShell, SiteHeader, TabBar, PractitionerDetailsCard,
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
+import { AppShell, SiteHeader$, TabBar, PractitionerDetailsCard,
   Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -60,7 +60,7 @@ export default sources => {
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
 
-  const header = SiteHeader({...sources})
+  const header = SiteHeader$({...sources})
 
   const search = Search({...sources})
 

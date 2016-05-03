@@ -5,7 +5,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch, getName } from 'zwUtility'
-import { AppShell, SiteHeader, TabBar, Search, ToolBar } from 'Components$'
+import { AppShell, SiteHeader$, TabBar, Search, ToolBar } from 'Components$'
 
 import { getPractitionersId$ } from 'Remote'
 
@@ -46,7 +46,7 @@ export default sources => {
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
 
-  const header = SiteHeader({...sources})
+  const header = SiteHeader$({...sources})
 
   const search = Search({...sources})
 
@@ -94,10 +94,6 @@ export default sources => {
       ]
     })
   })
-
-  const saveClick$ = sources.DOM.select('#save')
-    .events('click')
-    .map(ev => true)
 
   const cancelClick$ = sources.DOM.select('#cancel')
     .events('click')

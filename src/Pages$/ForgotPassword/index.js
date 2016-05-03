@@ -1,7 +1,7 @@
 import { Observable } from 'rx'
 import { div, button } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
-import { InputFactory, SiteHeader } from 'Components$'
+import { InputFactory, SiteHeader$ } from 'Components$'
 import { byMatch } from 'zwUtility'
 import { InfoMessage, ErrorMessage, FormContainer } from 'StyleFn'
 
@@ -106,7 +106,7 @@ export default sources => {
     })
     .startWith(null)
 
-  const header = SiteHeader({
+  const header = SiteHeader$({
     ...sources,
     isLoggedIn$: Observable.just(false),
     message$: message$

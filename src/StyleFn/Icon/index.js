@@ -12,7 +12,7 @@ export const Icon = (options = {}) => {
   return div({
     style,
     className: classNames({
-      [options.className]: true,
+      [options.className]: !!options.className,
       [fonts[iconName]]: true,
       [fonts.icon]: true
     }),
