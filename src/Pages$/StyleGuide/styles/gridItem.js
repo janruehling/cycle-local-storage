@@ -1,6 +1,6 @@
 import { GridItem } from 'StyleFn'
 
-import practitioner2 from 'assets/img/practitioner2.png'
+import practitioner2 from 'assets/img/Practitioner2.png'
 
 const children = [{
   name: '',
