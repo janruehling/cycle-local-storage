@@ -17,7 +17,10 @@ const children = [{
 
 const facts = {
   name: 'QuickFact',
-  children: children
+  children: children,
+  style: {
+    marginRight: '40px'
+  }
 }
 
 export default facts

@@ -1,0 +1,20 @@
+@value constants: 'constants.css';
+@value color1_5 from constants;
+
+.messageContainer {
+  align-items: center;
+  background: color1_5;
+  border-top: 1px solid #fff;
+  color: primary1;
+  font-size: 14px;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 100%;
+
+  a {
+    color: currentColor;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}

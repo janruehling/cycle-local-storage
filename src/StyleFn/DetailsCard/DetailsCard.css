@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, secondary2 from constants;
+@value primary1, color4 from constants;
 
 .container {
   background-image: linear-gradient(#f6f9fc, #fff);
@@ -8,7 +8,7 @@
 }
 
 .topCallout {
-  background: secondary2;
+  background: color4;
   display: flex;
   align-items: center;
   padding: 0 15px;

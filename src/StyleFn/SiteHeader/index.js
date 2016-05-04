@@ -1,37 +1,11 @@
 import R from 'ramda'
-import { Observable } from 'rx'
-import { div, a, img, span } from '@cycle/dom'
+import { div, a, img } from '@cycle/dom'
 
-import { Icon, Avatar } from 'StyleFn'
+import { Icon, Avatar, Message } from 'StyleFn'
 import { toTitleCase } from 'zwUtility'
 import logo from 'assets/img/logo.svg'
 
-import constants from 'constants.css'
 import styles from './SiteHeader.css'
-
-const InfoMessage = message => Observable.just({
-  text: div([
-    span(message)
-  ]),
-  icon: 'Info',
-  type: 'info',
-  styles: {
-    background: constants.additional16,
-    color: constants.primary1
-  }
-})
-
-const ErrorMessage = message => Observable.just({
-  text: div([
-    span(message)
-  ]),
-  icon: 'Warn',
-  type: 'warn',
-  styles: {
-    background: constants.additional17,
-    color: '#fff'
-  }
-})
 
 const SiteHeader = ({
   profile,
@@ -201,28 +175,13 @@ const SiteHeader = ({
         : null
     ])
   ]),
-  (message && message.text) && div({
-    className: styles.messageContainer,
+  message ? Message({
+    ...message,
     style: {
-      ...message.styles
+      position: 'fixed',
+      top: '59px'
     }
-  }, [
-    message.icon && Icon({
-      icon: message.icon,
-      style: {
-        marginRight: '5px',
-        fontSize: '17px',
-        color: 'inherit',
-        ...message.iconStyles
-      }
-    }),
-    div({
-      className: styles.messageText,
-      styles: {
-        ...message.textStyles
-      }
-    }, message.text)
-  ])
+  }) : null
 ])
 
-export { InfoMessage, ErrorMessage, SiteHeader }
+export { SiteHeader }

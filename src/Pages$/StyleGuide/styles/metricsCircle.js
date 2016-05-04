@@ -5,7 +5,7 @@ import constants from 'constants.css'
 const children = [{
   name: '',
   fn: MetricsCircle({
-    size: '300px',
+    size: '195px',
     icon: {
       text: 'Contact'
     },
@@ -17,7 +17,7 @@ const children = [{
     },
     change: {
       style: {
-        backgroundColor: constants.secondary2
+        backgroundColor: constants.color4
       },
       text: '+3 this week'
     }
@@ -35,7 +35,7 @@ const children = [{
       text: 'Organizations'
     },
     change: {
-      text: '0 change this week'
+      text: '+/- 0 this week'
     }
   })
 }, {
@@ -52,7 +52,7 @@ const children = [{
     },
     change: {
       style: {
-        backgroundColor: constants.secondary3
+        backgroundColor: constants.color2
       },
       text: '-4 this week'
     }
@@ -61,7 +61,10 @@ const children = [{
 
 const circle = {
   name: 'MetricsCircle',
-  children: children
+  children: children,
+  style: {
+    marginRight: '80px'
+  }
 }
 
 export default circle

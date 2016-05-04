@@ -6,13 +6,19 @@ const children = [{
     type: 'text',
     label: 'Default Skin',
     placeholder: 'Placeholder'
-  })
+  }),
+  style: {
+    marginRight: '20px'
+  }
 }, {
   name: '',
   fn: zwInput({
     type: 'text',
     value: 'Default Skin: Value'
-  })
+  }),
+  style: {
+    marginRight: '20px'
+  }
 }, {
   name: '',
   fn: zwInput({
@@ -20,14 +26,20 @@ const children = [{
     label: 'Narrow Skin',
     placeholder: 'Placeholder',
     skin: 'narrow'
-  })
+  }),
+  style: {
+    marginRight: '20px'
+  }
 }, {
   name: '',
   fn: zwInput({
     type: 'text',
     value: 'Narrow Skin: Value',
     skin: 'narrow'
-  })
+  }),
+  style: {
+    marginRight: '20px'
+  }
 }]
 
 const inputTypes = {

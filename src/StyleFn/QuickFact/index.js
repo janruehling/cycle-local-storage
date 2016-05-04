@@ -13,13 +13,13 @@ export const QuickFact = (options = {}) =>
       icon: 'TickRound',
       className: styles.icon,
       style: {
-        color: constants.secondary2
+        color: constants.color4
       }
     }) : Icon({
       icon: 'CrossRound',
       className: styles.icon,
       style: {
-        color: constants.secondary3
+        color: constants.color2
       }
     }),
     KeyValue({

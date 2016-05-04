@@ -90,7 +90,7 @@ export default sources => {
           style: {
             alignItems: 'center',
             border: '1px solid currentColor',
-            color: constants.secondary3,
+            color: constants.color2,
             cursor: 'pointer',
             display: 'flex',
             fontSize: '12px',

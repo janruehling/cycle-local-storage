@@ -1,5 +1,5 @@
 import { Observable } from 'rx'
-import { div, span, a, img } from '@cycle/dom'
+import { div, span, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { pathOr } from 'ramda'
@@ -10,7 +10,7 @@ import styles from './Landing.css'
 
 import USAMap from 'assets/img/USA_Map.png'
 
-import { MetricsCallout, MetricsCircle, Heading, List } from 'StyleFn'
+import { MetricsCallout, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
 
 const _getChangeObject = (changeString) => {
   const number = Number(changeString)
@@ -20,14 +20,14 @@ const _getChangeObject = (changeString) => {
   if (number > 0) {
     return {
       style: {
-        backgroundColor: constants.secondary2
+        backgroundColor: constants.color4
       },
       text: '+' + changeString + ' this week'
     }
   } else if (number < null) {
     return {
       style: {
-        backgroundColor: constants.secondary3
+        backgroundColor: constants.color2
       },
       text: changeString + ' this week'
     }
@@ -443,25 +443,17 @@ const _render = ({
           text: 'Top Plans'
         }),
         (pathOr([], ['top_plans'])(stats))
-          .map(plan => div({
+          .map(plan => HighlightBox({
+            id: plan.id,
+            url: '/#/plan/' + plan.id,
+            title: plan.name,
+            count: ['practitioners', 'groups'].map(entity => {
+              const name = entity === 'practitioners' ? 'Practitioner' : 'Organizations'
+              const count = plan[entity]
 
-          }, [
-            div({
-              className: styles.topPlanContainer
-            }, [
-              a({
-                className: styles.topPlanTitle,
-                href: '/#/plan/' + plan.id
-              }, plan.name),
-              (plan.practitioners || plan.groups) && div([
-                div({
-                  className: styles.topPlanAccepted
-                }, 'Accepted by:'),
-                plan.practitioners && div(plan.practitioners + ' Practitioners'),
-                plan.groups && div(plan.groups + ' Organizations')
-              ])
-            ])
-          ]))
+              return count + ' ' + name
+            })
+          }))
       ])
     ])
   ])

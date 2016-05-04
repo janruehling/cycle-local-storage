@@ -21,6 +21,7 @@ const children = [{
     }
   }),
   style: {
+    height: '250px',
     width: '100%'
   }
 }, {

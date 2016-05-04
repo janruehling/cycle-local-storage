@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value additional8 from constants;
+@value color1, additional8 from constants;
 
 .container {
   border-radius: 5px;
@@ -12,7 +12,7 @@
 
 .banner {
   align-items: center;
-  background-image: linear-gradient(#4D6688, #21406A);
+  background-image: linear-gradient(#4D6688, color1);
   color: #fff;
   display: flex;
   font-size: 15px;

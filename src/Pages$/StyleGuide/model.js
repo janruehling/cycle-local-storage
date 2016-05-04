@@ -2,6 +2,11 @@ import avatar from './styles/avatar'
 import { buttons, specialButtons } from './styles/button'
 import colors from './styles/colors'
 import siteHeader from './styles/siteHeader'
+import messageBar from './styles/messageBar'
+import search from './styles/search'
+import filterBar from './styles/filterBar'
+import listView from './styles/listView'
+import highlightBox from './styles/highlightBox'
 import typography from './styles/typography'
 import icon from './styles/icon'
 import metricsCallout from './styles/metricsCallout'
@@ -16,8 +21,30 @@ import zwInput from './styles/zwInput'
 import calendar from './styles/calendar'
 
 export default sources => {
-  const StyleFns = [colors, typography, icon, buttons, specialButtons, siteHeader, quickFact, keyValue, heading, avatar, list,
-    gridItem, metricsCallout, metricsCircle, detailsCard, zwInput, calendar]
+  const StyleFns = [
+    colors,
+    typography,
+    icon,
+    buttons,
+    specialButtons,
+    siteHeader,
+    messageBar,
+    search,
+    filterBar,
+    listView,
+    detailsCard,
+    gridItem,
+    metricsCallout,
+    metricsCircle,
+    calendar,
+    highlightBox,
+    quickFact,
+    keyValue,
+    heading,
+    avatar,
+    list,
+    zwInput
+  ]
   return {
     StyleFns: StyleFns
   }

@@ -82,7 +82,7 @@ export default sources => {
           id: 'save',
           style: {
             alignItems: 'center',
-            background: constants.secondary3,
+            background: constants.color2,
             color: '#fff',
             cursor: 'pointer',
             display: 'flex',

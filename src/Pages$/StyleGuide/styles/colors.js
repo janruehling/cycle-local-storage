@@ -2,51 +2,51 @@ import { div } from '@cycle/dom'
 
 const first = [{
   value: '#21406A',
-  name: 'primary1',
+  name: 'color1',
   color: '#fff'
 }, {
   value: '#6C89AF',
-  name: 'primary2',
+  name: 'color1_2',
   color: '#fff'
 }, {
   value: '#A6BCD9',
-  name: 'primary3',
+  name: 'color1_3',
   color: '#fff'
 }, {
   value: '#CFDCEC',
-  name: 'primary4',
+  name: 'color1_4',
   color: '#fff'
 }, {
   value: '#ECF2F8',
-  name: 'primary5',
+  name: 'color1_5',
   color: '#21406A'
 }, {
   value: '#F4FAFC',
-  name: 'primary6',
+  name: 'color1_6',
   color: '#21406A'
 }]
 
 const second = [{
   value: '#DE4249',
-  name: 'secondary1',
+  name: 'color2',
   color: '#fff'
 }]
 
 const third = [{
   value: '#7A57C9',
-  name: 'secondary2',
+  name: 'color3',
   color: '#fff'
 }]
 
 const fourth = [{
   value: '#90BF5A',
-  name: 'secondary3',
+  name: 'color4',
   color: '#fff'
 }]
 
 const fifth = [{
   value: '#333D4A',
-  name: 'secondary4',
+  name: 'color5',
   color: '#fff'
 }]
 

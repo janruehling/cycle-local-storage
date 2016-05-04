@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value additional16, additional12, primary1, maxWidth from constants;
+@value additional12, primary1, maxWidth from constants;
 
 .spacer {
   height: 59px;
@@ -96,18 +96,4 @@
   &:hover {
     background: additional12;
   }
-}
-
-.messageContainer {
-  align-items: center;
-  background: additional16;
-  border-top: 1px solid #fff;
-  color: primary1;
-  font-size: 14px;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  position: fixed;
-  top: 59px;
-  width: 100%;
 }

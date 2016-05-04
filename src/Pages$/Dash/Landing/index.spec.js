@@ -13,7 +13,7 @@ describe('Dash Landing', () => {
       const actual = _getChangeObject(arg)
       const expected = {
         style: {
-          backgroundColor: constants.secondary2
+          backgroundColor: constants.color4
         },
         text: '+3 this week'
       }
@@ -36,7 +36,7 @@ describe('Dash Landing', () => {
       const actual = _getChangeObject(arg)
       const expected = {
         style: {
-          backgroundColor: constants.secondary3
+          backgroundColor: constants.color2
         },
         text: '-3 this week'
       }

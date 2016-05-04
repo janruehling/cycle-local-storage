@@ -13,7 +13,7 @@ const _getContainerBorder = (message = {}) => {
 
   switch (message.type) {
     case 'info':
-      border = '2px solid ' + constants.additional16
+      border = '2px solid ' + constants.color1_5
       break
     case 'warn':
       border = '2px solid ' + constants.additional17

@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, secondary1, additional7 from constants;
+@value primary1, color3, additional7 from constants;
 
 :global :invalid {
   box-shadow: none;
@@ -27,19 +27,19 @@
 }
 
 .input::-webkit-input-placeholder {
-  color: secondary1;
+  color: color3;
   opacity: .3;
 }
 .input::-moz-placeholder {
-  color: secondary1;
+  color: color3;
   opacity: .3;
 }
 .input:-ms-input-placeholder {
-  color: secondary1;
+  color: color3;
   opacity: .3;
 }
 .input:-moz-placeholder {
-  color: secondary1;
+  color: color3;
   opacity: .3;
 }
 

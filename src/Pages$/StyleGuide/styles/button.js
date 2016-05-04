@@ -313,7 +313,7 @@ const specialButtonsChildren = [{
       skin: 'narrow',
       background: 'transparent',
       style: {
-        color: constants.secondary3,
+        color: constants.color2,
         fontSize: '12px'
       }
     })

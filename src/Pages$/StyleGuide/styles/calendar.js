@@ -8,7 +8,11 @@ const calendar = {
       year: '2019',
       month: 'February'
     })
-  }]
+  }],
+  style: {
+    marginRight: '40px',
+    width: '219px'
+  }
 }
 
 export default calendar

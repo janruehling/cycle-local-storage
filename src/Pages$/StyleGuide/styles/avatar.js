@@ -25,17 +25,29 @@ const avatar = {
   name: 'Avatar',
   children: [{
     name: 'Male',
-    fn: avatarMale
+    fn: avatarMale,
+    style: {
+      marginRight: '10px'
+    }
   }, {
     name: 'Female',
-    fn: avatarFemale
+    fn: avatarFemale,
+    style: {
+      marginRight: '10px'
+    }
   }, {
     name: 'Location',
-    fn: avatarLocation
+    fn: avatarLocation,
+    style: {
+      marginRight: '10px'
+    }
   }, {
     name: 'Image',
     fn: avatarImage
-  }]
+  }],
+  style: {
+    marginRight: '40px'
+  }
 }
 
 export default avatar

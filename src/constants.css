@@ -1,5 +1,17 @@
 @value primaryFontStack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+@value color1: #21406a;
+@value color1_2: #6c89af;
+@value color1_3: #a6bcd9;
+@value color1_4: #cfdcec;
+@value color1_5: #ecf2f8;
+@value color1_6: #f4fafc;
+
+@value color2: #de4249;
+@value color3: #7a57c9;
+@value color4: #90bf5a;
+@value color5: #333d4a;
+
 @value primary1: #21406A;
 @value primary1opaque5: rgba(33, 64, 106, .5);
 @value primary1opaque8: rgba(33, 64, 106, .8);
@@ -7,15 +19,12 @@
 @value primary3: #90a0b5;
 @value primary4: #c8d0da;
 @value primary5: #f4f5f7;
-@value secondary1: #7a57c9;
-@value secondary2: #90bf5a;
-@value secondary3: #e42430;
 @value additional1: #f0f8fa;
 @value additional1opaque75: rgba(240, 248, 250, .75);
 @value additional2: #38216a;
 @value additional3: #8bc24a;
 @value additional4: #0e5a71;
-@value additional5: #7aa3af;
+@value color1_3: #7aa3af;
 @value additional6: #e8ebf0;
 @value additional7: #d4ebf3;
 @value additional8: #6c83a1;
@@ -26,7 +35,6 @@
 @value additional13: #cfdcec;
 @value additional14: #d0ddef;
 @value additional15: #6c89af;
-@value additional16: #e1ebee;
 @value additional17: #dc444d;
 @value additional18: #eef1f6;
 

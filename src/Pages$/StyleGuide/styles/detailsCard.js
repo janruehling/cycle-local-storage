@@ -197,7 +197,11 @@ const children = [{
 
 const detailsCard = {
   name: 'DetailsCard',
-  children: children
+  children: children,
+  style: {
+    marginRight: '100px',
+    width: '290px'
+  }
 }
 
 export default detailsCard

@@ -16,7 +16,10 @@ const children = [{
 
 const out = {
   name: 'Heading',
-  children: children
+  children: children,
+  style: {
+    marginRight: '40px'
+  }
 }
 
 export default out
