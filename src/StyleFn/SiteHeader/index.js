@@ -1,7 +1,7 @@
 import R from 'ramda'
 import { div, a, img } from '@cycle/dom'
 
-import { Icon, Avatar, Message } from 'StyleFn'
+import { Icon, Avatar } from 'StyleFn'
 import { toTitleCase } from 'zwUtility'
 import logo from 'assets/img/logo.svg'
 
@@ -175,13 +175,15 @@ const SiteHeader = ({
         : null
     ])
   ]),
-  message ? Message({
-    ...message,
+  message && div({
     style: {
       position: 'fixed',
-      top: '59px'
+      top: '59px',
+      width: '100%'
     }
-  }) : null
+  }, [
+    message
+  ])
 ])
 
 export { SiteHeader }

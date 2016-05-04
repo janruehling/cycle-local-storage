@@ -121,13 +121,12 @@ export default sources => {
     plans: plans$
   }
 
-  const HTTP = Observable.from([
+  const HTTP = Observable.merge(
     getPractitionersId$(sources),
     getPractitionersPlans$(sources),
     getPractitionersLocations$(sources),
     getPractitionersOrganizations$(sources)
-  ])
-  .mergeAll()
+  )
 
   const DOM = combineLatestObj(viewState)
     .map(_render)

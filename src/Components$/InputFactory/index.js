@@ -6,7 +6,12 @@ const InputFactory = (attributes = {}) => sources => {
   if (!attributes.id) {
     throw new Error('InputFactory needs an id to work properly')
   }
-  const _render = zwInput(attributes)
+  const _render = ({
+    value
+  }) => zwInput({
+    ...attributes,
+    value
+  })
 
   const input$ = sources.DOM
     .select('#' + attributes.id)
@@ -15,7 +20,8 @@ const InputFactory = (attributes = {}) => sources => {
   const value$ = (sources.value$ || Observable.just(null))
     .merge(input$.pluck('target', 'value'))
 
-  const DOM = combineLatestObj({value$}).map(_render)
+  const DOM = combineLatestObj({value$})
+    .map(_render)
 
   return {
     DOM,

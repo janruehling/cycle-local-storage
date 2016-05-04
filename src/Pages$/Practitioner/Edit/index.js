@@ -6,6 +6,7 @@ import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch, getName } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, Search, ToolBar } from 'Components$'
+import { SuccessMessage, ErrorMessage, Button } from 'StyleFn'
 
 import { getPractitionersId$ } from 'Remote'
 
@@ -46,8 +47,6 @@ export default sources => {
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
 
-  const header = SiteHeader$({...sources})
-
   const search = Search({...sources})
 
   const toolBar = ToolBar({
@@ -64,33 +63,21 @@ export default sources => {
         ])
       ],
       right: [
-        div({
+        Button({
+          background: constants.color1_3,
           id: 'cancel',
+          skin: 'narrow',
+          text: 'Cancel',
           style: {
-            alignItems: 'center',
-            background: constants.primary3,
-            color: '#fff',
-            cursor: 'pointer',
-            display: 'flex',
-            fontSize: '12px',
-            lineHeight: '18px',
-            marginRight: '5px',
-            padding: '0 5px'
+            marginRight: '10px'
           }
-        }, 'Cancel'),
-        div({
+        }),
+        Button({
+          background: constants.color2,
           id: 'save',
-          style: {
-            alignItems: 'center',
-            background: constants.color2,
-            color: '#fff',
-            cursor: 'pointer',
-            display: 'flex',
-            fontSize: '12px',
-            lineHeight: '18px',
-            padding: '0 5px'
-          }
-        }, 'Save & Close')
+          skin: 'narrow',
+          text: 'Save & Close'
+        })
       ]
     })
   })
@@ -102,6 +89,52 @@ export default sources => {
       pathname: '/practitioner/' + practitioner.id
     }))
 
+  const saveClick$ = sources.DOM.select('#save')
+    .events('click')
+    .map(true)
+
+  const editRequest$ = mergeOrFlatMapLatest('formData$', page$)
+    .sample(saveClick$)
+    .combineLatest(sources.config$, sources.practitionerId$,
+      (formData, config, id) => ({config, formData, id})
+    )
+    .map(({config, formData, id}) => {
+      return {
+        url: config.api + '/practitioners/' + id,
+        method: 'PUT',
+        send: formData
+      }
+    })
+
+  const editResponse$ = sources.responses$
+    .filter(res$ => res$.request.method === 'PUT')
+
+  const message$ = editResponse$
+    .flatMapLatest(response => {
+      return Observable
+        .timer(0, 1000)
+        .take(5)
+        .flatMap(count => {
+          if (count < 4) {
+            return response.error
+              ? Observable.just(ErrorMessage(response.message))
+              : Observable.just(SuccessMessage('All edits were saved successfully'))
+          } else {
+            return Observable.just(null)
+          }
+        }
+      )
+    })
+    .startWith(null)
+
+  const successRedirect$ = editResponse$
+    .filter(response => !response.error)
+    .delay(5000)
+    .withLatestFrom(practitioner$)
+    .map(([response, practitioner]) => ({
+      pathname: '/practitioner/' + practitioner.id
+    }))
+
   const viewState = {
     page: page$.pluck('DOM'),
     path: sources.router.observable
@@ -109,6 +142,10 @@ export default sources => {
 
   const _pageDOM = combineLatestObj(viewState)
     .map(_render)
+
+  const header = SiteHeader$({
+    ...sources, message$
+  })
 
   const appShell = AppShell({
     headerDOM: header.DOM,
@@ -121,7 +158,8 @@ export default sources => {
   const children = [header, search, appShell, tabBar, page$]
 
   const HTTP = Observable.merge(
-    getPractitionersId$(sources)
+    getPractitionersId$(sources),
+    editRequest$
     // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
@@ -130,10 +168,12 @@ export default sources => {
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
     cancelClick$,
+    successRedirect$,
     redirectOnLogout$
   )
 
   return {
+    message$,
     DOM: appShell.DOM,
     HTTP,
     route$

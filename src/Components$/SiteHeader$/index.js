@@ -42,6 +42,7 @@ export const SiteHeader$ = sources => {
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
-    DOM
+    DOM,
+    storage: state.signOutRequest$
   }
 }

@@ -4,5 +4,6 @@ export default sources => ({
     .merge(sources.DOM.select('#userMenuItem').events('mouseover')),
   userMenuMouseOut$: sources.DOM.select('#userName').events('mouseout')
     .merge(sources.DOM.select('#userMenu').events('mouseout'))
-    .merge(sources.DOM.select('#userMenuItem').events('mouseout'))
+    .merge(sources.DOM.select('#userMenuItem').events('mouseout')),
+  signOutClick$: sources.DOM.select('#signOut').events('click')
 })

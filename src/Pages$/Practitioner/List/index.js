@@ -121,6 +121,10 @@ export default sources => {
     // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
+  const storage = Observable.merge(
+    mergeOrFlatMapLatest('storage', ...children)
+  )
+
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
     backClicks$,
@@ -132,6 +136,7 @@ export default sources => {
   return {
     DOM: appShell.DOM,
     HTTP,
+    storage,
     route$
   }
 }

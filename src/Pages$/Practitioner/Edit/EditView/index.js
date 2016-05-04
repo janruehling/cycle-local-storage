@@ -1,34 +1,22 @@
 import R from 'ramda'
-import { Observable } from 'rx'
-import { div, input, span, textarea } from '@cycle/dom'
+import { div, textarea } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { getIcon } from 'zwUtility'
 
-import { Avatar, zwInput, Heading } from 'StyleFn'
+import { Avatar, Heading } from 'StyleFn'
 import { InputFactory } from 'Components$'
 
-import constants from 'constants.css'
 import styles from './EditView.css'
-
-const FirstNameField = InputFactory({
-  id: 'first_name',
-  type: 'text',
-  label: 'First Name',
-  // value: practitioner.first_name,
-  skin: 'narrow',
-  styleLabel,
-  styleInput
-})
 
 const styleLabel = {
   width: '140px'
 }
 
-const styleRadioLabel = {
-  fontWeight: 'bold',
-  fontSize: '14px'
-}
+// const styleRadioLabel = {
+//   fontWeight: 'bold',
+//   fontSize: '14px'
+// }
 
 const styleInput = {
   flex: 'initial',
@@ -37,10 +25,27 @@ const styleInput = {
   width: '235px'
 }
 
-const isFemale = practitioner => practitioner.gender === 'female'
+const textFieldConfig = {
+  type: 'text',
+  skin: 'narrow',
+  styleLabel,
+  styleInput
+}
+
+const _createTextField = (id, label) => InputFactory({
+  ...textFieldConfig,
+  id,
+  label
+})
+
+// const isFemale = practitioner => practitioner.gender === 'female'
 
 const _render = ({
   firstNameFieldDOM,
+  middleNameFieldDOM,
+  lastNameFieldDOM,
+  npiFieldDOM,
+  deaFieldDOM,
   practitioner
 }) => div({
   className: styles.container
@@ -64,108 +69,68 @@ const _render = ({
       className: styles.secondColumn
     }, [
       firstNameFieldDOM,
-      zwInput({
-        id: 'middle_name',
-        type: 'text',
-        label: 'Middle Name',
-        value: practitioner.middle_name,
-        skin: 'narrow',
-        styleLabel,
-        styleInput
-      }),
-      zwInput({
-        id: 'last_name',
-        type: 'text',
-        label: 'Last Name',
-        value: practitioner.last_name,
-        skin: 'narrow',
-        styleLabel,
-        styleInput
-      }),
-      div({
-        style: {
-          display: 'flex',
-          marginTop: '5px'
-        }
-      }, [
-        div({
-          style: {
-            width: '145px'
-          }
-        }),
-        input({
-          type: 'radio',
-          name: 'gender',
-          checked: !isFemale(practitioner),
-          style: {
-            marginRight: '5px'
-          }
-        }),
-        span({
-          style: {
-            ...styleRadioLabel,
-            color: isFemale(practitioner)
-              ? constants.primary1opaque5
-              : constants.primary1
-          }
-        }, 'Male')
-      ]),
-      div({
-        style: {
-          display: 'flex',
-          marginTop: '5px',
-          marginBottom: '15px'
-        }
-      }, [
-        div({
-          style: {
-            width: '145px'
-          }
-        }),
-        input({
-          type: 'radio',
-          name: 'gender',
-          checked: isFemale(practitioner),
-          style: {
-            marginRight: '5px'
-          }
-        }),
-        span({
-          style: {
-            ...styleRadioLabel,
-            color: isFemale(practitioner)
-              ? constants.primary1
-              : constants.primary1opaque5
-          }
-        }, 'Female')
-      ]),
-      zwInput({
-        id: 'npi',
-        type: 'text',
-        label: 'NPI',
-        value: practitioner.npi,
-        skin: 'narrow',
-        styleLabel,
-        styleInput
-      }),
-      zwInput({
-        id: 'medical_school',
-        type: 'text',
-        label: 'Medical School',
-        value: R.pathOr(null, ['medical_school', 'name'])(practitioner),
-        skin: 'narrow',
-        styleLabel,
-        styleInput
-      }),
-      zwInput({
-        id: 'dea',
-        type: 'text',
-        label: 'DEA license',
-        value: practitioner.dea_number,
-        skin: 'narrow',
-        styleLabel,
-        styleInput
-      })
+      middleNameFieldDOM,
+      lastNameFieldDOM,
+      npiFieldDOM,
+      deaFieldDOM
+      // lastNameFieldDOM,
+      // div({
+      //   style: {
+      //     display: 'flex',
+      //     marginTop: '5px'
+      //   }
+      // }, [
+      //   div({
+      //     style: {
+      //       width: '145px'
+      //     }
+      //   }),
+      //   input({
+      //     type: 'radio',
+      //     name: 'gender',
+      //     checked: !isFemale(practitioner),
+      //     style: {
+      //       marginRight: '5px'
+      //     }
+      //   }),
+      //   span({
+      //     style: {
+      //       ...styleRadioLabel,
+      //       color: isFemale(practitioner)
+      //         ? constants.primary1opaque5
+      //         : constants.primary1
+      //     }
+      //   }, 'Male')
+      // ]),
+      // div({
+      //   style: {
+      //     display: 'flex',
+      //     marginTop: '5px',
+      //     marginBottom: '15px'
+      //   }
+      // }, [
+      //   div({
+      //     style: {
+      //       width: '145px'
+      //     }
+      //   }),
+      //   input({
+      //     type: 'radio',
+      //     name: 'gender',
+      //     checked: isFemale(practitioner),
+      //     style: {
+      //       marginRight: '5px'
+      //     }
+      //   }),
+      //   span({
+      //     style: {
+      //       ...styleRadioLabel,
+      //       color: isFemale(practitioner)
+      //         ? constants.primary1
+      //         : constants.primary1opaque5
+      //     }
+      //   }, 'Female')
+      // ]),
     ]),
     div({
       className: styles.thirdColumn
@@ -186,15 +151,46 @@ const _render = ({
 ])
 
 export default sources => {
-  const firstNameField = FirstNameField(sources)
+  const firstNameField = _createTextField('first_name', 'First Name')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.first_name)
+  })
 
-  const formData$ = Observable.just({
-    first_name: firstNameField.value$
+  const middleNameField = _createTextField('middle_name', 'Middle Name')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.middle_name)
+  })
+
+  const lastNameField = _createTextField('last_name', 'Last Name')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.last_name)
+  })
+
+  const npiField = _createTextField('npi', 'NPI')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.npi)
+  })
+
+  const deaField = _createTextField('dea_number', 'DEA License')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.dea_number)
+  })
+
+  const formData$ = combineLatestObj({
+    first_name: firstNameField.value$,
+    middle_name: middleNameField.value$,
+    last_name: lastNameField.value$,
+    npi: npiField.value$,
+    dea: deaField.value$
   })
 
   const viewState = {
     formData: formData$,
     firstNameFieldDOM: firstNameField.DOM,
+    middleNameFieldDOM: middleNameField.DOM,
+    lastNameFieldDOM: lastNameField.DOM,
+    npiFieldDOM: npiField.DOM,
+    deaFieldDOM: deaField.DOM,
     practitioner: sources.practitioner$
   }
 

@@ -74,7 +74,8 @@ const AuthRedirectManager = sources => {
     .map(profile => profile.isAdmin ? '/admin' : '/dash')
 
   const redirectLogout$ = sources.auth$
-    .filter(auth => !auth || !auth.access_token)
+    .do(console.log.bind(console))
+    .filter(auth => !auth)
     .map(() => '/')
 
   return {

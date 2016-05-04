@@ -116,7 +116,7 @@ export default sources => {
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return ErrorMessage(response.message)
+            return just(ErrorMessage(response.message))
           } else {
             return just(null)
           }

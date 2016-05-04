@@ -8,7 +8,14 @@ export default (actions, sources) => {
   .startWith(false)
   .scan((x, y) => y)
 
+  const signOutRequest$ = actions.signOutClick$
+    .flatMap(ev => Observable.just({
+      auth: null,
+      profile: null
+    }))
+
   return {
-    isUserMenuOpen$
+    isUserMenuOpen$,
+    signOutRequest$
   }
 }

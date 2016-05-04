@@ -94,6 +94,10 @@ export default sources => {
     // mergeOrFlatMapLatest('HTTP', ...children)
   )
 
+  const storage = Observable.merge(
+    mergeOrFlatMapLatest('storage', ...children)
+  )
+
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const route$ = Observable.merge(
@@ -104,6 +108,7 @@ export default sources => {
   return {
     DOM: appShell.DOM,
     HTTP,
+    storage,
     route$
   }
 }
