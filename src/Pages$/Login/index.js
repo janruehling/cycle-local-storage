@@ -1,11 +1,12 @@
 import { pathOr } from 'ramda'
 import { Observable } from 'rx'
-import { div, button, a } from '@cycle/dom'
+import { div, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
 import { byMatch, getUrlParams } from 'zwUtility'
-import { FormContainer, ErrorMessage } from 'StyleFn'
+import { FormContainer, ErrorMessage, Button } from 'StyleFn'
 
+import constants from 'constants.css'
 import styles from './Login.css'
 
 const { just } = Observable
@@ -46,10 +47,15 @@ const _render = ({
       }, 'Log into Zipwire'),
       emailInputDOM,
       passwordInputDOM,
-      button({
+      Button({
         id: 'submit',
-        className: styles.button
-      }, 'Log in'),
+        text: 'Log In',
+        background: constants.color1,
+        style: {
+          marginBottom: '15px',
+          width: '100%'
+        }
+      }),
       div([
         a({
           className: styles.link,

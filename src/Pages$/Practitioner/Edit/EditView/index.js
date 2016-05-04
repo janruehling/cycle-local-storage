@@ -44,8 +44,12 @@ const _render = ({
   firstNameFieldDOM,
   middleNameFieldDOM,
   lastNameFieldDOM,
+  emailFieldDOM,
+  phoneFieldDOM,
   npiFieldDOM,
+  faaFieldDOM,
   deaFieldDOM,
+  pacIdFieldDOM,
   practitioner
 }) => div({
   className: styles.container
@@ -71,8 +75,12 @@ const _render = ({
       firstNameFieldDOM,
       middleNameFieldDOM,
       lastNameFieldDOM,
+      emailFieldDOM,
+      phoneFieldDOM,
       npiFieldDOM,
-      deaFieldDOM
+      faaFieldDOM,
+      deaFieldDOM,
+      pacIdFieldDOM
       // lastNameFieldDOM,
       // div({
       //   style: {
@@ -166,9 +174,24 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.last_name)
   })
 
+  const emailField = _createTextField('email', 'Email')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.email)
+  })
+
+  const phoneField = _createTextField('phone', 'Phone')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.phone)
+  })
+
   const npiField = _createTextField('npi', 'NPI')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.npi)
+  })
+
+  const faaField = _createTextField('faa_number', 'FAA Number')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.faa_number)
   })
 
   const deaField = _createTextField('dea_number', 'DEA License')({
@@ -176,12 +199,21 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.dea_number)
   })
 
+  const pacIdField = _createTextField('pac_id', 'DEA License')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
+  })
+
   const formData$ = combineLatestObj({
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
     last_name: lastNameField.value$,
+    email: emailField.value$,
+    phone: phoneField.value$,
     npi: npiField.value$,
-    dea: deaField.value$
+    faa_number: faaField.value$,
+    dea_number: deaField.value$,
+    pac_id: pacIdField.value$
   })
 
   const viewState = {
@@ -189,8 +221,12 @@ export default sources => {
     firstNameFieldDOM: firstNameField.DOM,
     middleNameFieldDOM: middleNameField.DOM,
     lastNameFieldDOM: lastNameField.DOM,
+    emailFieldDOM: emailField.DOM,
+    phoneFieldDOM: phoneField.DOM,
     npiFieldDOM: npiField.DOM,
+    faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
+    pacIdFieldDOM: pacIdField.DOM,
     practitioner: sources.practitioner$
   }
 
