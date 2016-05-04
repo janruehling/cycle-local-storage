@@ -109,7 +109,7 @@ const SiteHeader = ({
                     }
                   })
                 ]),
-                isUserMenuOpen ? div({
+                div({
                   className: styles.userMenu
                 }, [
                   div({
@@ -180,7 +180,7 @@ const SiteHeader = ({
                       }
                     })
                   ])
-                ]) : null
+                ])
               ]
               )
               : null

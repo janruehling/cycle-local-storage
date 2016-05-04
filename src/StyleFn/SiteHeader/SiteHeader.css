@@ -55,6 +55,14 @@
     .userName {
       background-color: #fff;
     }
+
+    .userMenu {
+      visibility: visible;
+    }
+
+    .userMenu:hover {
+      visibility: visible;
+    }
   }
 }
 
@@ -70,6 +78,7 @@
   background: #fff;
   box-shadow: 0 1px 6px rgba(0, 0, 0, .5);
   color: primary1;
+  visibility: hidden;
   padding: 15px 0 10px;
   position: absolute;
   right: 0;

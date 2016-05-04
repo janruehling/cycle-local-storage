@@ -5,10 +5,8 @@ export default (actions, sources) => {
       actions.userMenuMouseOver$.map(ev => true),
       actions.userMenuMouseOut$.map(ev => false)
   )
-  .throttle(500)
-  .distinctUntilChanged()
-  .do(console.log.bind(console))
   .startWith(false)
+  .scan((x, y) => y)
 
   return {
     isUserMenuOpen$
