@@ -2,7 +2,7 @@ import R from 'ramda'
 import { div, a, img } from '@cycle/dom'
 
 import { Icon, Avatar } from 'StyleFn'
-import { toTitleCase } from 'zwUtility'
+import { getIcon } from 'zwUtility'
 import logo from 'assets/img/logo.svg'
 
 import styles from './SiteHeader.css'
@@ -54,7 +54,7 @@ const SiteHeader = ({
           }, [
             Avatar({
               image: R.pathOr(null, ['image', 'url'])(profile),
-              icon: toTitleCase(R.pathOr('Male', ['gender'])(profile)),
+              icon: getIcon(profile, 'practitioner'),
               size: 26,
               style: {
                 marginRight: '5px'

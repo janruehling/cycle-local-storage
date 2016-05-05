@@ -104,10 +104,11 @@ export default sources => {
 
   const backClick$ = sources.DOM.select('#back')
     .events('click')
-    .map(ev => ({
-      type: 'go',
-      value: -1
-    }))
+    .map(ev => 'practitioners/')
+    // .map(ev => ({
+    //   type: 'go',
+    //   value: -1
+    // }))
 
   const editClick$ = sources.DOM.select('#editData')
     .events('click')

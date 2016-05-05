@@ -1,11 +1,12 @@
 import R from 'ramda'
 import { div, textarea } from '@cycle/dom'
+import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { getIcon } from 'zwUtility'
 
 import { Avatar, Heading } from 'StyleFn'
-import { InputFactory } from 'Components$'
+import { InputFactory, SelectFactory, CheckboxFactory } from 'Components$'
 
 import styles from './EditView.css'
 
@@ -25,20 +26,45 @@ const styleInput = {
   width: '235px'
 }
 
-const textFieldConfig = {
+const fieldConfig = {
   type: 'text',
   skin: 'narrow',
   styleLabel,
   styleInput
 }
 
+const genderSelectOptions = [{
+  name: '',
+  value: 'null'
+}, {
+  name: 'Male',
+  value: '1'
+}, {
+  name: 'Female',
+  value: '2'
+}]
+
 const _createTextField = (id, label) => InputFactory({
-  ...textFieldConfig,
+  ...fieldConfig,
   id,
   label
 })
 
-// const isFemale = practitioner => practitioner.gender === 'female'
+const _createSelect = (id, label, options) => SelectFactory({
+  ...fieldConfig,
+  id,
+  label,
+  options
+})
+
+const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
+  id,
+  label,
+  description,
+  styleInput: {
+    marginLeft: '145px'
+  }
+}))
 
 const _render = ({
   firstNameFieldDOM,
@@ -46,10 +72,14 @@ const _render = ({
   lastNameFieldDOM,
   emailFieldDOM,
   phoneFieldDOM,
+  genderSelectDOM,
   npiFieldDOM,
   faaFieldDOM,
   deaFieldDOM,
   pacIdFieldDOM,
+  newPatientsCheckDOM,
+  medicareCheckDOM,
+  medicaidCheckDOM,
   practitioner
 }) => div({
   className: styles.container
@@ -77,10 +107,14 @@ const _render = ({
       lastNameFieldDOM,
       emailFieldDOM,
       phoneFieldDOM,
+      genderSelectDOM,
       npiFieldDOM,
       faaFieldDOM,
       deaFieldDOM,
-      pacIdFieldDOM
+      pacIdFieldDOM,
+      newPatientsCheckDOM,
+      medicareCheckDOM,
+      medicaidCheckDOM
       // lastNameFieldDOM,
       // div({
       //   style: {
@@ -204,16 +238,40 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
   })
 
+  const genderSelect = _createSelect('gender', 'Gender', genderSelectOptions)({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.gender)
+  })
+
+  const newPatientsCheck = _createCheckbox('accepts_new_patients', '', 'Accepts New Patients')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.accepts_new_patients)
+  })
+
+  const medicareCheck = _createCheckbox('accepts_medicare', '', 'Accepts Medicare')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicare)
+  })
+
+  const medicaidCheck = _createCheckbox('accepts_medicaid', '', 'Accepts Medicaid')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
+  })
+
   const formData$ = combineLatestObj({
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
     last_name: lastNameField.value$,
     email: emailField.value$,
     phone: phoneField.value$,
+    gender: genderSelect.value$,
     npi: npiField.value$,
     faa_number: faaField.value$,
     dea_number: deaField.value$,
-    pac_id: pacIdField.value$
+    pac_id: pacIdField.value$,
+    accepts_new_patients: newPatientsCheck.value$,
+    accepts_medicare: medicareCheck.value$,
+    accepts_medicaid: medicaidCheck.value$
   })
 
   const viewState = {
@@ -223,10 +281,14 @@ export default sources => {
     lastNameFieldDOM: lastNameField.DOM,
     emailFieldDOM: emailField.DOM,
     phoneFieldDOM: phoneField.DOM,
+    genderSelectDOM: genderSelect.DOM,
     npiFieldDOM: npiField.DOM,
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
     pacIdFieldDOM: pacIdField.DOM,
+    newPatientsCheckDOM: newPatientsCheck.DOM,
+    medicareCheckDOM: medicareCheck.DOM,
+    medicaidCheckDOM: medicaidCheck.DOM,
     practitioner: sources.practitioner$
   }
 

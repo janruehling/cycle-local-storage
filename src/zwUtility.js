@@ -50,6 +50,28 @@ export const getName = (entity) => {
   }
 }
 
+export const getGender = (entity) => {
+  let out
+
+  if (!is(Object, entity)) return null
+
+  if (!entity.gender) return null
+
+  switch (entity.gender) {
+    case '1':
+      out = 'Male'
+      break
+    case '2':
+      out = 'Female'
+      break
+    default:
+      out = null
+      break
+  }
+
+  return out
+}
+
 export const getIcon = (entity, type = '') => {
   let icon = ''
 
@@ -58,7 +80,7 @@ export const getIcon = (entity, type = '') => {
   switch (type) {
     case 'practitioners':
     case 'practitioner':
-      icon = entity.gender ? toTitleCase(entity.gender) : 'Male'
+      icon = getGender(entity) || 'Male'
       break
     case 'locations':
     case 'location':

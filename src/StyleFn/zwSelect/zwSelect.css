@@ -26,6 +26,7 @@
   }
 
   .input {
+    background: #fff;
     border: 1px solid additional7;
     border-radius: 4px;
     color: color1;
@@ -83,7 +84,8 @@
     display: block;
     flex: 1;
     font-size: 14px;
-    line-height: 25px;
+    height: 27px;
+    line-height: 27px;
     outline: none;
     padding: 0 10px;
   }
@@ -107,35 +109,6 @@
     color: primary3;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-}
-
-.search {
-  width: 100%;
-  z-index: 3;
-
-  .input {
-    background-color: additional1 !important;
-    border: none !important;
-    color: additional2  !important;
-    font-size: 24px !important;
-    height: 45px !important;
-    text-align: center !important;
-    width: 100% !important;
-    z-index: 6 !important;
-
-    &:focus {
-      outline: none !important;
-
-      &::placeholder {
-        color: transparent !important;
-      }
-    }
-
-    &::placeholder {
-      color: additional2 !important;
-      opacity: .5 !important;
-    }
   }
 }
 

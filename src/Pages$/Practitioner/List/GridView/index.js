@@ -3,7 +3,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { pathOr } from 'ramda'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { getIcon, getName } from 'zwUtility'
 
 import { GridItem } from 'StyleFn'
 
@@ -24,7 +24,7 @@ const _render = ({
       'data-id': practitioner.id
     },
     image: pathOr(null, ['image', 'url'])(practitioner),
-    icon: practitioner.gender ? toTitleCase(practitioner.gender) : 'Male',
+    icon: getIcon(practitioner, 'practitioner'),
     text: getName(practitioner)
   }))
 ])

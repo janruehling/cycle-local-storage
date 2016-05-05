@@ -1,4 +1,4 @@
-import { toTitleCase } from 'zwUtility'
+import { toTitleCase, getIcon, getName, getGender } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 
 import moment from 'moment'
@@ -113,18 +113,16 @@ const children = [{
         value: moment(practitioner.last_verified).format('MMM D, Y'),
         tick: true
       } : null,
-    title: (practitioner.first_name ? practitioner.first_name : '') +
-      (practitioner.middle_name ? ' ' + practitioner.middle_name : '') +
-      (practitioner.last_name ? ' ' + practitioner.last_name : ''),
+    title: getName(practitioner),
     subTitle: 'M.D, MSc',
     image: {
       src: null,
-      icon: toTitleCase(practitioner.gender)
+      icon: getIcon(practitioner, 'practitioner')
     },
     meta: [
       {
         key: null,
-        value: (practitioner.gender ? practitioner.gender : '') + (practitioner.age ? ', ' + practitioner.age : '')
+        value: getGender(practitioner) || '' + (practitioner.age ? ', ' + practitioner.age : '')
       },
       {
         key: 'ZWMID',

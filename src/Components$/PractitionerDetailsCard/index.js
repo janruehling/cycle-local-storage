@@ -1,11 +1,10 @@
-import { Observable } from 'rx'
 import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { pathOr } from 'ramda'
 
-import { toTitleCase, getName, byMatch } from 'zwUtility'
+import { toTitleCase, getName, byMatch, getIcon, getGender } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 import { getPractitionersId$ } from 'Remote'
 
@@ -25,14 +24,12 @@ const _render = ({
   subTitle: practitioner.degrees ? practitioner.degrees.join(', ') : null,
   image: {
     src: pathOr(null, ['image', 'url'])(practitioner),
-    icon: toTitleCase(practitioner.gender)
+    icon: getIcon(practitioner, 'practitioner')
   },
   meta: [
     {
       key: null,
-      value: (practitioner.gender
-        ? toTitleCase(practitioner.gender)
-        : '') +
+      value: getGender(practitioner) || '' +
       (practitioner.age
         ? ', ' + practitioner.age
         : '')

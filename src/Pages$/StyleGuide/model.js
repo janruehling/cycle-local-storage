@@ -18,6 +18,8 @@ import keyValue from './styles/keyValue'
 import heading from './styles/heading'
 import list from './styles/list'
 import zwInput from './styles/zwInput'
+import zwSelect from './styles/zwSelect'
+import zwCheckbox from './styles/zwCheckbox'
 import calendar from './styles/calendar'
 
 export default sources => {
@@ -43,7 +45,9 @@ export default sources => {
     heading,
     avatar,
     list,
-    zwInput
+    zwInput,
+    zwSelect,
+    zwCheckbox
   ]
   return {
     StyleFns: StyleFns
