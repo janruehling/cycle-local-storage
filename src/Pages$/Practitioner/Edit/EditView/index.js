@@ -6,7 +6,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { getIcon } from 'zwUtility'
 
 import { Avatar, Heading } from 'StyleFn'
-import { InputFactory, SelectFactory, CheckboxFactory } from 'Components$'
+import { InputFactory, SelectFactory, CheckboxFactory, TextareaFactory } from 'Components$'
 
 import styles from './EditView.css'
 
@@ -24,6 +24,10 @@ const styleInput = {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   width: '235px'
+}
+
+const styleTextarea = {
+  width: '100%'
 }
 
 const fieldConfig = {
@@ -48,6 +52,11 @@ const _createTextField = (id, label) => InputFactory({
   ...fieldConfig,
   id,
   label
+})
+
+const _createTextarea = (id) => TextareaFactory({
+  id,
+  styleInput: styleTextarea
 })
 
 const _createSelect = (id, label, options) => SelectFactory({
@@ -80,6 +89,7 @@ const _render = ({
   newPatientsCheckDOM,
   medicareCheckDOM,
   medicaidCheckDOM,
+  biographyTextareaDOM,
   practitioner
 }) => div({
   className: styles.container
@@ -184,10 +194,7 @@ const _render = ({
           marginTop: 0
         }
       }),
-      textarea({
-        value: practitioner.biography,
-        className: styles.textArea
-      })
+      biographyTextareaDOM
     ])
   ])
 ])
@@ -258,6 +265,11 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
   })
 
+  const biographyTextarea = _createTextarea('biography')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.biography)
+  })
+
   const formData$ = combineLatestObj({
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
@@ -271,7 +283,8 @@ export default sources => {
     pac_id: pacIdField.value$,
     accepts_new_patients: newPatientsCheck.value$,
     accepts_medicare: medicareCheck.value$,
-    accepts_medicaid: medicaidCheck.value$
+    accepts_medicaid: medicaidCheck.value$,
+    biography: biographyTextarea.value$
   })
 
   const viewState = {
@@ -289,6 +302,7 @@ export default sources => {
     newPatientsCheckDOM: newPatientsCheck.DOM,
     medicareCheckDOM: medicareCheck.DOM,
     medicaidCheckDOM: medicaidCheck.DOM,
+    biographyTextareaDOM: biographyTextarea.DOM,
     practitioner: sources.practitioner$
   }
 

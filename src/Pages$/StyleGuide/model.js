@@ -20,6 +20,7 @@ import list from './styles/list'
 import zwInput from './styles/zwInput'
 import zwSelect from './styles/zwSelect'
 import zwCheckbox from './styles/zwCheckbox'
+import zwTextarea from './styles/zwTextarea'
 import calendar from './styles/calendar'
 
 export default sources => {
@@ -47,7 +48,8 @@ export default sources => {
     list,
     zwInput,
     zwSelect,
-    zwCheckbox
+    zwCheckbox,
+    zwTextarea
   ]
   return {
     StyleFns: StyleFns

@@ -1,0 +1,53 @@
+@value constants: 'constants.css';
+@value color1, color1_2, color1_5, color1_6 color3, additional1, additional2, additional7, additional18 from constants;
+
+.default {
+  padding-bottom: 10px;
+  width: 100%;
+
+  .label {
+    color: color1;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .input {
+    background: color1_6;
+    border: none;
+    border-radius: 4px;
+    color: color1_2;
+    display: block;
+    flex: 1;
+    font-size: 14px;
+    outline: none;
+    padding: 10px;
+    resize: none;
+  }
+
+  .input::-webkit-input-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input::-moz-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input:-ms-input-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input:-moz-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
