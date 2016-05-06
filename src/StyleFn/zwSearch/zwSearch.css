@@ -1,0 +1,63 @@
+@value constants: 'constants.css';
+@value color1 from constants;
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto 0;
+  max-width: 913px;
+  padding: 15px;
+  position: relative;
+  width: 100%;
+}
+
+.backdrop {
+  display: none;
+  background: rgba(33, 64, 106, .6);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  z-index: 1;
+}
+
+.results {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+  left: 15px;
+  padding: 80px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  overflow: auto;
+  z-index: 2;
+}
+
+.resultRow {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.name {
+  font-size: 28px;
+  font-weight: lighter;
+  margin-bottom: 5px;
+}
+
+.ids {
+  display: flex;
+  font-size: 14px;
+}
+
+.isActive {
+  .input {
+    background: rgba(33, 64, 106, .05)
+  }
+
+  .backdrop {
+    display: block
+  }
+}

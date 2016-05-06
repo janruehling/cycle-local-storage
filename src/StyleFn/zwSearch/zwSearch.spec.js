@@ -7,7 +7,7 @@ import { div, span } from '@cycle/dom'
 
 import { _highlightText } from './index'
 
-describe('Search', () => {
+describe('zwSearch', () => {
   describe('_highlightText', () => {
     it('should highlight matching text', () => {
       const string = 'This is the test string'

@@ -1,6 +1,9 @@
 import { Observable } from 'rx'
 import { is, pathOr } from 'ramda'
 
+export const ENTER_KEY = 13
+export const ESC_KEY = 27
+
 export const toTitleCase = str => {
   return window.String(str).split('_').join(' ').split('.').join('. ').replace(/([^\W_]+[^\s-]*) */g, s =>
       s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()

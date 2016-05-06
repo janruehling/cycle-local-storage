@@ -1,31 +1,57 @@
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
-import { zwInput } from 'StyleFn'
+import { zwInput, zwSearch } from 'StyleFn'
+
+import intent from './intent'
 
 const InputFactory = (attributes = {}) => sources => {
   if (!attributes.id) {
     throw new Error('InputFactory needs an id to work properly')
   }
+
+  const actions = intent(sources, attributes)
+
   const _render = ({
-    value
-  }) => zwInput({
-    ...attributes,
-    value
-  })
+    value,
+    results
+  }) => attributes.type === 'search'
+    ? zwSearch({
+      ...attributes,
+      value,
+      results
+    })
+    : zwInput({
+      ...attributes,
+      value
+    })
+
+  const inputElement$ = sources.DOM
+    .select('#' + attributes.id)
+    .observable
+    .skip(1)
+    .take(1)
+    .map(els => els[0])
 
   const input$ = sources.DOM
     .select('#' + attributes.id)
     .events('input')
 
-  const value$ = (sources.value$ || Observable.just(null))
+  const value$ = (sources.value$ || Observable.just(''))
     .merge(input$.pluck('target', 'value'))
+    .merge(actions.escClicks$.flatMap(ev => {
+      return sources.value$ || Observable.just('')
+    }))
 
-  const DOM = combineLatestObj({value$})
+  const results$ = (sources.results$ || Observable.just({}))
+    .merge(actions.escClicks$.map(ev => {}))
+
+  const DOM = combineLatestObj({value$, results$})
     .map(_render)
 
   return {
     DOM,
-    value$
+    value$,
+    actions
   }
 }
 

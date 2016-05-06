@@ -93,6 +93,8 @@ export default sources => {
   const submit$ = sources.DOM
     .select('#submit')
     .events('click')
+    .merge(emailInput.actions.enterClicks$)
+    .merge(passwordInput.actions.enterClicks$)
     .map(true)
 
   const HTTP = formData$
