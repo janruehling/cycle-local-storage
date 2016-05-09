@@ -18,33 +18,31 @@ const _render = (options) => div({
       div({
         className: styles.metricIcon
       }, [
-        options.icon && Icon({
+        options.icon ? Icon({
           icon: options.icon.text,
           style: options.icon.style
-        })
+        }) : null
       ]),
-      options.metric && div({
+      options.metric ? div({
         className: styles.metric,
         style: options.metric.style
-      }, options.metric.text),
-      options.title && div({
+      }, options.metric.text) : null,
+      options.title ? div({
         className: styles.metricTitle,
         style: options.title.style
-      }, options.title.text),
-      options.link && a({
+      }, options.title.text) : null,
+      options.link ? a({
         href: options.link.href,
         className: styles.viewLink
-      }, options.link.text)
+      }, options.link.text) : null
     ])
   ]),
-  options.change && div({
+  options.change ? div({
     className: styles.change,
     style: options.change.style
-  }, options.change.text)
+  }, options.change.text) : null
 ])
 
-export const MetricsCircle = (options) => {
-  options = options || {}
-
+export const MetricsCircle = (options = {}) => {
   return _render(options)
 }

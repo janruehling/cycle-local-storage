@@ -34,9 +34,9 @@ export default sources => {
   const page$ = nestedComponent(
     sources.router.define(_routes),
     {
+      ...sources,
       stats$,
-      organization$,
-      ...sources
+      organization$
     }
   )
 
@@ -58,18 +58,24 @@ export default sources => {
     pageDOM: page$.pluck('DOM')
   })
 
-  const children = [header, search, appShell, page$]
-
-  const HTTP = Observable.merge(
-    getInsuranceId$({
-      ...sources,
-      insuranceId$: Observable.just('1')
-    }),
-    getInsuranceIdStats$({
+  const details = {
+    HTTP: getInsuranceId$({
       ...sources,
       insuranceId$: Observable.just('1')
     })
-    // mergeOrFlatMapLatest('HTTP', ...children)
+  }
+
+  const stats = {
+    HTTP: getInsuranceIdStats$({
+      ...sources,
+      insuranceId$: Observable.just('1')
+    })
+  }
+
+  const children = [header, search, appShell, page$, details, stats]
+
+  const HTTP = Observable.merge(
+    mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const storage = Observable.merge(

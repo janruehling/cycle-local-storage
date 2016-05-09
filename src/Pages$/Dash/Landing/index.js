@@ -461,8 +461,8 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    organization: sources.organization$ || Observable.just({}),
-    stats: sources.stats$ || Observable.just({})
+    organization: sources.organization$,
+    stats: sources.stats$
   }
 
   const DOM = combineLatestObj(viewState)

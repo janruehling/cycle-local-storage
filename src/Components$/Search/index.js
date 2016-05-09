@@ -16,9 +16,6 @@ const SearchInput = InputFactory({
 const _render = ({
   searchInputDOM
 }) => div([
-  div({
-    className: styles.backdrop
-  }),
   searchInputDOM
 ])
 

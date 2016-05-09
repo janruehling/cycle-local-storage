@@ -95,24 +95,39 @@ export default sources => {
     .map(res => res.body)
     .map(data => data.practitioner)
     .startWith({})
+    // .skip(1)
+    // .take(1)
 
   const organizations$ = sources.responses$
     .filter(byMatch('/groups'))
     .map(res => res.body)
     .map(data => data.groups)
     .startWith([])
+    // .skip(1)
+    // .take(1)
 
   const locations$ = sources.responses$
     .filter(byMatch('/locations'))
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
+    // .skip(1)
+    // .take(1)
 
   const plans$ = sources.responses$
     .filter(byMatch('/plans'))
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])
+    // .skip(1)
+    // .take(1)
+
+  const HTTP = Observable.merge(
+    getPractitionersId$(sources),
+    getPractitionersPlans$(sources),
+    getPractitionersOrganizations$(sources),
+    getPractitionersLocations$(sources)
+  )
 
   const viewState = {
     practitioner: practitioner$,
@@ -120,13 +135,6 @@ export default sources => {
     organizations: organizations$,
     plans: plans$
   }
-
-  const HTTP = Observable.merge(
-    getPractitionersId$(sources),
-    getPractitionersPlans$(sources),
-    getPractitionersLocations$(sources),
-    getPractitionersOrganizations$(sources)
-  )
 
   const DOM = combineLatestObj(viewState)
     .map(_render)

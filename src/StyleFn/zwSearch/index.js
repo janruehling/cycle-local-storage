@@ -76,6 +76,9 @@ export const zwSearch = (attributes = {}) => {
       [styles.isActive]: attributes.value && attributes.value.length
     })
   }, [
+    div({
+      className: styles.backdrop
+    }),
     zwInput({
       ...attributes,
       skin: 'search',
