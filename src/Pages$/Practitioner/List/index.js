@@ -28,6 +28,22 @@ export default sources => {
       return x
     })
 
+  const getFilterArgs$ = sources.router.observable
+    .map(r => r.search)
+    .map(r => r.split('?')[1])
+    .flatMap(r => r.split('&'))
+    .map(r => r.split('='))
+    .filter(r => r[0] === 'filter')
+    .map(r => r[1])
+
+  const filter$ = getFilterArgs$
+    .map(r => r.split('_'))
+    .flatMap(r => Observable.just({
+      [r[0]]: {
+        id: r[1]
+      }
+    }))
+
   const practitioners$ = sources.responses$
     .filter(byMatch('practitioners'))
     .map(res => res.body)
@@ -129,7 +145,10 @@ export default sources => {
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const HTTP = Observable.merge(
-    getPractitioners$(sources)
+    getPractitioners$({
+      ...sources,
+      filter$
+    })
     // mergeOrFlatMapLatest('HTTP', ...children)
   )
 

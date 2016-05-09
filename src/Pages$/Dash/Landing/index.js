@@ -1,4 +1,4 @@
-import { div, span, img } from '@cycle/dom'
+import { div, a, span, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import R, { pathOr } from 'ramda'
@@ -448,10 +448,13 @@ const _render = ({
             url: '/#/plan/' + plan.id,
             title: plan.name,
             count: ['practitioners', 'groups'].map(entity => {
-              const name = entity === 'practitioners' ? 'Practitioner' : 'Organizations'
+              const isPractitioner = entity === 'practitioners'
+              const name = isPractitioner ? 'Practitioner' : 'Organizations'
               const count = plan[entity]
 
-              return count + ' ' + name
+              return a({
+                href: isPractitioner ? '/#/practitioners?filter=plans_' + plan.id : '/#/groups?filter=plans_' + plan.id
+              }, count + ' ' + name)
             })
           }))
       ])

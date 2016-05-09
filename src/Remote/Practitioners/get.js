@@ -1,10 +1,18 @@
-const _getFilter = id => JSON.stringify({ practitioners: {id: id}})
+import { Observable } from 'rx'
 
-export const getPractitioners$ = ({config$}) => {
-  return config$.map(config => ({
-    url: config.api + '/practitioners',
-    method: 'GET'
-  }))
+const _getFilter = id => JSON.stringify({ practitioners: {id: id} })
+
+export const getPractitioners$ = ({config$, filter$}) => {
+  filter$ = filter$ || Observable.just(null)
+  return config$
+    .combineLatest(filter$, (config, filter) => {
+      const rootUrl = config.api + '/practitioners'
+      const url = filter ? rootUrl + '?filter=' + encodeURI(JSON.stringify(filter)) : rootUrl
+      return {
+        url: url,
+        method: 'GET'
+      }
+    })
 }
 
 export const getPractitionersId$ = ({practitionerId$, config$}) => {
