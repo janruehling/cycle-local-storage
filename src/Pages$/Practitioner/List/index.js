@@ -11,12 +11,23 @@ import { getPractitioners$ } from 'Remote'
 import GridView from './GridView'
 import ListView from './ListView'
 
+import constants from 'constants.css'
+
 const _routes = {
   '/': isolate(ListView),
   '/grid': isolate(GridView)
 }
 
 export default sources => {
+  const currentViewType$ = sources.router.observable
+    .map(x => x.pathname)
+    .map(x => x.split('/'))
+    .map(x => x[x.length - 1])
+    .map(x => {
+      if (x === 'practitioners') return 'list'
+      return x
+    })
+
   const practitioners$ = sources.responses$
     .filter(byMatch('practitioners'))
     .map(res => res.body)
@@ -34,55 +45,56 @@ export default sources => {
 
   const toolBar = ToolBar({
     ...sources,
-    tools$: Observable.just({
-      left: [
-        div({
-          style: {
-            cursor: 'pointer',
-            display: 'flex'
-          },
-          id: 'back'
-        }, [
-          Icon({
-            icon: 'Back',
+    tools$: currentViewType$
+      .flatMap(viewType => Observable.just({
+        left: [
+          div({
             style: {
-              marginRight: '10px'
-            }
-          }),
-          div('Back')
-        ])
-      ],
-      right: [
-        div({
-          id: 'list',
-          style: {
-            color: 'inherit',
-            cursor: 'pointer'
-          }
-        }, [
-          Icon({
-            icon: 'List',
+              cursor: 'pointer',
+              display: 'flex'
+            },
+            id: 'back'
+          }, [
+            Icon({
+              icon: 'Back',
+              style: {
+                marginRight: '10px'
+              }
+            }),
+            div('Back')
+          ])
+        ],
+        right: [
+          div({
+            id: 'list',
             style: {
-              marginRight: '10px'
+              color: viewType === 'list' ? 'inherit' : constants.color1_3,
+              cursor: 'pointer'
             }
-          })
-        ]),
-        div({
-          id: 'grid',
-          style: {
-            color: 'inherit',
-            cursor: 'pointer'
-          }
-        }, [
-          Icon({
-            icon: 'Grid',
+          }, [
+            Icon({
+              icon: 'List',
+              style: {
+                marginRight: '10px'
+              }
+            })
+          ]),
+          div({
+            id: 'grid',
             style: {
-              marginRight: '10px'
+              color: viewType === 'grid' ? 'inherit' : constants.color1_3,
+              cursor: 'pointer'
             }
-          })
-        ])
-      ]
-    })
+          }, [
+            Icon({
+              icon: 'Grid',
+              style: {
+                marginRight: '10px'
+              }
+            })
+          ])
+        ]
+      }))
   })
 
   const backClicks$ = sources.DOM.select('#back')
