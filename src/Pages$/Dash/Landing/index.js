@@ -1,7 +1,7 @@
 import { div, span, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr } from 'ramda'
+import R, { pathOr } from 'ramda'
 
 import constants from 'constants.css'
 import helpers from 'helpers.css'
@@ -39,7 +39,8 @@ const _getChangeObject = (changeString) => {
 
 const _render = ({
   stats,
-  organization
+  organization,
+  maxStats
 }) => {
   return div({
     className: styles.container
@@ -205,7 +206,7 @@ const _render = ({
                   fontWeight: 'bold',
                   textAlign: 'right',
                   padding: '2px 5px',
-                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'
+                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats) / maxStats * 100) + '%'
                 }
               }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'])
             ])
@@ -234,7 +235,7 @@ const _render = ({
                   fontWeight: 'bold',
                   textAlign: 'right',
                   padding: '2px 5px',
-                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats)) + '%'
+                  width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats) / maxStats * 100) + '%'
                 }
               }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'female'])(stats)) + '%'])
             ])
@@ -255,7 +256,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -281,7 +282,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -317,7 +318,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -343,7 +344,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -379,7 +380,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -405,7 +406,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats)) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -459,9 +460,16 @@ const _render = ({
 }
 
 export default sources => {
+  const maxStats$ = sources.stats$
+    .map(stats => {
+      const max = R.flatten(R.valuesIn(stats.average_practitioner).map(o => R.valuesIn(o))).reduce(R.max, [])
+      return max
+    })
+
   const viewState = {
     organization: sources.organization$,
-    stats: sources.stats$
+    stats: sources.stats$,
+    maxStats: maxStats$
   }
 
   const DOM = combineLatestObj(viewState)
