@@ -1,5 +1,3 @@
-import { div } from '@cycle/dom'
-
 import { zwSearch } from 'StyleFn'
 
 const children = [{

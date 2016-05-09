@@ -1,5 +1,5 @@
 import R from 'ramda'
-import { div, textarea } from '@cycle/dom'
+import { div } from '@cycle/dom'
 import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 

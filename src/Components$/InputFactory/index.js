@@ -25,13 +25,6 @@ const InputFactory = (attributes = {}) => sources => {
       value
     })
 
-  const inputElement$ = sources.DOM
-    .select('#' + attributes.id)
-    .observable
-    .skip(1)
-    .take(1)
-    .map(els => els[0])
-
   const input$ = sources.DOM
     .select('#' + attributes.id)
     .events('input')

@@ -1,4 +1,3 @@
-import { Observable } from 'rx'
 import { div, span, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
