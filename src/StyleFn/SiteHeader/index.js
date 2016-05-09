@@ -24,12 +24,12 @@ const SiteHeader = ({
     div({
       className: styles.wrap
     }, [
-      isLoggedIn ? Icon({
-        icon: 'Hamburger',
-        style: {
-          color: '#fff'
-        }
-      }) : null,
+      // isLoggedIn ? Icon({
+      //   icon: 'Hamburger',
+      //   style: {
+      //     color: '#fff'
+      //   }
+      // }) : null,
       div({
         className: styles.logoContainer
       }, [
