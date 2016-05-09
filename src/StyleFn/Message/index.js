@@ -9,9 +9,11 @@ const Message = ({
   icon,
   style,
   iconStyle,
-  textStyle
+  textStyle,
+  type
 }) => text
   ? div({
+    type: type,
     className: styles.messageContainer,
     style: {
       ...style
@@ -38,6 +40,7 @@ const Message = ({
 const InfoMessage = message => Message({
   text: message,
   icon: 'Info',
+  type: 'info',
   style: {
     background: constants.color1_5,
     color: constants.color1
@@ -47,6 +50,7 @@ const InfoMessage = message => Message({
 const WarningMessage = message => Message({
   text: message,
   icon: 'Warn',
+  type: 'warn',
   style: {
     background: constants.color1_5,
     color: constants.color2
@@ -56,6 +60,7 @@ const WarningMessage = message => Message({
 const SuccessMessage = message => Message({
   text: message,
   icon: 'Tick',
+  type: 'success',
   style: {
     background: constants.color4,
     color: '#fff'
@@ -65,6 +70,7 @@ const SuccessMessage = message => Message({
 const ErrorMessage = message => Message({
   text: message,
   icon: 'Warn',
+  type: 'error',
   style: {
     background: constants.color2,
     color: '#fff'

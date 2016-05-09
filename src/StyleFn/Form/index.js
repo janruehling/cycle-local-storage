@@ -1,3 +1,4 @@
+import R from 'ramda'
 import { div } from '@cycle/dom'
 import classNames from 'classnames'
 
@@ -7,16 +8,18 @@ import styles from './Form.css'
 const _getContainerBorder = (message = {}) => {
   let border
 
-  if (!message) {
-    return '2px solid transparent'
-  }
-
   switch (message.type) {
     case 'info':
       border = '2px solid ' + constants.color1_5
       break
     case 'warn':
-      border = '2px solid ' + constants.additional17
+      border = '2px solid ' + constants.color2
+      break
+    case 'success':
+      border = '2px solid ' + constants.color4
+      break
+    case 'error':
+      border = '2px solid ' + constants.color2
       break
     default:
       border = '2px solid transparent'
@@ -26,6 +29,7 @@ const _getContainerBorder = (message = {}) => {
 }
 
 const FormContainer = (attr = {}, children) => {
+  const type = R.pathOr(null, ['message', 'properties', 'type'])(attr)
   return div({
     ...attr,
     className: classNames({
@@ -33,7 +37,9 @@ const FormContainer = (attr = {}, children) => {
       [attr.className]: !!attr.className
     }),
     style: {
-      border: _getContainerBorder(attr.message)
+      border: _getContainerBorder({
+        type: type
+      })
     }
   }, children)
 }
