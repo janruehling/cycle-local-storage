@@ -86,57 +86,57 @@ const SiteHeader = ({
                 div({
                   className: styles.userMenu
                 }, [
-                  div({
-                    className: styles.userMenuItem + ' userMenuItem'
-                  }, [
-                    Icon({
-                      icon: 'ZCards',
-                      style: {
-                        fontSize: '18px',
-                        marginRight: '5px'
-                      }
-                    }),
-                    div('My Profile')
-                  ]),
-                  div({
-                    className: styles.userMenuItem + ' userMenuItem',
-                    id: 'accountSettings'
-                  }, [
-                    Icon({
-                      icon: 'Account',
-                      style: {
-                        fontSize: '18px',
-                        marginRight: '5px'
-                      }
-                    }),
-                    div('Account Settings')
-                  ]),
-                  div({
-                    className: styles.userMenuItem + ' userMenuItem',
-                    id: 'termsOfService'
-                  }, [
-                    Icon({
-                      icon: 'TOS',
-                      style: {
-                        fontSize: '18px',
-                        marginRight: '5px'
-                      }
-                    }),
-                    div('Terms of Service')
-                  ]),
-                  div({
-                    className: styles.userMenuItem + ' userMenuItem',
-                    id: 'feedback'
-                  }, [
-                    Icon({
-                      icon: 'Feedback',
-                      style: {
-                        fontSize: '18px',
-                        marginRight: '5px'
-                      }
-                    }),
-                    div('Give us feedback')
-                  ]),
+                  // div({
+                  //   className: styles.userMenuItem + ' userMenuItem'
+                  // }, [
+                  //   Icon({
+                  //     icon: 'ZCards',
+                  //     style: {
+                  //       fontSize: '18px',
+                  //       marginRight: '5px'
+                  //     }
+                  //   }),
+                  //   div('My Profile')
+                  // ]),
+                  // div({
+                  //   className: styles.userMenuItem + ' userMenuItem',
+                  //   id: 'accountSettings'
+                  // }, [
+                  //   Icon({
+                  //     icon: 'Account',
+                  //     style: {
+                  //       fontSize: '18px',
+                  //       marginRight: '5px'
+                  //     }
+                  //   }),
+                  //   div('Account Settings')
+                  // ]),
+                  // div({
+                  //   className: styles.userMenuItem + ' userMenuItem',
+                  //   id: 'termsOfService'
+                  // }, [
+                  //   Icon({
+                  //     icon: 'TOS',
+                  //     style: {
+                  //       fontSize: '18px',
+                  //       marginRight: '5px'
+                  //     }
+                  //   }),
+                  //   div('Terms of Service')
+                  // ]),
+                  // div({
+                  //   className: styles.userMenuItem + ' userMenuItem',
+                  //   id: 'feedback'
+                  // }, [
+                  //   Icon({
+                  //     icon: 'Feedback',
+                  //     style: {
+                  //       fontSize: '18px',
+                  //       marginRight: '5px'
+                  //     }
+                  //   }),
+                  //   div('Give us feedback')
+                  // ]),
                   div({
                     className: styles.userMenuItem + ' userMenuItem',
                     id: 'signOut'
