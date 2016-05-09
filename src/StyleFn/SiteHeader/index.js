@@ -158,19 +158,20 @@ const SiteHeader = ({
               ]
               )
               : null
-          ]),
-          div({
-            className: styles.notificationMenuContainer
-          }, [
-            Icon({
-              icon: 'Flag',
-              style: {
-                borderLeft: '1px solid #fff',
-                color: '#fff',
-                padding: '5px 10px'
-              }
-            })
           ])
+          // ,
+          // div({
+          //   className: styles.notificationMenuContainer
+          // }, [
+          //   Icon({
+          //     icon: 'Flag',
+          //     style: {
+          //       borderLeft: '1px solid #fff',
+          //       color: '#fff',
+          //       padding: '5px 10px'
+          //     }
+          //   })
+          // ])
         ])
         : null
     ])
