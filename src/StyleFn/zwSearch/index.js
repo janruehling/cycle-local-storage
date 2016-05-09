@@ -35,7 +35,14 @@ export const _highlightText = (string, match) => {
 }
 
 const _createResultRow = (entity, searchInputValue, type) => div({
-  className: styles.resultRow
+  className: classNames({
+    [styles.resultRow]: true,
+    'result': true
+  }),
+  attributes: {
+    'data-id': entity.id,
+    'data-type': type
+  }
 }, [
   Avatar({
     image: R.pathOr(null, ['image', 'url'])(entity),
@@ -93,10 +100,10 @@ export const zwSearch = (attributes = {}) => {
       className: styles.results
     }, [
       attributes.value && attributes.value.length >= 3 ? div([
-        (attributes.results && (attributes.results.practitioners ||
-          attributes.results.locations ||
-          attributes.results.groups ||
-          attributes.results.plans))
+        (attributes.results && (!R.isEmpty(attributes.results.practitioners) ||
+          !R.isEmpty(attributes.results.locations) ||
+          !R.isEmpty(attributes.results.groups) ||
+          !R.isEmpty(attributes.results.plans)))
           ? div([
             R.map(entities => {
               return attributes.results[entities]
@@ -104,7 +111,7 @@ export const zwSearch = (attributes = {}) => {
                 : null
             })(['practitioners', 'locations', 'groups', 'plans'])
           ])
-          : div('There were no results for your search')
+          : div('No results match your search')
       ]) : div('Please type at least 3 characters to search')
     ]) : null
   ])

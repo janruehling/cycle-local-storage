@@ -65,13 +65,13 @@ const _render = ({
           className: styles.link,
           href: '/#/register'
         }, 'Sign up for Zipwire')
-      ]),
-      div([
-        a({
-          className: styles.link,
-          href: '#'
-        }, 'Do you have a Zipwire Business log in?')
       ])
+      // div([
+      //   a({
+      //     className: styles.link,
+      //     href: '#'
+      //   }, 'Do you have a Zipwire Business log in?')
+      // ])
     ])
   ])
 ])

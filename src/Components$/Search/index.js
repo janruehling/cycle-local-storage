@@ -5,7 +5,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory } from 'Components$'
 import { byMatch } from 'zwUtility'
 
-import styles from './Search.css'
+import intent from './intent'
 
 const SearchInput = InputFactory({
   id: 'search',
@@ -20,6 +20,10 @@ const _render = ({
 ])
 
 export const Search = sources => {
+  const actions = intent(sources)
+
+  actions.resultClicks$.do(console.log.bind(console)).subscribe()
+
   const searchResponse$ = sources.responses$
     .filter(byMatch('/search'))
     .map(res => res.body)

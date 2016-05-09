@@ -7,7 +7,7 @@ import styles from './Avatar.css'
 
 const withImage = (options) => div({
   className: classNames({
-    [options.classNameImage]: true,
+    [options.classNameImage]: !!options.classNameImage,
     [styles.image]: true
   }),
   style: {
@@ -32,7 +32,7 @@ export const Avatar = (options = {}) => {
 
   return div({
     className: classNames({
-      [options.className]: true,
+      [options.className]: !!options.className,
       [styles.container]: true
     }),
     style: {

@@ -39,6 +39,7 @@
 .resultRow {
   display: flex;
   margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .name {
