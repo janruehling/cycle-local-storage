@@ -21,7 +21,7 @@ const _render = ({
     isUserMenuOpen,
     message,
     style: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       width: '100%'
     }
