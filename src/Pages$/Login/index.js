@@ -116,20 +116,30 @@ export default sources => {
     .map(res => res.body)
     .startWith({})
 
+  formData$.do(console.log.bind(console)).subscribe()
+
   const message$ = loginResponse$
     .filter(response => response && response.error)
+    .merge(formData$.map(data => ({
+      message: null
+    })))
     .flatMapLatest(response => {
-      return Observable
-        .timer(0, 1000)
-        .take(5)
-        .flatMap(count => {
-          if (count < 4) {
-            return just(ErrorMessage(response.message))
-          } else {
-            return just(null)
-          }
-        }
-      )
+      if (response.message) {
+        return just(ErrorMessage(response.message))
+      }
+
+      return just(null)
+      // return Observable
+      //   .timer(0, 1000)
+      //   .take(5)
+      //   .flatMap(count => {
+      //     if (count < 4) {
+      //       return just(ErrorMessage(response.message))
+      //     } else {
+      //       return just(null)
+      //     }
+      //   }
+      // )
     })
     .startWith(null)
 

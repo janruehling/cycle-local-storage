@@ -178,7 +178,7 @@ const SiteHeader = ({
   ]),
   message && div({
     style: {
-      position: 'fixed',
+      position: 'absolute',
       top: '59px',
       width: '100%'
     }
