@@ -14,7 +14,7 @@ const { just } = Observable
 const EmailInput = InputFactory({
   id: 'username',
   className: 'email',
-  type: 'email',
+  type: 'text',
   placeholder: 'Email',
   required: true
 })
@@ -115,8 +115,6 @@ export default sources => {
     .filter(byMatch('/login'))
     .map(res => res.body)
     .startWith({})
-
-  formData$.do(console.log.bind(console)).subscribe()
 
   const message$ = loginResponse$
     .filter(response => response && response.error)

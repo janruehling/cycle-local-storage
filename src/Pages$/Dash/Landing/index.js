@@ -445,7 +445,8 @@ const _render = ({
         (pathOr([], ['top_plans'])(stats))
           .map(plan => HighlightBox({
             id: plan.id,
-            url: '/#/plan/' + plan.id,
+            url: plan.details_url || null,
+            target: '_blank',
             title: plan.name,
             count: ['practitioners', 'groups'].map(entity => {
               const isPractitioner = entity === 'practitioners'
@@ -453,7 +454,7 @@ const _render = ({
               const count = plan[entity]
 
               return a({
-                href: isPractitioner ? '/#/practitioners?filter=plans_' + plan.id : '/#/groups?filter=plans_' + plan.id
+                href: isPractitioner ? '/#/practitioners?filter=plan_' + plan.id : '/#/groups?filter=plan_' + plan.id
               }, count + ' ' + name)
             })
           }))

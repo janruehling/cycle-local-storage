@@ -4,6 +4,7 @@ import styles from './HighlightBox.css'
 export const HighlightBox = ({
   id,
   url,
+  target,
   title,
   count,
   entity
@@ -15,7 +16,8 @@ export const HighlightBox = ({
   }, [
     a({
       className: styles.topPlanTitle,
-      href: url
+      href: url,
+      target: target || null
     }, title),
     div([
       div({

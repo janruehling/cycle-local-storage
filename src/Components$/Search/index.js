@@ -22,8 +22,6 @@ const _render = ({
 export const Search = sources => {
   const actions = intent(sources)
 
-  actions.resultClicks$.do(console.log.bind(console)).subscribe()
-
   const searchResponse$ = sources.responses$
     .filter(byMatch('/search'))
     .map(res => res.body)
