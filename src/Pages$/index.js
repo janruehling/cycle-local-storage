@@ -167,6 +167,7 @@ export default sources => {
           }))
       }
     })
+    .share()
 
   const handleRefresh$ = refreshToken(sources)
 

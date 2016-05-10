@@ -1,8 +1,16 @@
-export const getGroups$ = ({config$}) => {
-  return config$.map(config => ({
-    url: config.api + '/groups',
-    method: 'GET'
-  }))
+import { Observable } from 'rx'
+
+export const getGroups$ = ({config$, filter$}) => {
+  filter$ = filter$ || Observable.just(null)
+  return config$
+    .combineLatest(filter$, (config, filter) => {
+      const rootUrl = config.api + '/groups'
+      const url = filter ? rootUrl + '?filter=' + encodeURI(JSON.stringify(filter)) : rootUrl
+      return {
+        url: url,
+        method: 'GET'
+      }
+    })
 }
 
 export const getGroupsId$ = ({groupId$, config$}) => {

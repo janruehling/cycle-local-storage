@@ -5,28 +5,33 @@ import styles from './GridItem.css'
 
 import { Avatar } from 'StyleFn'
 
-export const GridItem = (options = {}) => a({
-  className: classNames({
-    [styles.container]: true,
-    [options.className]: !!options.className
-  }),
-  style: {
-    width: options.size ? options.size + 'px' : '130px',
-    ...options.style
-  },
-  attributes: options.attributes,
-  href: options.href ? options.href : '#',
-  target: options.target ? options.target : '_self'
-}, [
-  Avatar({
-    className: styles.image,
-    image: options.image,
-    icon: options.icon,
-    size: options.size
-  }),
-  div({
-    className: styles.banner
-  }, [
-    div(options.text)
+export const GridItem = (options = {}) => {
+  const mainAttributes = {
+    className: classNames({
+      [styles.container]: true,
+      [options.className]: !!options.className
+    }),
+    style: {
+      width: options.size ? options.size + 'px' : '130px',
+      ...options.style
+    },
+    attributes: options.attributes
+  }
+
+  if (options.href) mainAttributes.href = options.href
+  if (options.target) mainAttributes.target = options.target
+
+  return a(mainAttributes, [
+    Avatar({
+      className: styles.image,
+      image: options.image,
+      icon: options.icon,
+      size: options.size
+    }),
+    div({
+      className: styles.banner
+    }, [
+      div(options.text)
+    ])
   ])
-])
+}

@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest, byMatch, getUrlParams } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -27,22 +27,6 @@ export default sources => {
       if (x === 'practitioners') return 'list'
       return x
     })
-
-  const getFilterArgs$ = sources.router.observable
-    .map(r => r.search)
-    .map(r => r.split('?')[1])
-    .flatMap(r => r.split('&'))
-    .map(r => r.split('='))
-    .filter(r => r[0] === 'filter')
-    .map(r => r[1])
-
-  const filter$ = getFilterArgs$
-    .map(r => r.split('_'))
-    .flatMap(r => Observable.just({
-      [r[0]]: {
-        id: r[1]
-      }
-    }))
 
   const practitioners$ = sources.responses$
     .filter(byMatch('practitioners'))
@@ -143,6 +127,17 @@ export default sources => {
   const children = [appShell, search, toolBar, page$, header]
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
+
+  const filter$ = getUrlParams(sources)
+    .filter(params => !!params.filter)
+    .map(params => params.filter)
+    .map(r => r.split('_'))
+    .flatMap(r => Observable.just({
+      [r[0]]: {
+        id: r[1]
+      }
+    }))
+    .startWith(null)
 
   const HTTP = Observable.merge(
     getPractitioners$({
