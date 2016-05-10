@@ -1,11 +1,11 @@
-import { div } from '@cycle/dom'
+import { div, a } from '@cycle/dom'
 import classNames from 'classnames'
 
 import styles from './GridItem.css'
 
 import { Avatar } from 'StyleFn'
 
-export const GridItem = (options = {}) => div({
+export const GridItem = (options = {}) => a({
   className: classNames({
     [styles.container]: true,
     [options.className]: !!options.className
@@ -14,7 +14,9 @@ export const GridItem = (options = {}) => div({
     width: options.size ? options.size + 'px' : '130px',
     ...options.style
   },
-  attributes: options.attributes
+  attributes: options.attributes,
+  href: options.href ? options.href : '#',
+  target: options.target ? options.target : '_self'
 }, [
   Avatar({
     className: styles.image,
