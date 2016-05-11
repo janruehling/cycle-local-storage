@@ -7,6 +7,7 @@ import isolate from '@cycle/isolate'
 import { nestedComponent } from 'zwUtility'
 
 import { ComingSoon } from 'Components$'
+import Account from './Me/Account'
 import Login from './Login'
 import Register from './Register'
 import UserWelcome from './UserWelcome'
@@ -26,6 +27,7 @@ import StyleGuide from './StyleGuide'
 
 const routes = {
   '/': isolate(Login),
+  '/account': isolate(Account),
   '/register': isolate(Register),
   '/forgotPassword': isolate(ForgotPassword),
   '/resetPassword/:code': code => sources =>
@@ -75,7 +77,7 @@ const AuthRedirectManager = sources => {
 
   const redirectLogout$ = sources.auth$
     .filter(auth => !auth)
-    .map(() => '/')
+    .map(() => '/#/login')
 
   return {
     redirectLogin$,

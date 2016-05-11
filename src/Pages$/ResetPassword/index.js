@@ -37,6 +37,10 @@ const _render = ({
     className: styles.container
   }, [
     FormContainer({
+      style: {
+        marginTop: '120px',
+        width: '614px'
+      },
       message: message
     }, [
       div({

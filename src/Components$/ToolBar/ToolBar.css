@@ -10,7 +10,6 @@
 
 .left {
   display: flex;
-  margin-left: 15px;
 }
 
 .center {
@@ -19,5 +18,4 @@
 
 .right {
   display: flex;
-  margin-right: 15px;
 }

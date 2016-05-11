@@ -14,8 +14,12 @@ export default (actions, sources) => {
       profile: null
     }))
 
+  const accountSettingsRequest$ = actions.accountSettingsClick$
+    .flatMap(ev => Observable.just('/account'))
+
   return {
     isUserMenuOpen$,
-    signOutRequest$
+    signOutRequest$,
+    accountSettingsRequest$
   }
 }

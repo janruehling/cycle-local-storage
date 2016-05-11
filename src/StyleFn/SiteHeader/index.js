@@ -98,19 +98,19 @@ const SiteHeader = ({
                   //   }),
                   //   div('My Profile')
                   // ]),
-                  // div({
-                  //   className: styles.userMenuItem + ' userMenuItem',
-                  //   id: 'accountSettings'
-                  // }, [
-                  //   Icon({
-                  //     icon: 'Account',
-                  //     style: {
-                  //       fontSize: '18px',
-                  //       marginRight: '5px'
-                  //     }
-                  //   }),
-                  //   div('Account Settings')
-                  // ]),
+                  div({
+                    className: styles.userMenuItem + ' userMenuItem',
+                    id: 'accountSettings'
+                  }, [
+                    Icon({
+                      icon: 'Account',
+                      style: {
+                        fontSize: '18px',
+                        marginRight: '5px'
+                      }
+                    }),
+                    div('Account Settings')
+                  ]),
                   // div({
                   //   className: styles.userMenuItem + ' userMenuItem',
                   //   id: 'termsOfService'

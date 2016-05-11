@@ -5,3 +5,4 @@ export { getPractitioners$, getPractitionersId$,
 export { getGroups$, getGroupsId$ } from './Groups/get'
 export { getPlans$, getPlansId$ } from './Plans/get'
 export { getInsuranceId$, getInsuranceIdStats$ } from './Insurance/get'
+export { getMe$ } from './Me/get'

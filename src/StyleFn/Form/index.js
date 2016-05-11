@@ -37,6 +37,7 @@ const FormContainer = (attr = {}, children) => {
       [attr.className]: !!attr.className
     }),
     style: {
+      ...attr.style,
       border: _getContainerBorder({
         type: type
       })

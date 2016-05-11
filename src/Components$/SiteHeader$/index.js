@@ -32,6 +32,10 @@ export const SiteHeader$ = sources => {
   const actions = intent(sources)
   const state = model(actions, sources)
 
+  const route$ = Observable.merge(
+    state.accountSettingsRequest$
+  )
+
   const viewState = {
     profile: sources.userProfile$ || just({}),
     isLoggedIn: sources.isLoggedIn$ || just(true),
@@ -43,6 +47,7 @@ export const SiteHeader$ = sources => {
 
   return {
     DOM,
+    route$,
     storage: state.signOutRequest$
   }
 }

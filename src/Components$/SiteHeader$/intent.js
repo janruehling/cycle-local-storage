@@ -5,5 +5,6 @@ export default sources => ({
   userMenuMouseOut$: sources.DOM.select('#userName').events('mouseout')
     .merge(sources.DOM.select('#userMenu').events('mouseout'))
     .merge(sources.DOM.select('#userMenuItem').events('mouseout')),
-  signOutClick$: sources.DOM.select('#signOut').events('click')
+  signOutClick$: sources.DOM.select('#signOut').events('click'),
+  accountSettingsClick$: sources.DOM.select('#accountSettings').events('click')
 })
