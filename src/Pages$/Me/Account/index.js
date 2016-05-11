@@ -184,6 +184,13 @@ export default sources => {
     gender: genderSelect.value$
   })
 
+  const cancelClick$ = sources.DOM.select('#cancel')
+    .events('click')
+    .map(ev => ({
+      type: 'go',
+      value: -1
+    }))
+
   const submit$ = sources.DOM
     .select('#save')
     .events('click')
@@ -242,6 +249,7 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
+    cancelClick$,
     redirectOnLogout$
   )
 
