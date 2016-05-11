@@ -1,14 +1,27 @@
-import { div } from '@cycle/dom'
+import { filterBar } from 'StyleFn'
 
 const children = [{
   name: '',
-  fn: div('TODO: Finish filterBar in it\'s own function'),
+  fn: filterBar({
+    props: {
+      title: 'FILTER',
+      children: [{
+        id: 'all',
+        name: 'All',
+        isActive: true
+      }, {
+        id: 'advancedFilters',
+        name: 'Advanced Filters',
+        isActive: false
+      }]
+    }
+  }),
   style: {
-    width: '400px'
+    width: '100%'
   }
 }]
 
-const filterBar = {
+const filterBarDOM = {
   name: 'Filter Bar',
   children: children,
   style: {
@@ -16,4 +29,4 @@ const filterBar = {
   }
 }
 
-export default filterBar
+export default filterBarDOM

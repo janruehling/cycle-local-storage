@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value color1, color1_5, color3, additional1, additional2, additional7, additional18 from constants;
+@value color1, color1_5, color3, additional7 from constants;
 
 :global :invalid {
   box-shadow: none;

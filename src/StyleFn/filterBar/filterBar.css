@@ -1,0 +1,32 @@
+@value constants: 'constants.css';
+@value color1_4, color1_6, color2 from constants;
+
+.container {
+  align-items: center;
+  background: color1_6;
+  display: flex;
+  font-size: 12px;
+  height: 25px;
+  line-height: 16px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.title {
+  color: color1_4;
+  font-size: 11px;
+  margin-right: 20px;
+}
+
+.item {
+  cursor: pointer;
+  margin-right: 30px;
+  padding: 0 3px;
+}
+
+.item:hover, .isActive {
+  border-bottom: 4px solid color2;
+  font-weight: bold;
+  margin-bottom: -4px;
+}

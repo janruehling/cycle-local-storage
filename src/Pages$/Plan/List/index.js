@@ -4,7 +4,8 @@ import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
 import { AppShell, SiteHeader$, ComingSoon, Search, ToolBar } from 'Components$'
-import { Icon } from 'StyleFn'
+
+import constants from 'constants.css'
 
 import { getPlans$ } from 'Remote'
 
@@ -38,19 +39,11 @@ export default sources => {
       left: [
         div({
           style: {
-            cursor: 'pointer',
-            display: 'flex'
-          },
-          id: 'back'
-        }, [
-          Icon({
-            icon: 'Back',
-            style: {
-              marginRight: '10px'
-            }
-          }),
-          div('Back')
-        ])
+            color: constants.color1,
+            fontSize: '24px',
+            fontWeight: 'bold'
+          }
+        }, 'View All Plans')
       ]
     })
   })

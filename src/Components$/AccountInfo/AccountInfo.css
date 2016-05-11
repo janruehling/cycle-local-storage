@@ -1,9 +1,9 @@
 @value constants: 'constants.css';
-@value primary1, color4, primary1opaque8 from constants;
+@value primary1, color4, color1_2 from constants;
 
 .container {
   align-items: center;
-  background: primary1opaque8;
+  background: color1_2;
   border-top: 1px solid #fff;
   display: flex;
   height: 100px;

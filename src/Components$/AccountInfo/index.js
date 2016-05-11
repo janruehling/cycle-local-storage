@@ -48,7 +48,7 @@ const _render = ({
         }),
         KeyValue({
           key: 'Last Verified',
-          value: moment(organization.last_verified).format('MMM D, Y'),
+          value: moment(organization.last_verified).format('ll'),
           reverse: true,
           style: {
             color: '#fff'
@@ -64,7 +64,7 @@ const _render = ({
       }, R.pathOr(null, ['first_name'])(profile) + ' ' + R.pathOr(null, ['last_name'])(profile)),
       profile.last_login && div({
         className: styles.userLogin
-      }, 'Last Login: ' + moment(profile.last_login).format('MMM D, Y')),
+      }, 'Last Login: ' + moment(profile.last_login).format('ll [at] LT')),
       profile.account && div('Account: ' + profile.account)
     ])
   ])

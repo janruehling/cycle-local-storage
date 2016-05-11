@@ -2,8 +2,11 @@
 @value maxWidth from constants;
 
 .container {
-  display: flex;
-  max-width: maxWidth;
   margin: 0 auto;
+  max-width: maxWidth;
+}
+
+.grid {
+  display: flex;
   flex-wrap: wrap;
 }

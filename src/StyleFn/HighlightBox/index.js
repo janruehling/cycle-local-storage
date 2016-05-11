@@ -1,29 +1,43 @@
 import { div, a } from '@cycle/dom'
+import classNames from 'classnames'
 import styles from './HighlightBox.css'
 
 export const HighlightBox = ({
+  style,
   id,
   url,
   target,
   title,
   count,
   entity
-}) => div({
+}) => {
+  const titleAttributes = {
+    className: classNames({
+      [styles.title]: true,
+      HighlightBox_title_hook: !url
+    }),
+    attributes: {
+      'data-id': id
+    }
+  }
 
-}, [
-  div({
-    className: styles.topPlanContainer
-  }, [
-    a({
-      className: styles.topPlanTitle,
-      href: url,
-      target: target || null
-    }, title),
-    div([
-      div({
-        className: styles.topPlanAccepted
-      }, 'Accepted by:'),
-      count && count.map(c => div(c))
+  if (url) titleAttributes.href = url
+  if (target) titleAttributes.target = target
+
+  return div([
+    div({
+      className: styles.container,
+      style: style || null
+    }, [
+      a(titleAttributes, title),
+      div([
+        count ? div({
+          className: styles.accepted
+        }, 'Accepted by:') : null,
+        count && count.map(c => div({
+          className: styles.link
+        }, c))
+      ])
     ])
   ])
-])
+}

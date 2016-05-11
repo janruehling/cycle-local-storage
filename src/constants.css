@@ -14,12 +14,10 @@
 
 @value primary1: #21406A;
 @value primary1opaque5: rgba(33, 64, 106, .5);
-@value primary1opaque8: rgba(33, 64, 106, .8);
 @value primary2: #58708f;
 @value primary3: #90a0b5;
 @value primary4: #c8d0da;
 @value primary5: #f4f5f7;
-@value additional1: #f0f8fa;
 @value additional1opaque75: rgba(240, 248, 250, .75);
 @value additional2: #38216a;
 @value additional3: #8bc24a;

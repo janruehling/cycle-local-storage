@@ -445,8 +445,6 @@ const _render = ({
         (pathOr([], ['top_plans'])(stats))
           .map(plan => HighlightBox({
             id: plan.id,
-            url: plan.details_url || null,
-            target: '_blank',
             title: plan.name,
             count: ['practitioners', 'groups'].map(entity => {
               const isPractitioner = entity === 'practitioners'
@@ -464,11 +462,17 @@ const _render = ({
 }
 
 export default sources => {
+  const planTitleClicks$ = sources.DOM.select('.HighlightBox_title_hook')
+      .events('click')
+      .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
+
   const maxStats$ = sources.stats$
     .map(stats => {
       const max = R.flatten(R.valuesIn(stats.average_practitioner).map(o => R.valuesIn(o))).reduce(R.max, [])
       return max
     })
+
+  const route$ = planTitleClicks$
 
   const viewState = {
     organization: sources.organization$,
@@ -480,7 +484,8 @@ export default sources => {
     .map(_render)
 
   return {
-    DOM
+    DOM,
+    route$
   }
 }
 

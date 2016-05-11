@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, primary1opaque5, additional2, additional12, additional13 from constants;
+@value color1, primary1opaque5, additional2, additional12, additional13 from constants;
 
 .container {
   overflow: hidden;
@@ -7,7 +7,7 @@
 
 .header {
   align-items: center;
-  color: primary1;
+  color: color1;
   display: flex;
   font-size: 14px;
   font-weight: bold;

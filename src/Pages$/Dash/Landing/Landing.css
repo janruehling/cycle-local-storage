@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value maxWidth, primary1, color3, additional1, color1_3 from constants;
+@value maxWidth, primary1, color3, color1_6, color1_3 from constants;
 
 .container {
   display: flex;
@@ -30,7 +30,7 @@
 }
 
 .practitionerProfileContainer {
-  background: additional1;
+  background: color1_6;
   border-radius: 8px;
   flex: 1;
   margin-left: 30px;
