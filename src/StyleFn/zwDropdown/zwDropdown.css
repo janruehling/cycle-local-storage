@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value color1, color1_5, color3, color1_6, additional2, additional7 from constants;
+@value color1, color1_5, color3, additional7 from constants;
 
 :global :invalid {
   box-shadow: none;
@@ -26,6 +26,7 @@
   }
 
   .input {
+    background: #fff;
     border: 1px solid additional7;
     border-radius: 4px;
     color: color1;
@@ -83,7 +84,8 @@
     display: block;
     flex: 1;
     font-size: 14px;
-    line-height: 25px;
+    height: 27px;
+    line-height: 27px;
     outline: none;
     padding: 0 10px;
   }
@@ -107,33 +109,6 @@
     color: primary3;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-}
-
-.search {
-  width: 100%;
-
-  .input {
-    background-color: color1_6;
-    border: none;
-    color: additional2 ;
-    font-size: 24px;
-    height: 45px;
-    text-align: center;
-    width: 100%;
-
-    &:focus {
-      outline: none;
-
-      &::placeholder {
-        color: transparent;
-      }
-    }
-
-    &::placeholder {
-      color: additional2;
-      opacity: .5;
-    }
   }
 }
 

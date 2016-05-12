@@ -2,11 +2,10 @@ import { Observable } from 'rx'
 
 export default (actions, sources) => {
   const isUserMenuOpen$ = Observable.merge(
-      actions.userMenuMouseOver$.map(ev => true),
-      actions.userMenuMouseOut$.map(ev => false)
+      actions.userMenuMouseOver$.throttle(10).map(ev => true),
+      actions.userMenuMouseOut$.throttle(10).map(ev => false)
   )
   .startWith(false)
-  .scan((x, y) => y)
 
   const signOutRequest$ = actions.signOutClick$
     .flatMap(ev => Observable.just({
@@ -17,9 +16,13 @@ export default (actions, sources) => {
   const accountSettingsRequest$ = actions.accountSettingsClick$
     .flatMap(ev => Observable.just('/account'))
 
+  const feedbackRequest$ = actions.feedbackClick$
+    .flatMap(ev => Observable.just('/feedback'))
+
   return {
     isUserMenuOpen$,
     signOutRequest$,
-    accountSettingsRequest$
+    accountSettingsRequest$,
+    feedbackRequest$
   }
 }

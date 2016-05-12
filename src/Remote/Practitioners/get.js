@@ -20,7 +20,8 @@ export const getPractitionersId$ = ({practitionerId$, config$}) => {
     .combineLatest(practitionerId$, (config, id) => ({config, id}))
     .map(({config, id}) => ({
       url: config.api + '/practitioners/' + id,
-      method: 'GET'
+      method: 'GET',
+      category: 'getPractitionersId$'
     }))
 }
 
@@ -30,7 +31,7 @@ export const getPractitionersLocations$ = ({practitionerId$, config$}) => {
     .map(({config, id}) => ({
       url: config.api + '/locations?filter=' + encodeURI(_getFilter(id)),
       method: 'GET',
-      source: 'getPractitionersLocations$'
+      category: 'getPractitionersLocations$'
     }))
 }
 
@@ -40,7 +41,7 @@ export const getPractitionersOrganizations$ = ({practitionerId$, config$}) => {
     .map(({config, id}) => ({
       url: config.api + '/groups?filter=' + encodeURI(_getFilter(id)),
       method: 'GET',
-      source: 'getPractitionersOrganizations$'
+      category: 'getPractitionersOrganizations$'
     }))
 }
 
@@ -50,6 +51,6 @@ export const getPractitionersPlans$ = ({practitionerId$, config$}) => {
     .map(({config, id}) => ({
       url: config.api + '/plans?filter=' + encodeURI(_getFilter(id)),
       method: 'GET',
-      source: 'getPractitionersPlans$'
+      category: 'getPractitionersPlans$'
     }))
 }

@@ -1,17 +1,15 @@
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
-import { zwSelect } from 'StyleFn'
+import { zwDropdown } from 'StyleFn'
 
-const SelectFactory = (attributes = {}) => sources => {
+const DropdownFactory = (attributes = {}) => sources => {
   if (!attributes.id) {
-    throw new Error('SelectFactory needs an id to work properly')
+    throw new Error('DropdownFactory needs an id to work properly')
   }
   const _render = ({
-    options,
     value
-  }) => zwSelect({
+  }) => zwDropdown({
     ...attributes,
-    options,
     value
   })
 
@@ -22,11 +20,8 @@ const SelectFactory = (attributes = {}) => sources => {
   const value$ = (sources.value$ || Observable.just(null))
     .merge(input$.pluck('target', 'value'))
 
-  const DOM = combineLatestObj({
-    value$,
-    options: sources.options$ || Observable.just(attributes.options)
-  })
-  .map(_render)
+  const DOM = combineLatestObj({value$})
+    .map(_render)
 
   return {
     DOM,

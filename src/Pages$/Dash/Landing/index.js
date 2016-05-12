@@ -37,6 +37,11 @@ const _getChangeObject = (changeString) => {
   }
 }
 
+const _getPercentage = (total, num) => {
+  const percentage = num / total * 100
+  return Math.round(percentage)
+}
+
 const _render = ({
   stats,
   organization,
@@ -48,14 +53,14 @@ const _render = ({
     div({
       className: styles.sidebar
     }, [
-      MetricsCalloutV2({
+      stats && stats.verification_info && MetricsCalloutV2({
         title: 'Verification',
-        metric: '79%',
+        metric: _getPercentage(stats.verification_info.total, stats.verification_info.verified) + '%',
         metricDescription: 'Zipwire Verified',
         change: null,
         descriptionDOM: div([
           span({style: {color: '#fff'}}, 'There are '),
-          span({style: {color: 'green'}}, '13.005 '),
+          span({style: {color: constants.color4}}, stats.verification_info.total + ' '),
           span({style: {color: '#fff'}}, 'records in your system')
         ]),
         average: null
@@ -184,7 +189,7 @@ const _render = ({
               }
             })
           ]),
-          pathOr(null, ['average_practitioner', 'gender', 'male'])(stats) && div({
+          div({
             className: helpers.layout,
             style: {
               margin: '5px 0'
@@ -213,7 +218,7 @@ const _render = ({
               }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'])
             ])
           ]),
-          pathOr(null, ['average_practitioner', 'gender', 'female'])(stats) && div({
+          div({
             className: helpers.layout,
             style: {
               margin: '5px 0'
@@ -258,7 +263,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -275,7 +280,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -284,7 +289,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -301,7 +306,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'us'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats)) + '%')
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_medicare'])(stats) && div([
@@ -320,7 +325,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -337,7 +342,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -346,7 +351,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -363,7 +368,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'us'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats)) + '%')
             ])
           ]),
           pathOr(null, ['average_practitioner', 'accepting_new_patients'])(stats) && div([
@@ -382,7 +387,7 @@ const _render = ({
                 display: 'flex',
                 padding: '2px 5px',
                 margin: '5px 0',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -399,7 +404,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats)) + '%')
             ]),
             div({
               style: {
@@ -408,7 +413,7 @@ const _render = ({
                 color: constants.primary1,
                 display: 'flex',
                 padding: '2px 5px',
-                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats) / maxStats * 100) + '%'
+                width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats) / maxStats * 100) + '%'
               }
             }, [
               div({
@@ -425,7 +430,7 @@ const _render = ({
                 style: {
                   fontWeight: 'bold'
                 }
-              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'us'])(stats)) + '%')
+              }, Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats)) + '%')
             ])
           ])
         ])

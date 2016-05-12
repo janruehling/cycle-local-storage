@@ -19,6 +19,7 @@ import heading from './styles/heading'
 import list from './styles/list'
 import zwInput from './styles/zwInput'
 import zwSelect from './styles/zwSelect'
+import zwDropdown from './styles/zwDropdown'
 import zwCheckbox from './styles/zwCheckbox'
 import zwTextarea from './styles/zwTextarea'
 import calendar from './styles/calendar'
@@ -48,6 +49,7 @@ export default sources => {
     list,
     zwInput,
     zwSelect,
+    zwDropdown,
     zwCheckbox,
     zwTextarea
   ]

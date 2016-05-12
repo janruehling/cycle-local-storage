@@ -1,12 +1,12 @@
+import { Observable } from 'rx'
 import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { pathOr } from 'ramda'
 
-import { toTitleCase, getName, byMatch, getIcon, getGender } from 'zwUtility'
+import { toTitleCase, getName, getIcon, getGender } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
-import { getPractitionersId$ } from 'Remote'
 
 const _render = ({
   practitioner
@@ -106,22 +106,13 @@ const _render = ({
 }) : div()
 
 export const PractitionerDetailsCard = sources => {
-  const practitioner$ = sources.responses$
-    .filter(byMatch('/practitioners'))
-    .map(res => res.body)
-    .map(data => data.practitioner)
-    .startWith({})
-
   const viewState = {
-    practitioner: practitioner$
+    practitioner$: sources.practitioner$ || Observable.just({})
   }
-
-  const HTTP = getPractitionersId$(sources)
 
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
-    HTTP,
     DOM
   }
 }

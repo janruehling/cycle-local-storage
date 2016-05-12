@@ -19,7 +19,7 @@ export const ListItem = (options = {}) => div({
     style: {
       alignItems: 'center',
       borderRadius: '5px',
-      background: constants.color1_4,
+      background: constants.color1_6,
       display: 'flex',
       width: '190px'
     }

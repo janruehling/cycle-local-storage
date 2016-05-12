@@ -1,16 +1,16 @@
 @value constants: 'constants.css';
-@value color1_4 from constants;
+@value color1_6 from constants;
 
 .container {
   align-items: center;
   cursor: pointer;
   display: flex;
   padding: 3px 1px;
-  border-bottom: 1px solid color1_4;
+  border-bottom: 1px solid color1_6;
   font-size: 12px;
 
   &:hover {
-    background: color1_4;
+    background: color1_6;
     background-clip: content-box;
   }
 }

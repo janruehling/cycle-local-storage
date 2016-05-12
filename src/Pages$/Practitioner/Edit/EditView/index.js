@@ -1,3 +1,4 @@
+import { Observable } from 'rx'
 import R from 'ramda'
 import { div } from '@cycle/dom'
 import isolate from '@cycle/isolate'
@@ -6,7 +7,9 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { getIcon } from 'zwUtility'
 
 import { Avatar, Heading } from 'StyleFn'
-import { InputFactory, SelectFactory, CheckboxFactory, TextareaFactory } from 'Components$'
+import { InputFactory, SelectFactory, CheckboxFactory,
+  TextareaFactory } from 'Components$'
+import { getConceptByName$ } from 'Remote'
 
 import styles from './EditView.css'
 
@@ -59,11 +62,11 @@ const _createTextarea = (id) => TextareaFactory({
   styleInput: styleTextarea
 })
 
-const _createSelect = (id, label, options) => SelectFactory({
+const _createSelect = (id, label, options$) => SelectFactory({
   ...fieldConfig,
   id,
   label,
-  options
+  options$
 })
 
 const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
@@ -82,6 +85,7 @@ const _render = ({
   emailFieldDOM,
   phoneFieldDOM,
   genderSelectDOM,
+  medicalSchoolSelectDOM,
   npiFieldDOM,
   faaFieldDOM,
   deaFieldDOM,
@@ -118,6 +122,7 @@ const _render = ({
       emailFieldDOM,
       phoneFieldDOM,
       genderSelectDOM,
+      medicalSchoolSelectDOM,
       npiFieldDOM,
       faaFieldDOM,
       deaFieldDOM,
@@ -200,6 +205,27 @@ const _render = ({
 ])
 
 export default sources => {
+  const medicalSchool$ = sources.responses$
+    .filter(res$ => res$.request.category === 'getConceptByName$medical_schools')
+    .map(res => res.body)
+    .map(res => res.elements)
+    .map(els => {
+      return els.map(el => ({
+        name: el.value,
+        value: el.key
+      }))
+    })
+    .map(els => {
+      els.unshift({
+        name: '',
+        value: null
+      })
+      
+      return els
+    })
+    .do(console.log.bind(console))
+    .startWith([])
+
   const firstNameField = _createTextField('first_name', 'First Name')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.first_name)
@@ -245,9 +271,16 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
   })
 
-  const genderSelect = _createSelect('gender', 'Gender', genderSelectOptions)({
+  const genderSelect = _createSelect('gender', 'Gender')({
     ...sources,
+    options$: Observable.just(genderSelectOptions),
     value$: sources.practitioner$.map(practitioner => practitioner.gender)
+  })
+
+  const medicalSchoolSelect = _createSelect('medical_school', 'Medical School')({
+    ...sources,
+    options$: medicalSchool$,
+    value$: sources.practitioner$.map(practitioner => practitioner.medical_school)
   })
 
   const newPatientsCheck = _createCheckbox('accepts_new_patients', '', 'Accepts New Patients')({
@@ -284,7 +317,8 @@ export default sources => {
     accepts_new_patients: newPatientsCheck.value$,
     accepts_medicare: medicareCheck.value$,
     accepts_medicaid: medicaidCheck.value$,
-    biography: biographyTextarea.value$
+    biography: biographyTextarea.value$,
+    medical_school: medicalSchoolSelect.value$
   })
 
   const viewState = {
@@ -295,6 +329,7 @@ export default sources => {
     emailFieldDOM: emailField.DOM,
     phoneFieldDOM: phoneField.DOM,
     genderSelectDOM: genderSelect.DOM,
+    medicalSchoolSelectDOM: medicalSchoolSelect.DOM,
     npiFieldDOM: npiField.DOM,
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
@@ -309,8 +344,16 @@ export default sources => {
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
+  const HTTP = Observable.merge(
+    getConceptByName$({
+      ...sources,
+      conceptName$: Observable.just('medical_schools')
+    })
+  )
+
   return {
     formData$,
+    HTTP,
     DOM
   }
 }

@@ -8,6 +8,7 @@ import { nestedComponent } from 'zwUtility'
 
 import { ComingSoon } from 'Components$'
 import Account from './Me/Account'
+import Feedback from './Me/Feedback'
 import Login from './Login'
 import Register from './Register'
 import UserWelcome from './UserWelcome'
@@ -28,6 +29,7 @@ import StyleGuide from './StyleGuide'
 const routes = {
   '/': isolate(Login),
   '/account': isolate(Account),
+  '/feedback': isolate(Feedback),
   '/register': isolate(Register),
   '/forgotPassword': isolate(ForgotPassword),
   '/resetPassword/:code': code => sources =>
@@ -157,12 +159,12 @@ export default sources => {
     })
     .flatMap(([req, auth]) => {
       if (req.skipToken) {
-        return Observable.just(R.pick(['url', 'send', 'method'])(req))
+        return Observable.just(R.pick(['url', 'send', 'method', 'category'])(req))
       } else if (!auth || !req || !req.url) {
         return Observable.empty()
       } else {
         return user.auth$
-          .map(auth => R.merge(R.pick(['url', 'send', 'method'])(req), {
+          .map(auth => R.merge(R.pick(['url', 'send', 'method', 'category'])(req), {
             headers: {
               Authorization: auth ? 'Bearer ' + auth.access_token : null
             }

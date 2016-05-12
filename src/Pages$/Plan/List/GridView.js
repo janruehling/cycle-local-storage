@@ -25,10 +25,11 @@ const _render = ({
       },
       id: plan.id,
       title: plan.name,
-      count: (plan.practitioners || plan.groups) ? ['practitioners', 'groups'].map(entity => {
+      count: (plan.accepted_by_practitioners || plan.accepted_by_groups) ? ['practitioners', 'groups'].map(entity => {
         const isPractitioner = entity === 'practitioners'
-        const name = isPractitioner ? 'Practitioner' : 'Organizations'
-        const count = plan[entity]
+        const count = plan['accepted_by_' + entity]
+        let name = isPractitioner ? 'Practitioner' : 'Organization'
+        name = count !== 1 ? name + 's' : name
 
         return count ? a({
           href: isPractitioner ? '/#/practitioners?filter=plan_' + plan.id : '/#/groups?filter=plan_' + plan.id

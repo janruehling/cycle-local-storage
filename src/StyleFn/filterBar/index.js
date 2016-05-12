@@ -4,7 +4,8 @@ import styles from './filterBar.css'
 
 export const filterBar = ({props}) => {
   return div({
-    className: styles.container
+    className: styles.container,
+    style: props.style
   }, [
     div({
       className: styles.title

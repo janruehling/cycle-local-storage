@@ -124,19 +124,19 @@ const SiteHeader = ({
                   //   }),
                   //   div('Terms of Service')
                   // ]),
-                  // div({
-                  //   className: styles.userMenuItem + ' userMenuItem',
-                  //   id: 'feedback'
-                  // }, [
-                  //   Icon({
-                  //     icon: 'Feedback',
-                  //     style: {
-                  //       fontSize: '18px',
-                  //       marginRight: '5px'
-                  //     }
-                  //   }),
-                  //   div('Give us feedback')
-                  // ]),
+                  div({
+                    className: styles.userMenuItem + ' userMenuItem',
+                    id: 'feedback'
+                  }, [
+                    Icon({
+                      icon: 'Feedback',
+                      style: {
+                        fontSize: '18px',
+                        marginRight: '5px'
+                      }
+                    }),
+                    div('Give us feedback')
+                  ]),
                   div({
                     className: styles.userMenuItem + ' userMenuItem',
                     id: 'signOut'

@@ -1,8 +1,8 @@
 @value constants: 'constants.css';
-@value primary1 from constants;
+@value color1, color4 from constants;
 
 .container {
-    background: primary1;
+    background: color1;
     border-radius: 8px;
     padding: 20px;
     text-align: center;
@@ -24,7 +24,7 @@
 }
 
 .metric {
-  color: #fff;
+  color: color4;
   font-size: 48px;
   line-height: 1;
 }

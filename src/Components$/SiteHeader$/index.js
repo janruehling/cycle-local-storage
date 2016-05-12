@@ -33,7 +33,8 @@ export const SiteHeader$ = sources => {
   const state = model(actions, sources)
 
   const route$ = Observable.merge(
-    state.accountSettingsRequest$
+    state.accountSettingsRequest$,
+    state.feedbackRequest$
   )
 
   const viewState = {

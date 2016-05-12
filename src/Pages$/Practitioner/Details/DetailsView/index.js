@@ -90,57 +90,17 @@ const _render = ({
 ])
 
 export default sources => {
-  const practitioner$ = sources.responses$
-    .filter(byMatch('/practitioners'))
-    .map(res => res.body)
-    .map(data => data.practitioner)
-    .startWith({})
-    // .skip(1)
-    // .take(1)
-
-  const organizations$ = sources.responses$
-    .filter(byMatch('/groups'))
-    .map(res => res.body)
-    .map(data => data.groups)
-    .startWith([])
-    // .skip(1)
-    // .take(1)
-
-  const locations$ = sources.responses$
-    .filter(byMatch('/locations'))
-    .map(res => res.body)
-    .map(data => data.locations)
-    .startWith([])
-    // .skip(1)
-    // .take(1)
-
-  const plans$ = sources.responses$
-    .filter(byMatch('/plans'))
-    .map(res => res.body)
-    .map(data => data.plans)
-    .startWith([])
-    // .skip(1)
-    // .take(1)
-
-  const HTTP = Observable.merge(
-    getPractitionersId$(sources),
-    getPractitionersPlans$(sources),
-    getPractitionersOrganizations$(sources),
-    getPractitionersLocations$(sources)
-  )
-
   const viewState = {
-    practitioner: practitioner$,
-    locations: locations$,
-    organizations: organizations$,
-    plans: plans$
+    practitioner: sources.practitioner$ || Observable.just({}),
+    locations: sources.locations$ || Observable.just([]),
+    organizations: sources.organizations$ || Observable.just([]),
+    plans: sources.plans$ || Observable.just([])
   }
 
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
   return {
-    HTTP,
     DOM
   }
 }

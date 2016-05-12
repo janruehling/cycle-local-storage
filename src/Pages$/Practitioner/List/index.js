@@ -48,21 +48,7 @@ export default sources => {
     tools$: currentViewType$
       .flatMap(viewType => Observable.just({
         left: [
-          div({
-            style: {
-              cursor: 'pointer',
-              display: 'flex'
-            },
-            id: 'back'
-          }, [
-            Icon({
-              icon: 'Back',
-              style: {
-                marginRight: '10px'
-              }
-            }),
-            div('Back')
-          ])
+          div('All Practitioners')
         ],
         right: [
           div({
@@ -96,13 +82,6 @@ export default sources => {
         ]
       }))
   })
-
-  const backClicks$ = sources.DOM.select('#back')
-    .events('click')
-    .map(ev => ({
-      type: 'go',
-      value: -1
-    }))
 
   const listClick$ = sources.DOM.select('#list')
     .events('click')
@@ -153,7 +132,6 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
-    backClicks$,
     listClick$,
     gridClick$,
     redirectOnLogout$

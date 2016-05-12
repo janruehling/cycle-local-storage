@@ -1,0 +1,32 @@
+@value constants: 'constants.css';
+@value maxWidth from constants;
+
+.container {
+  margin: 40px auto;
+  max-width: maxWidth;
+  width: 790px;
+}
+
+.titleBar {
+  display: flex;
+  margin-bottom: 10px;
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.main {
+  justify-content: flex-start;
+  display: flex;
+}
+
+.firstColumn {
+  margin-right: 20px;
+  width: 180px;
+}
+
+.secondColumn {
+  flex: 1;
+}

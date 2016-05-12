@@ -8,10 +8,11 @@ import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, PractitionerDetailsCard,
   Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
+import { getPractitionersId$, getPractitionersPlans$,
+  getPractitionersOrganizations$, getPractitionersLocations$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 import Relations from './Relations'
-// import EditView from './EditView'
 
 import constants from 'constants.css'
 import styles from './Details.css'
@@ -48,14 +49,38 @@ const _render = ({
 ])
 
 export default sources => {
+  const practitioner$ = sources.responses$
+    .filter(res => res.request.category === 'getPractitionersId$')
+    .map(res => res.body)
+    .map(data => data.practitioner)
+    .startWith({})
+
+  const plans$ = sources.responses$
+    .filter(res => res.request.category === 'getPractitionersPlans$')
+    .map(res => res.body)
+    .map(data => data.plans)
+    .startWith([])
+
+  const organizations$ = sources.responses$
+    .filter(res => res.request.category === 'getPractitionersOrganizations$')
+    .map(res => res.body)
+    .map(data => data.groups)
+    .startWith([])
+
+  const locations$ = sources.responses$
+    .filter(res => res.request.category === 'getPractitionersLocations$')
+    .map(res => res.body)
+    .map(data => data.locations)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { ...sources }
+    { ...sources, practitioner$, plans$, organizations$, locations$ }
   )
 
   const detailsCard = PractitionerDetailsCard({
-    id: sources.practitionerId$,
-    ...sources
+    ...sources,
+    practitioner$
   })
 
   const tabBar = TabBar({...sources, tabs: Observable.just(_tabs)})
@@ -135,7 +160,24 @@ export default sources => {
     ...sources
   })
 
-  const children = [header, search, appShell, tabBar, detailsCard, page$]
+  const practitionerReq = {
+    HTTP: getPractitionersId$(sources)
+  }
+
+  const plansReq = {
+    HTTP: getPractitionersPlans$(sources)
+  }
+
+  const organizationsReq = {
+    HTTP: getPractitionersOrganizations$(sources)
+  }
+
+  const locationsReq = {
+    HTTP: getPractitionersLocations$(sources)
+  }
+
+  const children = [header, search, appShell, tabBar, detailsCard,
+    page$, practitionerReq, plansReq, organizationsReq, locationsReq]
 
   const HTTP = Observable.merge(
     mergeOrFlatMapLatest('HTTP', ...children)
