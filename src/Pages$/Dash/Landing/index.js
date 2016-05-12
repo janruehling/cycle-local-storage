@@ -9,7 +9,7 @@ import styles from './Landing.css'
 
 import USAMap from 'assets/img/USA_Map.png'
 
-import { MetricsCallout, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
+import { MetricsCalloutV2, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
 
 const _getChangeObject = (changeString) => {
   const number = Number(changeString)
@@ -48,15 +48,17 @@ const _render = ({
     div({
       className: styles.sidebar
     }, [
-      MetricsCallout({
-        title: 'Data Quality',
-        metric: '97%',
-        change: '2%',
+      MetricsCalloutV2({
+        title: 'Verification',
+        metric: '79%',
+        metricDescription: 'Zipwire Verified',
+        change: null,
         descriptionDOM: div([
-          span({style: {color: 'green'}}, '116.227 '),
-          span({style: {color: '#fff'}}, 'records verified and updated in the last 30 days')
+          span({style: {color: '#fff'}}, 'There are '),
+          span({style: {color: 'green'}}, '13.005 '),
+          span({style: {color: '#fff'}}, 'records in your system')
         ]),
-        average: 'Industry Average: 52%'
+        average: null
       }),
       List({
         title: 'Activity Feed',
