@@ -23,11 +23,16 @@ export const zwSelect = (attributes = {}) => {
       style: {
         ...attributes.styleInput
       }
-    }, attributes.options && attributes.options.map(opt => option({
-      attributes: {
-        value: opt.value,
-        selected: attributes.value === opt.value ? true : null
+    }, attributes.options && attributes.options.map(opt => {
+      const attr = {
+        value: opt.value
       }
-    }, opt.name)))
+
+      if (attributes.value === opt.value) attr.selected = true
+
+      return option({
+        attributes: attr
+      }, opt.name)
+    }))
   ])
 }

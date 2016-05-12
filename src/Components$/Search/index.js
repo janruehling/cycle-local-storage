@@ -22,6 +22,9 @@ const _render = ({
 export const Search = sources => {
   const actions = intent(sources)
 
+  const resultClicks$ = actions.resultClicks$
+    .map(ev => ev.ownerTarget.dataset.type + '/' + ev.ownerTarget.dataset.id + '/')
+
   const searchResponse$ = sources.responses$
     .filter(byMatch('/search'))
     .map(res => res.body)
@@ -63,8 +66,13 @@ export const Search = sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
 
+  const route$ = Observable.merge(
+    resultClicks$
+  )
+
   return {
     HTTP,
+    route$,
     value$: searchInput.value$,
     DOM
   }

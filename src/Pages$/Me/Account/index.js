@@ -42,7 +42,7 @@ const _createSelect = (id, label, options) => SelectFactory({
 
 const genderSelectOptions = [{
   name: '',
-  value: 'null'
+  value: '0'
 }, {
   name: 'Male',
   value: '1'
@@ -105,11 +105,20 @@ const _render = ({
 export default sources => {
   const response$ = sources.responses$
     .filter(byMatch('/me'))
-    .map(res => res.body)
     .startWith({})
 
-  const me$ = response$
-    .filter(response => !!response.user)
+  const GETresponse$ = response$
+    .filter(res => !R.isEmpty(res))
+    .filter(res => res.req.method === 'GET')
+    .map(res => res.body)
+
+  const PUTresponse$ = response$
+    .filter(res => !R.isEmpty(res))
+    .filter(res => res.req.method === 'PUT')
+    .map(res => res.body)
+
+  const me$ = GETresponse$
+    .filter(response => response && !!response.user)
     .map(response => response.user)
 
   const toolBar = ToolBar({
@@ -160,10 +169,10 @@ export default sources => {
     value$: me$.map(me => me.last_name)
   })
 
-  const emailField = _createTextField('email', 'Email')({
-    ...sources,
-    value$: me$.map(me => me.email)
-  })
+  // const emailField = _createTextField('email', 'Email')({
+  //   ...sources,
+  //   value$: me$.map(me => me.email)
+  // })
 
   const phoneField = _createTextField('phone', 'Phone')({
     ...sources,
@@ -179,7 +188,6 @@ export default sources => {
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
     last_name: lastNameField.value$,
-    email: emailField.value$,
     phone: phoneField.value$,
     gender: genderSelect.value$
   })
@@ -203,15 +211,21 @@ export default sources => {
     )
     .map(({config, formData}) => {
       return {
-        skipToken: true,
         url: config.api + '/me',
         method: 'PUT',
         send: formData
       }
     })
 
+  const successRedirect$ = PUTresponse$
+    .filter(response => !response.error)
+    .map(ev => ({
+      type: 'go',
+      value: -1
+    }))
+
   const message$ = response$
-    .filter(response => !!response.error)
+    .filter(response => response && !!response.error)
     .merge(formData$.map(data => ({
       message: null
     })))
@@ -237,7 +251,6 @@ export default sources => {
     firstNameFieldDOM: firstNameField.DOM,
     middleNameFieldDOM: middleNameField.DOM,
     lastNameFieldDOM: lastNameField.DOM,
-    emailFieldDOM: emailField.DOM,
     phoneFieldDOM: phoneField.DOM,
     genderSelectDOM: genderSelect.DOM,
     me$,
@@ -250,6 +263,7 @@ export default sources => {
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
     cancelClick$,
+    successRedirect$,
     redirectOnLogout$
   )
 
@@ -259,10 +273,20 @@ export default sources => {
     getMe$(sources)
   )
 
+  const storageRequest$ = PUTresponse$
+    .filter(response => response && !!response.user)
+    .map(response => response.user)
+    .flatMap(data => {
+      return Observable.just({
+        profile: JSON.stringify(data)
+      })
+    })
+
   const DOM = combineLatestObj(viewState).map(_render)
 
   return {
     DOM,
+    storage: storageRequest$,
     route$,
     formData$,
     HTTP,
