@@ -92,7 +92,7 @@ const _render = ({
           link: {
             text: 'view all',
             className: 'link',
-            href: '/#/practitioners/'
+            href: '/#/practitioners'
           },
           change: _getChangeObject(pathOr(null, ['practitioners', 'last_week'])(stats))
         }),
@@ -111,7 +111,7 @@ const _render = ({
           },
           link: {
             text: 'view all',
-            href: '/#/locations/'
+            href: '/#/locations'
           },
           change: _getChangeObject(pathOr(null, ['locations', 'last_week'])(stats))
         }),
@@ -130,7 +130,7 @@ const _render = ({
           },
           link: {
             text: 'view all',
-            href: '/#/groups/'
+            href: '/#/groups'
           },
           change: _getChangeObject(pathOr(null, ['groups', 'last_week'])(stats))
         }),
@@ -149,7 +149,7 @@ const _render = ({
           },
           link: {
             text: 'view all',
-            href: '/#/plans/'
+            href: '/#/plans'
           },
           change: _getChangeObject(pathOr(null, ['plans', 'last_week'])(stats))
         })
