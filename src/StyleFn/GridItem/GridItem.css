@@ -19,7 +19,5 @@
   height: 60px;
   justify-content: center;
   padding: 10px;
-  overflow: hidden;
   text-align: center;
-  text-overflow: ellipsis;
 }

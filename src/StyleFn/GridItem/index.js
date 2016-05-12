@@ -1,6 +1,8 @@
 import { div, a } from '@cycle/dom'
 import classNames from 'classnames'
 
+import { truncateString } from 'zwUtility'
+
 import styles from './GridItem.css'
 
 import { Avatar } from 'StyleFn'
@@ -29,9 +31,12 @@ export const GridItem = (options = {}) => {
       size: options.size
     }),
     div({
-      className: styles.banner
+      className: styles.banner,
+      attributes: {
+        title: options.text
+      }
     }, [
-      div(options.text)
+      div(truncateString(options.text, 25))
     ])
   ])
 }

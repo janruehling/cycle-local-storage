@@ -83,8 +83,8 @@ export default sources => {
   const children = [header, search, appShell, tabBar, page$]
 
   const HTTP = Observable.merge(
-    getGroupsId$(sources)
-    // mergeOrFlatMapLatest('HTTP', ...children)
+    getGroupsId$(sources),
+    mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const storage = Observable.merge(

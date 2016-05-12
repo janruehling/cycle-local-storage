@@ -90,8 +90,8 @@ export default sources => {
 
   const HTTP = Observable.merge(
     getLocationsId$(sources),
-    getLocationsPractitioners$(sources)
-    // mergeOrFlatMapLatest('HTTP', ...children)
+    getLocationsPractitioners$(sources),
+    mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const storage = Observable.merge(

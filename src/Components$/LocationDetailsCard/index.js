@@ -9,6 +9,10 @@ import { DetailsCard } from 'StyleFn'
 const _render = ({
   location
 }) => location ? DetailsCard({
+  type: {
+    icon: 'Hospital',
+    name: 'Location'
+  },
   topCallout: (location.last_verified && moment(location.last_verified).isValid())
     ? {
       key: 'Last Verified',

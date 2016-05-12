@@ -15,7 +15,7 @@ const _routes = {
 
 export default sources => {
   const stats$ = sources.responses$
-    .filter(byMatch('insurance_companies/1/stats'))
+    .filter(byMatch('insurance_companies/3/stats'))
     .map(res => res.body)
     .filter(data => !!data)
     .map(data => data.stats)
@@ -24,7 +24,7 @@ export default sources => {
   const organization$ = sources.responses$
     .filter(res$ => {
       const url = R.pathOr('', ['request', 'url'])(res$)
-      return R.contains('insurance_companies/1')(url) &&
+      return R.contains('insurance_companies/3')(url) &&
         !R.contains('stats')(url)
     })
     .map(res => res.body)
@@ -61,14 +61,14 @@ export default sources => {
   const details = {
     HTTP: getInsuranceId$({
       ...sources,
-      insuranceId$: Observable.just('1')
+      insuranceId$: Observable.just('3')
     })
   }
 
   const stats = {
     HTTP: getInsuranceIdStats$({
       ...sources,
-      insuranceId$: Observable.just('1')
+      insuranceId$: Observable.just('3')
     })
   }
 

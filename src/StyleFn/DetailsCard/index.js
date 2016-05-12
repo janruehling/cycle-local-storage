@@ -9,26 +9,56 @@ const _render = (options) => div({
   className: styles.container
 }, [
   options.topCallout && div({
-    className: styles.topCallout
+    style: {
+      display: 'flex'
+    }
   }, [
-    KeyValue({
-      ...options.topCallout,
-      reverse: true,
+    options.type && div({
       style: {
-        color: '#fff',
+        alignItems: 'center',
+        background: constants.color1_4,
+        color: constants.color1,
+        display: 'flex',
         fontSize: '12px',
         lineHeight: '25px',
-        margin: '0'
+        padding: '0 10px'
       }
-    }),
-    options.topCallout.tick ? Icon({
-      icon: 'Tick',
+    }, [
+      options.type.icon && Icon({
+        icon: options.type.icon,
+        style: {
+          fontSize: '13px',
+          marginRight: '5px'
+        }
+      }),
+      options.type.name && div(options.type.name)
+    ]),
+    div({
       style: {
-        fontSize: '11px',
-        marginLeft: '15px',
-        color: '#fff'
+        background: constants.color4,
+        flex: 1
       }
-    }) : null
+    }, [
+      KeyValue({
+        ...options.topCallout,
+        reverse: true,
+        style: {
+          color: '#fff',
+          fontSize: '12px',
+          lineHeight: '25px',
+          padding: '0 10px',
+          margin: '0'
+        }
+      }),
+      options.topCallout.tick ? Icon({
+        icon: 'Tick',
+        style: {
+          fontSize: '11px',
+          marginLeft: '15px',
+          color: '#fff'
+        }
+      }) : null
+    ])
   ]),
   div({
     className: styles.cardBody,

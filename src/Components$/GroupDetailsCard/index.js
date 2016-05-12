@@ -14,6 +14,10 @@ import helpers from 'helpers.css'
 const _render = ({
   group
 }) => group ? DetailsCard({
+  type: {
+    icon: 'Shield',
+    name: 'Organization'
+  },
   topCallout: (group.last_verified && moment(group.last_verified).isValid())
     ? {
       key: 'Last Verified',

@@ -103,6 +103,9 @@ export const zwSearch = (attributes = {}) => {
       skin: 'search',
       type: 'text',
       value: attributes.value,
+      style: {
+        zIndex: '8'
+      },
       styleInput: {
         ...attributes.styleInput,
         width: '100%'

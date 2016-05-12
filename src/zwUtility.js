@@ -10,6 +10,12 @@ export const toTitleCase = str => {
     )
 }
 
+export const truncateString = (str, length) => {
+  if (str.length < length) return str
+
+  return str.substr(0, length) + ' ...'
+}
+
 export const byMatch = (matchPattern) =>
   (responses$) => {
     return (pathOr('', ['req', 'url'])(responses$)).indexOf(matchPattern) > -1

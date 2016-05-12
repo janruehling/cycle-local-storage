@@ -89,8 +89,8 @@ export default sources => {
     getGroups$({
       ...sources,
       filter$
-    })
-    // mergeOrFlatMapLatest('HTTP', ...children)
+    }),
+    mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const storage = Observable.merge(

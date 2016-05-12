@@ -10,6 +10,10 @@ import { DetailsCard } from 'StyleFn'
 const _render = ({
   plan
 }) => plan ? DetailsCard({
+  type: {
+    icon: 'Sheet',
+    name: 'Plan'
+  },
   topCallout: (plan.last_verified && moment(plan.last_verified).isValid())
     ? {
       key: 'Last Verified',

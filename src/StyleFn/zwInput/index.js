@@ -5,7 +5,8 @@ import styles from './zwInput.css'
 
 export const zwInput = (attributes = {}) => {
   return div({
-    className: attributes.skin ? styles[attributes.skin] : styles.default
+    className: attributes.skin ? styles[attributes.skin] : styles.default,
+    style: attributes.style
   }, [
     attributes.label && div({
       className: styles.label,

@@ -159,8 +159,8 @@ export default sources => {
 
   const HTTP = Observable.merge(
     getPractitionersId$(sources),
-    editRequest$
-    // mergeOrFlatMapLatest('HTTP', ...children)
+    editRequest$,
+    mergeOrFlatMapLatest('HTTP', ...children)
   )
 
   const storage = Observable.merge(

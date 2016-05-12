@@ -11,6 +11,10 @@ import { getPractitionersId$ } from 'Remote'
 const _render = ({
   practitioner
 }) => practitioner ? DetailsCard({
+  type: {
+    icon: 'Contact',
+    name: 'Practitioner'
+  },
   topCallout: (practitioner.last_verified && moment(practitioner.last_verified).isValid())
     ? {
       key: 'Last Verified',
