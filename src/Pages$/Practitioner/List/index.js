@@ -52,6 +52,27 @@ export default sources => {
         ],
         right: [
           div({
+            id: 'add',
+            style: {
+              alignItems: 'center',
+              background: constants.color4,
+              cursor: 'pointer',
+              display: 'flex',
+              height: '18px',
+              justifyContent: 'center',
+              marginRight: '10px',
+              width: '18px'
+            }
+          }, [
+            Icon({
+              icon: 'Plus',
+              style: {
+                color: '#fff',
+                fontSize: '10px'
+              }
+            })
+          ]),
+          div({
             id: 'list',
             style: {
               color: viewType === 'list' ? 'inherit' : constants.color1_3,
@@ -82,6 +103,12 @@ export default sources => {
         ]
       }))
   })
+
+  const addClick$ = sources.DOM.select('#add')
+    .events('click')
+    .map(ev => ({
+      pathname: '/practitioners/add'
+    }))
 
   const listClick$ = sources.DOM.select('#list')
     .events('click')
@@ -132,6 +159,7 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
+    addClick$,
     listClick$,
     gridClick$,
     redirectOnLogout$

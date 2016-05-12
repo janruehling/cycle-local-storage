@@ -3,9 +3,7 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName, byMatch } from 'zwUtility'
-import { getPractitionersId$, getPractitionersLocations$,
-  getPractitionersOrganizations$, getPractitionersPlans$ } from 'Remote'
+import { toTitleCase, getName } from 'zwUtility'
 
 import { List, Heading, Calendar } from 'StyleFn'
 

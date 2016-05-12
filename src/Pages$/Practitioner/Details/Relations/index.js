@@ -1,137 +1,124 @@
+import R from 'ramda'
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
-import classNames from 'classnames'
-import { pathOr } from 'ramda'
 
-import { Avatar } from 'StyleFn'
-import { toTitleCase } from 'zwUtility'
+import { FilterBar } from 'Components$'
+import { getPractitionersRelations$, getGroups$,
+  getLocations$, getPlans$ } from 'Remote'
 
 import constants from 'constants.css'
 import styles from './Relations.css'
 
-const { just } = Observable
+const _createRelations = (relations, groups, locations, plans, first) => {
+  let order
+
+  console.log(groups)
+
+  switch (first) {
+    case 'plans':
+      order = ['plans', 'groups', 'locations']
+      break
+    default:
+      order = ['groups', 'locations', 'plans']
+      break
+  }
+
+  const out = order.map(column => {
+    if (column === first) {
+      return relations[column]
+    }
+    return column
+  })
+
+  return out
+}
 
 const _render = ({
-  practitioner
+  filterBarDOM,
+  relations
 }) => div({
   className: styles.container
 }, [
-  div({
-    className: styles.sort
-  }, [
-    div({
-      className: styles.sortTitle
-    }, 'ORDER BY:'),
-    div({
-      className: classNames({
-        [styles.sortItem]: true,
-        [styles.isActive]: true
-      })
-    }, 'Organizations'),
-    div({
-      className: styles.sortItem
-    }, 'Locations'),
-    div({
-      className: styles.sortItem
-    }, 'Plans Covered')
-  ]),
-  div({
-    className: styles.columns
-  }, [
-    div({
-      className: styles.column
-    }, [
-      div({
-        className: classNames({
-          [styles.columnTitle]: true,
-          [styles.isColumnActive]: true
-        })
-      }, 'Organizations'),
-      div([
-        pathOr([], ['works_at'])(practitioner)
-          .map(relation => relation.group)
-          .map(group => div({
-            style: {
-              alignItems: 'center',
-              display: 'flex',
-              backgroundColor: constants.additional15,
-              borderRadius: '10px',
-              padding: '5px'
-            }
-          }, [
-            Avatar({
-              image: pathOr(null, ['image', 'url'])(group),
-              icon: 'Shield',
-              size: 30,
-              style: {
-                borderRadius: '5px',
-                width: '30px',
-                height: '30px',
-                marginRight: '5px'
-              }
-            }),
-            div({
-              style: {
-                color: '#fff',
-                flex: 1,
-                fontSize: '12px',
-                textDecoration: 'underline'
-              }
-            }, toTitleCase(group.name))
-          ]))
-      ])
-    ]),
-    div({
-      className: styles.column
-    }, [
-      div({
-        className: styles.columnTitle
-      }, 'Locations'),
-      div([
-        pathOr([], ['works_at'])(practitioner)
-          .map(relation => relation.location)
-          .map(location => div({
-            style: {
-              display: 'flex'
-            }
-          }, [
-            toTitleCase(location.name)
-          ]))
-      ])
-    ]),
-    div({
-      className: styles.column
-    }, [
-      div({
-        className: styles.columnTitle
-      }, 'Plans Covered'),
-      div([
-        pathOr([], ['works_at'])(practitioner)
-          .map(relation => relation.plan)
-          .map(plan => div({
-            style: {
-              display: 'flex'
-            }
-          }, [
-            Avatar({
-              image: pathOr(null, ['image', 'url'])(plan),
-              icon: 'Shield',
-              size: 30
-            }),
-            toTitleCase(plan.name)
-          ]))
-      ])
-    ])
-  ])
+  filterBarDOM
 ])
 
 export default sources => {
+  const plans$ = sources.responses$
+    .filter(res => res.request.category === 'getPlans$')
+    .map(res => res.body)
+    .map(data => data.plans)
+    .startWith([])
+
+  const organizations$ = sources.responses$
+    .filter(res => res.request.category === 'getGroups$')
+    .map(res => res.body)
+    .map(data => data.groups)
+    .startWith([])
+
+  const locations$ = sources.responses$
+    .filter(res => res.request.category === 'getLocations$')
+    .map(res => res.body)
+    .map(data => data.locations)
+    .startWith([])
+
+  const relationsData$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res => res.request.category === 'getPractitionersRelations$')
+    .map(res => res.body)
+    .map(data => data.relations)
+    .take(1)
+    .startWith({})
+
+  const orderBy$ = sources.DOM
+    .select('#orderBy')
+    .events('change')
+    .map(ev => ev.ownerTarget.value)
+    .startWith('groups')
+
+  const relations$ = orderBy$
+    .combineLatest(relationsData$, organizations$, locations$, plans$)
+    // .map(([order, relations, organizations, locations, plans]) => _createRelations(relations, organizations, locations, plans, order))
+    .do(console.log.bind(console))
+
+  const filterBar = FilterBar({
+    ...sources,
+    props$: Observable.just({
+      title: 'ORDER BY:',
+      style: {
+        margin: '0 auto',
+        width: '100%'
+      },
+      children: [{
+        id: 'orderBy',
+        type: 'select',
+        options: [{
+          name: 'Organizations',
+          value: 'groups'
+        }, {
+          name: 'Plans',
+          value: 'plans'
+        }]
+      }]
+    })
+  })
+
   const viewState = {
-    practitioner: sources.practitioner$ || just({})
+    filterBarDOM: filterBar.DOM,
+    relations$
   }
+
   const DOM = combineLatestObj(viewState).map(_render)
+
+  const HTTP = Observable.merge(
+    getPractitionersRelations$(sources),
+    getGroups$(sources),
+    getLocations$(sources),
+    getPlans$(sources)
+  )
+
   return {
-    DOM
+    DOM,
+    HTTP
   }
 }

@@ -104,7 +104,7 @@ export const zwSearch = (attributes = {}) => {
       type: 'text',
       value: attributes.value,
       style: {
-        zIndex: '8'
+        zIndex: attributes.value && attributes.value.length ? '8' : null
       },
       styleInput: {
         ...attributes.styleInput,

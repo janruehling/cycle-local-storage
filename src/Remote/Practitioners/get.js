@@ -25,6 +25,16 @@ export const getPractitionersId$ = ({practitionerId$, config$}) => {
     }))
 }
 
+export const getPractitionersRelations$ = ({practitionerId$, config$}) => {
+  return config$
+    .combineLatest(practitionerId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
+      url: config.api + '/practitioners/' + id + '/relations',
+      method: 'GET',
+      category: 'getPractitionersRelations$'
+    }))
+}
+
 export const getPractitionersLocations$ = ({practitionerId$, config$}) => {
   return config$
     .combineLatest(practitionerId$, (config, id) => ({config, id}))

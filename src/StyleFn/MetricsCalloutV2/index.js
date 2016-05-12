@@ -1,4 +1,4 @@
-import { div, img } from '@cycle/dom'
+import { div } from '@cycle/dom'
 import { Icon } from 'StyleFn'
 
 import constants from 'constants.css'

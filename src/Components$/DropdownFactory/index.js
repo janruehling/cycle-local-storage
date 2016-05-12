@@ -29,5 +29,5 @@ const DropdownFactory = (attributes = {}) => sources => {
   }
 }
 
-export default SelectFactory
-export { SelectFactory }
+export default DropdownFactory
+export { DropdownFactory }

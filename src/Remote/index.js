@@ -1,7 +1,8 @@
 export { getLocations$, getLocationsId$, getLocationsPractitioners$ } from './Locations/get'
-export { getPractitioners$, getPractitionersId$,
+export { getPractitioners$, getPractitionersId$, getPractitionersRelations$,
   getPractitionersLocations$, getPractitionersOrganizations$,
   getPractitionersPlans$ } from './Practitioners/get'
+export { postPractitioners$ } from './Practitioners/post'
 export { getGroups$, getGroupsId$ } from './Groups/get'
 export { getPlans$, getPlansId$ } from './Plans/get'
 export { getInsuranceId$, getInsuranceIdStats$ } from './Insurance/get'

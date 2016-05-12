@@ -22,7 +22,7 @@ const _render = ({
       tick: true
     } : {
       key: 'Last Verified',
-      value: 'Not verified yet'
+      value: 'Not verified'
     },
   title: toTitleCase(getName(practitioner)),
   subTitle: practitioner.degrees ? practitioner.degrees.join(', ') : null,

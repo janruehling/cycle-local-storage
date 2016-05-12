@@ -1,5 +1,4 @@
 import { Observable } from 'rx'
-import R from 'ramda'
 import { div } from '@cycle/dom'
 import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
@@ -11,7 +10,7 @@ import { InputFactory, SelectFactory, CheckboxFactory,
   TextareaFactory } from 'Components$'
 import { getConceptByName$ } from 'Remote'
 
-import styles from './EditView.css'
+import styles from './AddView.css'
 
 const styleLabel = {
   width: '140px'
@@ -94,7 +93,7 @@ const _render = ({
   medicareCheckDOM,
   medicaidCheckDOM,
   biographyTextareaDOM,
-  practitioner
+  formData
 }) => div({
   className: styles.container
 }, [
@@ -106,8 +105,8 @@ const _render = ({
     }, [
       Avatar({
         size: 180,
-        image: R.pathOr(null, ['image', 'url'])(practitioner),
-        icon: getIcon(practitioner, 'practitioner'),
+        image: null,
+        icon: getIcon(formData, 'practitioner'),
         style: {
           borderRadius: '6px'
         }
@@ -130,64 +129,6 @@ const _render = ({
       newPatientsCheckDOM,
       medicareCheckDOM,
       medicaidCheckDOM
-      // lastNameFieldDOM,
-      // div({
-      //   style: {
-      //     display: 'flex',
-      //     marginTop: '5px'
-      //   }
-      // }, [
-      //   div({
-      //     style: {
-      //       width: '145px'
-      //     }
-      //   }),
-      //   input({
-      //     type: 'radio',
-      //     name: 'gender',
-      //     checked: !isFemale(practitioner),
-      //     style: {
-      //       marginRight: '5px'
-      //     }
-      //   }),
-      //   span({
-      //     style: {
-      //       ...styleRadioLabel,
-      //       color: isFemale(practitioner)
-      //         ? constants.primary1opaque5
-      //         : constants.primary1
-      //     }
-      //   }, 'Male')
-      // ]),
-      // div({
-      //   style: {
-      //     display: 'flex',
-      //     marginTop: '5px',
-      //     marginBottom: '15px'
-      //   }
-      // }, [
-      //   div({
-      //     style: {
-      //       width: '145px'
-      //     }
-      //   }),
-      //   input({
-      //     type: 'radio',
-      //     name: 'gender',
-      //     checked: isFemale(practitioner),
-      //     style: {
-      //       marginRight: '5px'
-      //     }
-      //   }),
-      //   span({
-      //     style: {
-      //       ...styleRadioLabel,
-      //       color: isFemale(practitioner)
-      //         ? constants.primary1
-      //         : constants.primary1opaque5
-      //     }
-      //   }, 'Female')
-      // ]),
     ]),
     div({
       className: styles.thirdColumn
@@ -206,6 +147,7 @@ const _render = ({
 
 export default sources => {
   const medicalSchool$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getConceptByName$medical_schools')
     .map(res => res.body)
     .map(res => res.elements)
@@ -227,79 +169,79 @@ export default sources => {
 
   const firstNameField = _createTextField('first_name', 'First Name')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.first_name)
+    value$: null
   })
 
   const middleNameField = _createTextField('middle_name', 'Middle Name')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.middle_name)
+    value$: null
   })
 
   const lastNameField = _createTextField('last_name', 'Last Name')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.last_name)
+    value$: null
   })
 
   const emailField = _createTextField('email', 'Email')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.email)
+    value$: null
   })
 
   const phoneField = _createTextField('phone', 'Phone')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.phone)
+    value$: null
   })
 
   const npiField = _createTextField('npi', 'NPI')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.npi)
+    value$: null
   })
 
   const faaField = _createTextField('faa_number', 'FAA Number')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.faa_number)
+    value$: null
   })
 
   const deaField = _createTextField('dea_number', 'DEA License')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.dea_number)
+    value$: null
   })
 
   const pacIdField = _createTextField('pac_id', 'DEA License')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
+    value$: null
   })
 
   const genderSelect = _createSelect('gender', 'Gender')({
     ...sources,
     options$: Observable.just(genderSelectOptions),
-    value$: sources.practitioner$.map(practitioner => practitioner.gender)
+    value$: null
   })
 
   const medicalSchoolSelect = _createSelect('medical_school', 'Medical School')({
     ...sources,
     options$: medicalSchool$,
-    value$: sources.practitioner$.map(practitioner => practitioner.medical_school)
+    value$: null
   })
 
   const newPatientsCheck = _createCheckbox('accepts_new_patients', '', 'Accepts New Patients')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_new_patients)
+    value$: Observable.just(true)
   })
 
   const medicareCheck = _createCheckbox('accepts_medicare', '', 'Accepts Medicare')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicare)
+    value$: Observable.just(true)
   })
 
   const medicaidCheck = _createCheckbox('accepts_medicaid', '', 'Accepts Medicaid')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
+    value$: Observable.just(true)
   })
 
   const biographyTextarea = _createTextarea('biography')({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.biography)
+    value$: null
   })
 
   const formData$ = combineLatestObj({
@@ -336,8 +278,7 @@ export default sources => {
     newPatientsCheckDOM: newPatientsCheck.DOM,
     medicareCheckDOM: medicareCheck.DOM,
     medicaidCheckDOM: medicaidCheck.DOM,
-    biographyTextareaDOM: biographyTextarea.DOM,
-    practitioner: sources.practitioner$
+    biographyTextareaDOM: biographyTextarea.DOM
   }
 
   const DOM = combineLatestObj(viewState)

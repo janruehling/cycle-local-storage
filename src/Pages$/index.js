@@ -23,6 +23,7 @@ import PlanList from './Plan/List'
 import PlanDetails from './Plan/Details'
 import PractitionerList from './Practitioner/List'
 import PractitionerDetails from './Practitioner/Details'
+import PractitionerAdd from './Practitioner/Add'
 import PractitionerEdit from './Practitioner/Edit'
 import StyleGuide from './StyleGuide'
 
@@ -60,6 +61,7 @@ const routes = {
         ...sources
       }),
   '/practitioners': isolate(PractitionerList),
+  '/practitioners/add': isolate(PractitionerAdd),
   '/practitioner/:id': id => sources =>
       isolate(PractitionerDetails)({
         practitionerId$: Observable.just(id),
@@ -171,7 +173,6 @@ export default sources => {
           }))
       }
     })
-    .share()
 
   const handleRefresh$ = refreshToken(sources)
 
