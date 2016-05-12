@@ -55,7 +55,6 @@ const _render = ({
   toolBarDOM,
   me,
   firstNameFieldDOM,
-  middleNameFieldDOM,
   lastNameFieldDOM,
   emailFieldDOM,
   phoneFieldDOM,
@@ -91,7 +90,6 @@ const _render = ({
           message: message
         }, [
           firstNameFieldDOM,
-          middleNameFieldDOM,
           lastNameFieldDOM,
           emailFieldDOM,
           phoneFieldDOM,
@@ -159,20 +157,10 @@ export default sources => {
     value$: me$.map(me => me.first_name)
   })
 
-  const middleNameField = _createTextField('middle_name', 'Middle Name')({
-    ...sources,
-    value$: me$.map(me => me.middle_name)
-  })
-
   const lastNameField = _createTextField('last_name', 'Last Name')({
     ...sources,
     value$: me$.map(me => me.last_name)
   })
-
-  // const emailField = _createTextField('email', 'Email')({
-  //   ...sources,
-  //   value$: me$.map(me => me.email)
-  // })
 
   const phoneField = _createTextField('phone', 'Phone')({
     ...sources,
@@ -186,7 +174,6 @@ export default sources => {
 
   const formData$ = combineLatestObj({
     first_name: firstNameField.value$,
-    middle_name: middleNameField.value$,
     last_name: lastNameField.value$,
     phone: phoneField.value$,
     gender: genderSelect.value$
@@ -249,7 +236,6 @@ export default sources => {
     toolBarDOM: toolBar.DOM,
     formData: formData$,
     firstNameFieldDOM: firstNameField.DOM,
-    middleNameFieldDOM: middleNameField.DOM,
     lastNameFieldDOM: lastNameField.DOM,
     phoneFieldDOM: phoneField.DOM,
     genderSelectDOM: genderSelect.DOM,
