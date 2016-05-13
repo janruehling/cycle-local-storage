@@ -160,28 +160,25 @@ export default sources => {
     ...sources
   })
 
-  const practitionerReq = {
-    HTTP: getPractitionersId$(sources)
-  }
-
-  const plansReq = {
-    HTTP: getPractitionersPlans$(sources)
-  }
-
-  const organizationsReq = {
-    HTTP: getPractitionersOrganizations$(sources)
-  }
-
-  const locationsReq = {
-    HTTP: getPractitionersLocations$(sources)
-  }
-
   const children = [header, search, appShell, tabBar, detailsCard,
-    page$, practitionerReq, plansReq, organizationsReq, locationsReq]
+    page$]
 
-  const HTTP = Observable.merge(
-    mergeOrFlatMapLatest('HTTP', ...children)
-  )
+  const HTTP = Observable
+    .merge(
+      mergeOrFlatMapLatest('HTTP', ...children)
+    )
+    .merge(
+      getPractitionersLocations$(sources)
+    )
+    .merge(
+      getPractitionersOrganizations$(sources)
+    )
+    .merge(
+      getPractitionersPlans$(sources)
+    )
+    .merge(
+      getPractitionersId$(sources)
+    )
 
   const storage = Observable.merge(
     mergeOrFlatMapLatest('storage', ...children)

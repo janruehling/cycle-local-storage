@@ -89,10 +89,10 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    practitioner: sources.practitioner$ || Observable.just({}),
-    locations: sources.locations$ || Observable.just([]),
-    organizations: sources.organizations$ || Observable.just([]),
-    plans: sources.plans$ || Observable.just([])
+    locations: sources.locations$,
+    organizations: sources.organizations$,
+    plans: sources.plans$,
+    practitioner: sources.practitioner$ || Observable.just({})
   }
 
   const DOM = combineLatestObj(viewState)

@@ -1,7 +1,7 @@
 import Rx from 'rx'
 Rx.config.longStackSupport = true
 
-import { Observable } from 'rx'
+import { Observable, ReplaySubject } from 'rx'
 import R from 'ramda'
 import isolate from '@cycle/isolate'
 import { nestedComponent } from 'zwUtility'
@@ -104,14 +104,20 @@ const UserManager = sources => {
   }
 }
 
-const AuthedResponseManager = sources => ({
-  responses$: sources.HTTP
+const AuthedResponseManager = sources => {
+  const responses$ = new ReplaySubject(10)
+
+  sources.HTTP
     .flatMap(response$ => {
       return response$
         .catch(err => Observable.just(err.response))
     })
-})
+    .subscribe(responses$)
 
+  return {
+    responses$
+  }
+}
 const refreshToken = ({HTTP, config$}) => {
   const response$ = config$
     .flatMap(config => HTTP

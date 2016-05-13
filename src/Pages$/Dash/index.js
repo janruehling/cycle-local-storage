@@ -15,18 +15,13 @@ const _routes = {
 
 export default sources => {
   const stats$ = sources.responses$
-    .filter(byMatch('insurance_companies/3/stats'))
+    .filter(res$ => res$.request.category === 'getInsuranceIdStats$')
     .map(res => res.body)
-    .filter(data => !!data)
     .map(data => data.stats)
     .startWith({})
 
   const organization$ = sources.responses$
-    .filter(res$ => {
-      const url = R.pathOr('', ['request', 'url'])(res$)
-      return R.contains('insurance_companies/3')(url) &&
-        !R.contains('stats')(url)
-    })
+    .filter(res$ => res$.request.category === 'getInsuranceId$')
     .map(res => res.body)
     .map(data => data.insurance_company)
     .startWith({})

@@ -1,4 +1,3 @@
-import R from 'ramda'
 import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
@@ -7,7 +6,6 @@ import { FilterBar } from 'Components$'
 import { getPractitionersRelations$, getGroups$,
   getLocations$, getPlans$ } from 'Remote'
 
-import constants from 'constants.css'
 import styles from './Relations.css'
 
 const _createRelations = (relations, groups, locations, plans, first) => {

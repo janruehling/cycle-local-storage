@@ -482,9 +482,9 @@ export default sources => {
   const route$ = planTitleClicks$
 
   const viewState = {
-    organization: sources.organization$,
-    stats: sources.stats$,
-    maxStats: maxStats$
+    organization$: sources.organization$,
+    stats$: sources.stats$,
+    maxStats$: maxStats$
   }
 
   const DOM = combineLatestObj(viewState)
