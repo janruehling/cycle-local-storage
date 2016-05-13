@@ -165,18 +165,10 @@ export default sources => {
 
   const HTTP = Observable
     .merge(
-      mergeOrFlatMapLatest('HTTP', ...children)
-    )
-    .merge(
-      getPractitionersLocations$(sources)
-    )
-    .merge(
-      getPractitionersOrganizations$(sources)
-    )
-    .merge(
-      getPractitionersPlans$(sources)
-    )
-    .merge(
+      mergeOrFlatMapLatest('HTTP', ...children),
+      getPractitionersLocations$(sources),
+      getPractitionersOrganizations$(sources),
+      getPractitionersPlans$(sources),
       getPractitionersId$(sources)
     )
 

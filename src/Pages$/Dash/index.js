@@ -3,9 +3,9 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
 import { AppShell, SiteHeader$, AccountInfo, Search } from 'Components$'
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 
-import { getInsuranceId$, getInsuranceIdStats$ } from 'Remote'
+import { getInsuranceId$, getInsuranceIdStats$, getInsuranceIdActivities$ } from 'Remote'
 
 import Landing from './Landing'
 
@@ -26,12 +26,20 @@ export default sources => {
     .map(data => data.insurance_company)
     .startWith({})
 
+  const activities$ = sources.responses$
+    .filter(res$ => res$.request.category === 'getInsuranceIdActivities$')
+    .do(console.log.bind(console))
+    .map(res => res.body)
+    .map(data => data.activities)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
     {
       ...sources,
       stats$,
-      organization$
+      organization$,
+      activities$
     }
   )
 
@@ -53,24 +61,22 @@ export default sources => {
     pageDOM: page$.pluck('DOM')
   })
 
-  const details = {
-    HTTP: getInsuranceId$({
-      ...sources,
-      insuranceId$: Observable.just('3')
-    })
-  }
-
-  const stats = {
-    HTTP: getInsuranceIdStats$({
-      ...sources,
-      insuranceId$: Observable.just('3')
-    })
-  }
-
-  const children = [header, search, appShell, page$, details, stats]
+  const children = [header, search, appShell, page$]
 
   const HTTP = Observable.merge(
-    mergeOrFlatMapLatest('HTTP', ...children)
+    mergeOrFlatMapLatest('HTTP', ...children),
+    getInsuranceIdStats$({
+      ...sources,
+      insuranceId$: Observable.just('3')
+    }),
+    getInsuranceId$({
+      ...sources,
+      insuranceId$: Observable.just('3')
+    }),
+    getInsuranceIdActivities$({
+      ...sources,
+      insuranceId$: Observable.just('3')
+    })
   )
 
   const storage = Observable.merge(

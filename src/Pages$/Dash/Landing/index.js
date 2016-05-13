@@ -1,3 +1,4 @@
+import { Observable } from 'rx'
 import { div, a, span, img } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
@@ -9,7 +10,8 @@ import styles from './Landing.css'
 
 import USAMap from 'assets/img/USA_Map.png'
 
-import { MetricsCalloutV2, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
+import { ActivityStream, MetricsCalloutV2, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
+import { getName } from 'zwUtility'
 
 const _getChangeObject = (changeString) => {
   const number = Number(changeString)
@@ -42,9 +44,75 @@ const _getPercentage = (total, num) => {
   return Math.round(percentage)
 }
 
+const _getActivity = (activity = {}) => {
+  let icon, text, action, entityType, linkType
+  const name = '"' + getName(R.pathOr('', ['entity'])(activity)) + '"'
+  const image = R.pathOr(null, ['entity', 'image'])(activity)
+  const id = R.pathOr(null, ['entity', 'id'])(activity)
+
+  switch (activity.type) {
+    case 'added_group':
+    case 'added_practitioner':
+    case 'added_location':
+    case 'added_plan':
+      action = 'added'
+      break
+    case 'added_relation':
+      action = 'linked'
+      break
+    case 'modified_data':
+      action = 'modified'
+      break
+    default:
+      action = 'changed'
+      break
+  }
+
+  switch (activity.entity_type) {
+    case 'locations':
+      icon = 'Hospital'
+      entityType = 'Location'
+      linkType = 'location'
+      break
+    case 'practitioners':
+      icon = 'Contact'
+      entityType = 'Practitioner'
+      linkType = 'practitioner'
+      break
+    case 'groups':
+      icon = 'Shield'
+      entityType = 'Organization'
+      linkType = 'group'
+      break
+    case 'plans':
+      icon = 'Sheet'
+      entityType = 'Plan'
+      linkType = 'plan'
+      break
+    default:
+      icon = null
+      entityType = null
+      break
+  }
+
+  text = (entityType ? entityType + ' ' : '') + name + ' ' + action
+
+  return {
+    text,
+    avatar: {
+      icon,
+      image
+    },
+    id,
+    linkType,
+    date: R.pathOr(null, ['timestamp'])(activity)
+  }
+}
+
 const _render = ({
   stats,
   organization,
+  activities,
   maxStats
 }) => {
   return div({
@@ -65,11 +133,9 @@ const _render = ({
         ]),
         average: null
       }),
-      List({
+      ActivityStream({
         title: 'Activity Feed',
-        items: [{
-          text: 'No recent activity'
-        }]
+        items: R.compose(R.map(_getActivity), R.take(5))(activities)
       })
     ]),
     div({
@@ -470,8 +536,12 @@ const _render = ({
 
 export default sources => {
   const planTitleClicks$ = sources.DOM.select('.HighlightBox_title_hook')
-      .events('click')
-      .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
+    .events('click')
+    .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
+
+  const activityClicks$ = sources.DOM.select('.ActivityStream_item_hook')
+    .events('click')
+    .map(ev => '/' + ev.ownerTarget.dataset.type + '/' + ev.ownerTarget.dataset.id + '/')
 
   const maxStats$ = sources.stats$
     .map(stats => {
@@ -479,11 +549,15 @@ export default sources => {
       return max
     })
 
-  const route$ = planTitleClicks$
+  const route$ = Observable.merge(
+    planTitleClicks$,
+    activityClicks$
+  )
 
   const viewState = {
     organization$: sources.organization$,
     stats$: sources.stats$,
+    activities$: sources.activities$.do(console.log.bind(console)),
     maxStats$: maxStats$
   }
 

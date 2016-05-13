@@ -23,6 +23,7 @@ import zwDropdown from './styles/zwDropdown'
 import zwCheckbox from './styles/zwCheckbox'
 import zwTextarea from './styles/zwTextarea'
 import calendar from './styles/calendar'
+import activityStream from './styles/activityStream'
 
 export default sources => {
   const StyleFns = [
@@ -41,6 +42,7 @@ export default sources => {
     metricsCallout,
     metricsCircle,
     calendar,
+    activityStream,
     highlightBox,
     quickFact,
     keyValue,

@@ -1,3 +1,4 @@
+export { ActivityStream } from './ActivityStream'
 export { Avatar } from './Avatar'
 export { Button } from './Button'
 export { Calendar } from './Calendar'

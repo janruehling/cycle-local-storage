@@ -1,0 +1,52 @@
+@value constants: 'constants.css';
+@value color1_3, color1_5, color3 from constants;
+
+.container {
+  font-size: 14px;
+}
+
+.item {
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.itemBorder {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 20px;
+}
+
+.itemBorderDot {
+  background: color1_3;
+  border-radius: 100%;
+  height: 7px;
+  margin-top: 4px;
+  width: 7px;
+}
+
+.itemBorderLine {
+  background: color1_5;
+  flex: 1;
+  margin-bottom: -10px;
+  width: 3px;
+}
+
+.itemDescription {
+  display: flex;
+}
+
+.itemIcon {
+  margin-right: 5px;
+  width: 15px;
+}
+
+.itemDate {
+  color: color1_3;
+  margin-bottom: 5px;
+}
+
+.itemText {
+  color: color3
+}
