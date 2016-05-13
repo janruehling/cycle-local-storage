@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch, getUrlParams } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest, getUrlParams } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -29,7 +29,8 @@ export default sources => {
     })
 
   const practitioners$ = sources.responses$
-    .filter(byMatch('practitioners'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getPractitioners$')
     .map(res => res.body)
     .map(data => data.practitioners)
 

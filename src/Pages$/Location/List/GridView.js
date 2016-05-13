@@ -13,7 +13,7 @@ const _render = ({
 }) => div({
   className: styles.container
 }, [
-  locations.map(location => GridItem({
+  locations && locations.map(location => GridItem({
     className: 'location',
     size: 130,
     style: {

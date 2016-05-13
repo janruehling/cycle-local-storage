@@ -14,18 +14,21 @@ const _routes = {
 
 export default sources => {
   const stats$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getInsuranceIdStats$')
     .map(res => res.body)
     .map(data => data.stats)
     .startWith({})
 
   const organization$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getInsuranceId$')
     .map(res => res.body)
     .map(data => data.insurance_company)
     .startWith({})
 
   const activities$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getInsuranceIdActivities$')
     .map(res => res.body)
     .map(data => data.activities)

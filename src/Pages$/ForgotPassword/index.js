@@ -2,7 +2,6 @@ import { Observable } from 'rx'
 import { div, button } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { byMatch } from 'zwUtility'
 import { InfoMessage, ErrorMessage, FormContainer } from 'StyleFn'
 
 import styles from './ForgotPassword.css'
@@ -56,7 +55,8 @@ const _render = ({
 
 export default sources => {
   const backendResponse$ = sources.responses$
-    .filter(byMatch('/forgot_password'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'postForgotPassword$')
     .map(res => res.body)
     .startWith({})
 
@@ -87,6 +87,7 @@ export default sources => {
         skipToken: true,
         url: config.api + '/forgot_password',
         method: 'POST',
+        category: 'postForgotPassword$',
         send: formData
       }
     })

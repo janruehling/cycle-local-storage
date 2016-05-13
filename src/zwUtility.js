@@ -1,5 +1,5 @@
 import { Observable } from 'rx'
-import R, { is, pathOr } from 'ramda'
+import R, { is } from 'ramda'
 
 export const ENTER_KEY = 13
 export const ESC_KEY = 27
@@ -15,11 +15,6 @@ export const truncateString = (str, length) => {
 
   return str.substr(0, length) + ' ...'
 }
-
-export const byMatch = (matchPattern) =>
-  (responses$) => {
-    return (pathOr('', ['req', 'url'])(responses$)).indexOf(matchPattern) > -1
-  }
 
 export const getUrlParams = sources => {
   return sources.router.observable

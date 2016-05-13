@@ -10,7 +10,8 @@ export const getPractitioners$ = ({config$, filter$}) => {
       const url = filter ? rootUrl + '?filter=' + encodeURI(JSON.stringify(filter)) : rootUrl
       return {
         url: url,
-        method: 'GET'
+        method: 'GET',
+        category: 'getPractitioners$'
       }
     })
 }

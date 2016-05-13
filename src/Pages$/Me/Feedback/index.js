@@ -49,6 +49,7 @@ const _render = ({
 
 export default sources => {
   const response$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'postFeedback$')
     .startWith({})
 

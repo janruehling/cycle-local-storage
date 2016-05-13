@@ -4,7 +4,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, PlanDetailsCard, Search } from 'Components$'
 
 import { getPlansId$ } from 'Remote'
@@ -43,7 +43,8 @@ const _render = ({
 
 export default sources => {
   const plan$ = sources.responses$
-    .filter(byMatch('plans'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getPlansId$')
     .map(res => res.body)
     .map(data => data.plan)
     .startWith({})

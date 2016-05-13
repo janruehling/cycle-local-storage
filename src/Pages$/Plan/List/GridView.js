@@ -17,7 +17,7 @@ const _render = ({
   div({
     className: styles.grid
   }, [
-    plans.map(plan => HighlightBox({
+    plans && plans.map(plan => HighlightBox({
       style: {
         marginRight: '20px',
         height: '125px',

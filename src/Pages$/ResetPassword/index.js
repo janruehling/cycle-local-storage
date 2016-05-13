@@ -2,7 +2,6 @@ import { Observable } from 'rx'
 import { div, button, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { byMatch } from 'zwUtility'
 import { FormContainer, InfoMessage, ErrorMessage } from 'StyleFn'
 
 import styles from './ResetPassword.css'
@@ -61,7 +60,8 @@ const _render = ({
 
 export default sources => {
   const backendResponse$ = sources.responses$
-    .filter(byMatch('/reset_password'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'postResetPassword$')
     .map(res => res.body)
     .startWith({})
 
@@ -92,8 +92,9 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/forgot_password',
+        url: config.api + '/reset_password',
         method: 'POST',
+        category: 'postResetPassword$',
         send: formData
       }
     })

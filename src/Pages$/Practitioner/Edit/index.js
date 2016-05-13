@@ -30,6 +30,7 @@ const _render = ({
 
 export default sources => {
   const practitioner$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getPractitionersId$')
     .map(res => res.body)
     .map(data => data.practitioner)
@@ -92,15 +93,18 @@ export default sources => {
       (formData, config, id) => ({config, formData, id})
     )
     .map(({config, formData, id}) => {
+      console.log(formData)
       return {
         url: config.api + '/practitioners/' + id,
         method: 'PUT',
-        send: formData
+        send: formData,
+        category: 'putPractitioners$'
       }
     })
 
   const editResponse$ = sources.responses$
-    .filter(res$ => res$.request.method === 'PUT')
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'putPractitioners$')
 
   const message$ = editResponse$
     .flatMapLatest(response => {

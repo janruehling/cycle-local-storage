@@ -51,30 +51,35 @@ const _render = ({
 
 export default sources => {
   const practitioner$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res => res.request.category === 'getPractitionersId$')
     .map(res => res.body)
     .map(data => data.practitioner)
     .startWith({})
 
   const plans$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res => res.request.category === 'getPractitionersPlans$')
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])
 
   const organizations$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res => res.request.category === 'getPractitionersOrganizations$')
     .map(res => res.body)
     .map(data => data.groups)
     .startWith([])
 
   const locations$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res => res.request.category === 'getPractitionersLocations$')
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
 
   const activities$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res => res.request.category === 'getPractitionersIdActivities$')
     .map(res => res.body)
     .map(data => data.activities)

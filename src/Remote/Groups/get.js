@@ -8,7 +8,8 @@ export const getGroups$ = ({config$, filter$}) => {
       const url = filter ? rootUrl + '?filter=' + encodeURI(JSON.stringify(filter)) : rootUrl
       return {
         url: url,
-        method: 'GET'
+        method: 'GET',
+        category: 'getGroups$'
       }
     })
 }
@@ -18,6 +19,17 @@ export const getGroupsId$ = ({groupId$, config$}) => {
     .combineLatest(groupId$, (config, id) => ({config, id}))
     .map(({config, id}) => ({
       url: config.api + '/groups/' + id,
-      method: 'GET'
+      method: 'GET',
+      category: 'getGroupsId$'
+    }))
+}
+
+export const getGroupsActivities$ = ({groupId$, config$}) => {
+  return config$
+    .combineLatest(groupId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
+      url: config.api + '/groups/' + id + '/activities',
+      method: 'GET',
+      category: 'getGroupsActivities$'
     }))
 }

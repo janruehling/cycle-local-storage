@@ -2,7 +2,6 @@ import { Observable } from 'rx'
 import { div, button } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { byMatch } from 'zwUtility'
 import { FormContainer, InfoMessage, ErrorMessage } from 'StyleFn'
 
 import styles from './Register.css'
@@ -80,7 +79,8 @@ const _render = ({
 
 export default sources => {
   const backendResponse$ = sources.responses$
-    .filter(byMatch('/register'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'postRegister$')
     .map(res => res.body)
 
   const successResponses$ = backendResponse$
@@ -116,6 +116,7 @@ export default sources => {
         skipToken: true,
         url: config.api + '/register',
         method: 'POST',
+        category: 'postRegister$',
         send: formData
       }
     })

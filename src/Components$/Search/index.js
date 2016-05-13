@@ -3,7 +3,6 @@ import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { InputFactory } from 'Components$'
-import { byMatch } from 'zwUtility'
 
 import intent from './intent'
 
@@ -26,7 +25,8 @@ export const Search = sources => {
     .map(ev => ev.ownerTarget.dataset.type + '/' + ev.ownerTarget.dataset.id + '/')
 
   const searchResponse$ = sources.responses$
-    .filter(byMatch('/search'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getSearch$')
     .map(res => res.body)
     .filter(data => !!data)
     .map(data => data.results)
@@ -51,7 +51,8 @@ export const Search = sources => {
       return Observable.just({
         skipToken: false,
         url: config.api + '/search?q=' + encodeURI(formData),
-        method: 'GET'
+        method: 'GET',
+        category: 'getSearch$'
       })
     })
     .startWith('')

@@ -51,7 +51,8 @@ const _render = ({
         title: 'Plans Covered',
         items: plans
           .map(plan => ({
-            text: toTitleCase(getName(plan))
+            text: toTitleCase(getName(plan)),
+            link: '/#/plan/' + plan.id + '/'
           }))
       })
     ]),

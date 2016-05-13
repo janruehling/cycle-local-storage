@@ -30,6 +30,7 @@ const styleInput = {
 }
 
 const styleTextarea = {
+  height: '360px',
   width: '100%'
 }
 
@@ -130,64 +131,6 @@ const _render = ({
       newPatientsCheckDOM,
       medicareCheckDOM,
       medicaidCheckDOM
-      // lastNameFieldDOM,
-      // div({
-      //   style: {
-      //     display: 'flex',
-      //     marginTop: '5px'
-      //   }
-      // }, [
-      //   div({
-      //     style: {
-      //       width: '145px'
-      //     }
-      //   }),
-      //   input({
-      //     type: 'radio',
-      //     name: 'gender',
-      //     checked: !isFemale(practitioner),
-      //     style: {
-      //       marginRight: '5px'
-      //     }
-      //   }),
-      //   span({
-      //     style: {
-      //       ...styleRadioLabel,
-      //       color: isFemale(practitioner)
-      //         ? constants.primary1opaque5
-      //         : constants.primary1
-      //     }
-      //   }, 'Male')
-      // ]),
-      // div({
-      //   style: {
-      //     display: 'flex',
-      //     marginTop: '5px',
-      //     marginBottom: '15px'
-      //   }
-      // }, [
-      //   div({
-      //     style: {
-      //       width: '145px'
-      //     }
-      //   }),
-      //   input({
-      //     type: 'radio',
-      //     name: 'gender',
-      //     checked: isFemale(practitioner),
-      //     style: {
-      //       marginRight: '5px'
-      //     }
-      //   }),
-      //   span({
-      //     style: {
-      //       ...styleRadioLabel,
-      //       color: isFemale(practitioner)
-      //         ? constants.primary1
-      //         : constants.primary1opaque5
-      //     }
-      //   }, 'Female')
-      // ]),
     ]),
     div({
       className: styles.thirdColumn
@@ -206,6 +149,7 @@ const _render = ({
 
 export default sources => {
   const medicalSchool$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getConceptByName$medical_schools')
     .map(res => res.body)
     .map(res => res.elements)

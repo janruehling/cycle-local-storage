@@ -3,7 +3,7 @@ import { Observable } from 'rx'
 import { div, a } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { byMatch, getUrlParams } from 'zwUtility'
+import { getUrlParams } from 'zwUtility'
 import { FormContainer, ErrorMessage, Button } from 'StyleFn'
 
 import constants from 'constants.css'
@@ -111,12 +111,14 @@ export default sources => {
         skipToken: true,
         url: config.api + '/login',
         method: 'POST',
+        category: 'postLogin$',
         send: formData
       }
     })
 
   const loginResponse$ = sources.responses$
-    .filter(byMatch('/login'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'postLogin$')
     .map(res => res.body)
     .startWith({})
 

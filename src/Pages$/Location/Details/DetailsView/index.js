@@ -1,17 +1,19 @@
+import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import R from 'ramda'
 
-import { List, Heading, Calendar } from 'StyleFn'
+import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
-import { toTitleCase, getName, getIcon } from 'zwUtility'
+import { toTitleCase, getName, getIcon, getActivity } from 'zwUtility'
 
 import styles from './DetailsView.css'
 import constants from 'constants.css'
 
 const _render = ({
   location,
-  practitioners
+  practitioners,
+  activities
 }) => div({
   className: styles.container
 }, [
@@ -24,7 +26,7 @@ const _render = ({
       List({
         icon: 'Shield',
         title: 'Organizations',
-        items: location.belongs_to_groups ? location.belongs_to_groups
+        items: location && location.belongs_to_groups ? location.belongs_to_groups
           .map(group => ({
             text: toTitleCase(getName(group)),
             avatar: {
@@ -60,11 +62,16 @@ const _render = ({
         className: styles.activity
       }, [
         Calendar(),
-        div({
+        activities.length > 0 ? ActivityStream({
+          title: 'Activity Feed',
+          items: R.compose(R.map(getActivity), R.reverse, R.sortBy(activity => {
+            return activity.timestamp
+          }), R.take(5))(activities)
+        }) : div({
           style: {
             color: constants.primary1,
             fontSize: '14px',
-            marginTop: '20px'
+            marginTop: '15px'
           }
         }, 'No Activities yet')
       ])
@@ -88,8 +95,9 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    location: sources.location$,
-    practitioners: sources.practitioners$
+    location$: sources.location$ || Observable.just({}),
+    practitioners$: sources.practitioners$ || Observable.just([]),
+    activities$: sources.activities$ || Observable.just([])
   }
 
   const DOM = combineLatestObj(viewState)

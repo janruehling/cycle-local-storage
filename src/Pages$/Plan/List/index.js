@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, ComingSoon, Search, ToolBar } from 'Components$'
 
 import constants from 'constants.css'
@@ -18,7 +18,8 @@ const _routes = {
 
 export default sources => {
   const plans$ = sources.responses$
-    .filter(byMatch('plans'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getPlans$')
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])

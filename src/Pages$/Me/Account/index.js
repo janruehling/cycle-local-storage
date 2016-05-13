@@ -3,7 +3,7 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SelectFactory, SiteHeader$, ToolBar } from 'Components$'
-import { byMatch, getIcon, mergeOrFlatMapLatest } from 'zwUtility'
+import { getIcon, mergeOrFlatMapLatest } from 'zwUtility'
 import { Avatar, FormContainer, ErrorMessage, Button } from 'StyleFn'
 import { getMe$ } from 'Remote'
 
@@ -101,18 +101,16 @@ const _render = ({
 ])
 
 export default sources => {
-  const response$ = sources.responses$
-    .filter(byMatch('/me'))
-    .startWith({})
-
-  const GETresponse$ = response$
+  const GETresponse$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getMe$')
     .filter(res => !R.isEmpty(res))
-    .filter(res => res.req.method === 'GET')
     .map(res => res.body)
 
-  const PUTresponse$ = response$
+  const PUTresponse$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'putMe$')
     .filter(res => !R.isEmpty(res))
-    .filter(res => res.req.method === 'PUT')
     .map(res => res.body)
 
   const me$ = GETresponse$
@@ -200,6 +198,7 @@ export default sources => {
       return {
         url: config.api + '/me',
         method: 'PUT',
+        category: 'putMe$',
         send: formData
       }
     })
@@ -211,7 +210,8 @@ export default sources => {
       value: -1
     }))
 
-  const message$ = response$
+  const message$ = GETresponse$
+    .merge(PUTresponse$)
     .filter(response => response && !!response.error)
     .merge(formData$.map(data => ({
       message: null

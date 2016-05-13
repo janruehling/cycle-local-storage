@@ -1,15 +1,17 @@
+import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, getActivity } from 'zwUtility'
 
-import { List, Heading, Calendar } from 'StyleFn'
+import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
 import styles from './DetailsView.css'
 import constants from 'constants.css'
 
 const _render = ({
-  group
+  group,
+  activities
 }) => div({
   className: styles.container
 }, [
@@ -22,7 +24,7 @@ const _render = ({
       List({
         icon: 'Hospital',
         title: 'Locations',
-        items: group.has_locations ? group.has_locations
+        items: group && group.has_locations ? group.has_locations
           .map(location => ({
             text: toTitleCase(getName(location)),
             link: '/#/location/' + location.id + '/'
@@ -31,7 +33,7 @@ const _render = ({
       List({
         icon: 'Shield',
         title: 'Organizations',
-        items: group.owns_groups ? group.owns_groups
+        items: group && group.owns_groups ? group.owns_groups
           .map(group => ({
             text: toTitleCase(getName(group)),
             link: '/#/group/' + group.id + '/'
@@ -49,21 +51,28 @@ const _render = ({
         className: styles.activity
       }, [
         Calendar(),
-        div({
-          style: {
-            color: constants.primary1,
-            fontSize: '14px',
-            marginTop: '20px'
-          }
-        }, 'No Activities yet')
+        activities && activities.length > 0
+          ? ActivityStream({
+            title: 'Activity Feed',
+            items: R.compose(R.map(getActivity), R.reverse, R.sortBy(activity => {
+              return activity.timestamp
+            }), R.take(5))(activities)
+          })
+          : div({
+            style: {
+              color: constants.primary1,
+              fontSize: '14px',
+              marginTop: '20px'
+            }
+          }, 'No Activities yet')
       ])
     ]),
-    div({
+    group && div({
       className: styles.thirdColumn
     }, [
       Heading({
-        icon: 'Photo',
-        text: 'Verified Photos'
+        icon: 'Sheet',
+        text: 'Description'
       }),
       div(group.description)
     ])
@@ -72,7 +81,8 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    group: sources.group$
+    group$: sources.group$,
+    activities$: sources.activities$
   }
 
   const DOM = combineLatestObj(viewState)

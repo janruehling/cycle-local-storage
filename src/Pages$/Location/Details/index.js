@@ -4,10 +4,11 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, LocationDetailsCard, Search } from 'Components$'
 
-import { getLocationsId$, getLocationsPractitioners$ } from 'Remote'
+import { getLocationsId$, getLocationsPractitioners$,
+  getLocationsActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
@@ -43,24 +44,33 @@ const _render = ({
 
 export default sources => {
   const location$ = sources.responses$
-    .filter(byMatch('locations'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getLocationsId$')
     .map(res => res.body)
     .map(data => data.location)
     .startWith({})
 
   const practitioners$ = sources.responses$
-    .filter(byMatch('practitioners'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getLocationsPractitioners$')
     .map(res => res.body)
     .map(data => data.practitioners)
     .startWith([])
 
+  const activities$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getLocationsActivities$')
+    .map(res => res.body)
+    .map(data => data.activities)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { location$, practitioners$, ...sources }
+    { ...sources, location$, practitioners$, activities$ }
   )
 
   const detailsCard = LocationDetailsCard({
-    location: location$,
+    location: location$ || Observable.just({}),
     ...sources
   })
 
@@ -91,6 +101,7 @@ export default sources => {
   const HTTP = Observable.merge(
     getLocationsId$(sources),
     getLocationsPractitioners$(sources),
+    getLocationsActivities$(sources),
     mergeOrFlatMapLatest('HTTP', ...children)
   )
 

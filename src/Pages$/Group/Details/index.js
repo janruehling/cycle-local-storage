@@ -4,10 +4,10 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, byMatch } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, GroupDetailsCard, Search } from 'Components$'
 
-import { getGroupsId$ } from 'Remote'
+import { getGroupsId$, getGroupsActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
@@ -43,14 +43,22 @@ const _render = ({
 
 export default sources => {
   const group$ = sources.responses$
-    .filter(byMatch('groups'))
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getGroupsId$')
     .map(res => res.body)
     .map(data => data.group)
     .startWith({})
 
+  const activities$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getGroupsActivities$')
+    .map(res => res.body)
+    .map(data => data.activities)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { group$, ...sources }
+    { group$, activities$, ...sources }
   )
 
   const detailsCard = GroupDetailsCard({
@@ -84,6 +92,7 @@ export default sources => {
 
   const HTTP = Observable.merge(
     getGroupsId$(sources),
+    getGroupsActivities$(sources),
     mergeOrFlatMapLatest('HTTP', ...children)
   )
 

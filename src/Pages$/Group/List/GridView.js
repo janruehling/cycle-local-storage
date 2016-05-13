@@ -13,7 +13,7 @@ const _render = ({
 }) => div({
   className: styles.container
 }, [
-  groups.map(group => GridItem({
+  groups && groups.map(group => GridItem({
     className: 'group',
     size: 130,
     style: {

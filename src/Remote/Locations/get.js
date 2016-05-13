@@ -1,7 +1,8 @@
 export const getLocations$ = ({config$}) => {
   return config$.map(config => ({
     url: config.api + '/locations',
-    method: 'GET'
+    method: 'GET',
+    category: 'getLocations$'
   }))
 }
 
@@ -10,7 +11,18 @@ export const getLocationsId$ = ({locationId$, config$}) => {
     .combineLatest(locationId$, (config, id) => ({config, id}))
     .map(({config, id}) => ({
       url: config.api + '/locations/' + id,
-      method: 'GET'
+      method: 'GET',
+      category: 'getLocationsId$'
+    }))
+}
+
+export const getLocationsActivities$ = ({locationId$, config$}) => {
+  return config$
+    .combineLatest(locationId$, (config, id) => ({config, id}))
+    .map(({config, id}) => ({
+      url: config.api + '/locations/' + id + '/activities',
+      method: 'GET',
+      category: 'getLocationsActivities$'
     }))
 }
 
@@ -23,6 +35,7 @@ export const getLocationsPractitioners$ = ({locationId$, config$}) => {
           id: id
         }
       }),
-      method: 'GET'
+      method: 'GET',
+      category: 'getLocationsPractitioners$'
     }))
 }
