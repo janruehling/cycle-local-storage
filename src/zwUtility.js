@@ -1,5 +1,5 @@
 import { Observable } from 'rx'
-import { is, pathOr } from 'ramda'
+import R, { is, pathOr } from 'ramda'
 
 export const ENTER_KEY = 13
 export const ESC_KEY = 27
@@ -108,6 +108,71 @@ export const getIcon = (entity, type = '') => {
   }
 
   return icon
+}
+
+export const getActivity = (activity = {}) => {
+  let icon, text, action, entityType, linkType
+  const name = '"' + getName(R.pathOr('', ['entity'])(activity)) + '"'
+  const image = R.pathOr(null, ['entity', 'image'])(activity)
+  const id = R.pathOr(null, ['entity', 'id'])(activity)
+
+  switch (activity.type) {
+    case 'added_group':
+    case 'added_practitioner':
+    case 'added_location':
+    case 'added_plan':
+      action = 'added'
+      break
+    case 'added_relation':
+      action = 'linked'
+      break
+    case 'modified_data':
+      action = 'modified'
+      break
+    default:
+      action = 'changed'
+      break
+  }
+
+  switch (activity.entity_type) {
+    case 'locations':
+      icon = 'Hospital'
+      entityType = 'Location'
+      linkType = 'location'
+      break
+    case 'practitioners':
+      icon = 'Contact'
+      entityType = 'Practitioner'
+      linkType = 'practitioner'
+      break
+    case 'groups':
+      icon = 'Shield'
+      entityType = 'Organization'
+      linkType = 'group'
+      break
+    case 'plans':
+      icon = 'Sheet'
+      entityType = 'Plan'
+      linkType = 'plan'
+      break
+    default:
+      icon = null
+      entityType = null
+      break
+  }
+
+  text = (entityType ? entityType + ' ' : '') + name + ' ' + action
+
+  return {
+    text,
+    avatar: {
+      icon,
+      image
+    },
+    id,
+    linkType,
+    date: R.pathOr(null, ['timestamp'])(activity)
+  }
 }
 
 export const getStaticMap = ({latitude, longitude, width, height, zoom}) => {

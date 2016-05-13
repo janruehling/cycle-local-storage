@@ -21,7 +21,7 @@ const _render = ({
     className: styles.wrap
   }, [
     Avatar({
-      image: organization.image,
+      image: R.pathOr(null, ['image', 'url'])(organization),
       icon: 'Shield',
       size: 75,
       className: styles.avatar,

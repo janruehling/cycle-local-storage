@@ -9,7 +9,8 @@ import { AppShell, SiteHeader$, TabBar, PractitionerDetailsCard,
   Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 import { getPractitionersId$, getPractitionersPlans$,
-  getPractitionersOrganizations$, getPractitionersLocations$ } from 'Remote'
+  getPractitionersOrganizations$, getPractitionersLocations$,
+  getPractitionersIdActivities$} from 'Remote'
 
 import DetailsView from './DetailsView'
 import Relations from './Relations'
@@ -73,9 +74,15 @@ export default sources => {
     .map(data => data.locations)
     .startWith([])
 
+  const activities$ = sources.responses$
+    .filter(res => res.request.category === 'getPractitionersIdActivities$')
+    .map(res => res.body)
+    .map(data => data.activities)
+    .startWith([])
+
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { ...sources, practitioner$, plans$, organizations$, locations$ }
+    { ...sources, practitioner$, plans$, organizations$, locations$, activities$ }
   )
 
   const detailsCard = PractitionerDetailsCard({
@@ -169,7 +176,8 @@ export default sources => {
       getPractitionersLocations$(sources),
       getPractitionersOrganizations$(sources),
       getPractitionersPlans$(sources),
-      getPractitionersId$(sources)
+      getPractitionersId$(sources),
+      getPractitionersIdActivities$(sources)
     )
 
   const storage = Observable.merge(

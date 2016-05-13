@@ -3,7 +3,7 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName } from 'zwUtility'
+import { toTitleCase, getName, getActivity } from 'zwUtility'
 
 import { List, Heading, Calendar } from 'StyleFn'
 
@@ -14,7 +14,8 @@ const _render = ({
   practitioner,
   locations,
   organizations,
-  plans
+  plans,
+  activities
 }) => div({
   className: styles.container
 }, [
@@ -92,7 +93,8 @@ export default sources => {
     locations: sources.locations$,
     organizations: sources.organizations$,
     plans: sources.plans$,
-    practitioner: sources.practitioner$ || Observable.just({})
+    practitioner: sources.practitioner$ || Observable.just({}),
+    activities: sources.activities$ || Observable.just([])
   }
 
   const DOM = combineLatestObj(viewState)
