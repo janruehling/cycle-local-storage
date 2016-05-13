@@ -7,9 +7,9 @@ export { getPractitioners$, getPractitionersId$, getPractitionersRelations$,
 export { postPractitioners$ } from './Practitioners/post'
 export { getGroups$, getGroupsId$, getGroupsActivities$, getGroupsRelations$,
   getGroupsLocations$, getGroupsPractitioners$, getGroupsPlans$ } from './Groups/get'
-export { getPlans$, getPlansId$ } from './Plans/get'
-export { getInsuranceId$, getInsuranceIdStats$,
-  getInsuranceIdActivities$ } from './Insurance/get'
+export { getPlans$, getPlansId$, getPlansActivities$, getPlansPractitioners$,
+  getPlansRelations$, getPlansOrganizations$, getPlansLocations$ } from './Plans/get'
+export { getInsuranceId$, getInsuranceIdStats$, getInsuranceIdActivities$ } from './Insurance/get'
 export { getMe$ } from './Me/get'
 export { getConceptByName$ } from './Concepts/get'
 export { postFeedback$ } from './Feedback/post'
