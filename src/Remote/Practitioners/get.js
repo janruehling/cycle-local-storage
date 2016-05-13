@@ -1,6 +1,6 @@
 import { Observable } from 'rx'
 
-const _getFilter = id => JSON.stringify({ practitioners: {id: id} })
+const _getFilter = id => JSON.stringify({ practitioner: {id: id} })
 
 export const getPractitioners$ = ({config$, filter$}) => {
   filter$ = filter$ || Observable.just(null)

@@ -10,7 +10,8 @@ import styles from './Landing.css'
 
 import USAMap from 'assets/img/USA_Map.png'
 
-import { ActivityStream, MetricsCalloutV2, MetricsCircle, Heading, List, HighlightBox } from 'StyleFn'
+import { ActivityStream, MetricsCalloutV2, MetricsCircle, Heading, List,
+  HighlightBox } from 'StyleFn'
 import { getActivity } from 'zwUtility'
 
 const _getChangeObject = (changeString) => {

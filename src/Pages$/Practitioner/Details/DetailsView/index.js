@@ -5,10 +5,9 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { toTitleCase, getName, getActivity } from 'zwUtility'
 
-import { List, Heading, Calendar } from 'StyleFn'
+import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
 import styles from './DetailsView.css'
-import constants from 'constants.css'
 
 const _render = ({
   practitioner,
@@ -67,13 +66,12 @@ const _render = ({
         className: styles.activity
       }, [
         Calendar(),
-        div({
-          style: {
-            color: constants.primary1,
-            fontSize: '14px',
-            marginTop: '20px'
-          }
-        }, 'No Activities yet')
+        ActivityStream({
+          title: 'Activity Feed',
+          items: R.compose(R.map(getActivity), R.reverse, R.sortBy(activity => {
+            return activity.timestamp
+          }), R.take(5))(activities)
+        })
       ])
     ]),
     div({
@@ -89,6 +87,10 @@ const _render = ({
 ])
 
 export default sources => {
+  const activityClicks$ = sources.DOM.select('.ActivityStream_item_hook')
+    .events('click')
+    .map(ev => '/' + ev.ownerTarget.dataset.type + '/' + ev.ownerTarget.dataset.id + '/')
+
   const viewState = {
     locations: sources.locations$,
     organizations: sources.organizations$,
@@ -100,7 +102,12 @@ export default sources => {
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
+  const route$ = Observable.merge(
+    activityClicks$
+  )
+
   return {
-    DOM
+    DOM,
+    route$
   }
 }
