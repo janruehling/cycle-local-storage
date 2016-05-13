@@ -1,11 +1,12 @@
 export { getLocations$, getLocationsId$, getLocationsActivities$,
-  getLocationsPractitioners$ } from './Locations/get'
+  getLocationsPractitioners$, getLocationsRelations$, getLocationsOrganizations$,
+    getLocationsPlans$ } from './Locations/get'
 export { getPractitioners$, getPractitionersId$, getPractitionersRelations$,
   getPractitionersLocations$, getPractitionersOrganizations$,
   getPractitionersPlans$, getPractitionersIdActivities$ } from './Practitioners/get'
 export { postPractitioners$ } from './Practitioners/post'
-export { getGroups$, getGroupsId$, getGroupsActivities$, getGroupsLocations$,
-  getGroupsPractitioners$, getGroupsPlans$ } from './Groups/get'
+export { getGroups$, getGroupsId$, getGroupsActivities$, getGroupsRelations$,
+  getGroupsLocations$, getGroupsPractitioners$, getGroupsPlans$ } from './Groups/get'
 export { getPlans$, getPlansId$ } from './Plans/get'
 export { getInsuranceId$, getInsuranceIdStats$,
   getInsuranceIdActivities$ } from './Insurance/get'

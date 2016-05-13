@@ -7,8 +7,8 @@ import { div } from '@cycle/dom'
 import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, LocationDetailsCard, Search } from 'Components$'
 
-import { getLocationsId$, getLocationsPractitioners$,
-  getLocationsActivities$ } from 'Remote'
+import { getLocationsId$, getLocationsPractitioners$, getLocationsOrganizations$,
+  getLocationsPlans$, getLocationsActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
@@ -57,6 +57,20 @@ export default sources => {
     .map(data => data.practitioners)
     .startWith([])
 
+  const plans$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res => res.request.category === 'getLocationsPlans$')
+    .map(res => res.body)
+    .map(data => data.plans)
+    .startWith([])
+
+  const groups$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res => res.request.category === 'getLocationsOrganizations$')
+    .map(res => res.body)
+    .map(data => data.groups)
+    .startWith([])
+
   const activities$ = sources.responses$
     .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getLocationsActivities$')
@@ -66,7 +80,7 @@ export default sources => {
 
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { ...sources, location$, practitioners$, activities$ }
+    { ...sources, location$, practitioners$, plans$, groups$, activities$ }
   )
 
   const detailsCard = LocationDetailsCard({
@@ -101,6 +115,8 @@ export default sources => {
   const HTTP = Observable.merge(
     getLocationsId$(sources),
     getLocationsPractitioners$(sources),
+    getLocationsOrganizations$(sources),
+    getLocationsPlans$(sources),
     getLocationsActivities$(sources),
     mergeOrFlatMapLatest('HTTP', ...children)
   )

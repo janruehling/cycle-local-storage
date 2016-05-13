@@ -48,7 +48,7 @@ const _render = ({
       }),
       List({
         icon: 'Sheet',
-        title: 'Plans Covered',
+        title: 'Plans',
         items: plans
           .map(plan => ({
             text: toTitleCase(getName(plan)),

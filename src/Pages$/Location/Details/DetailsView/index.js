@@ -13,6 +13,8 @@ import constants from 'constants.css'
 const _render = ({
   location,
   practitioners,
+  groups,
+  plans,
   activities
 }) => div({
   className: styles.container
@@ -26,7 +28,7 @@ const _render = ({
       List({
         icon: 'Shield',
         title: 'Organizations',
-        items: location && location.belongs_to_groups ? location.belongs_to_groups
+        items: groups && groups
           .map(group => ({
             text: toTitleCase(getName(group)),
             avatar: {
@@ -34,21 +36,27 @@ const _render = ({
               icon: 'Shield'
             },
             link: '/#/group/' + location.id + '/'
-          })) : []
+          }))
       }),
       List({
         icon: 'Contact',
         title: 'Practitioners',
-        items: practitioners
-          ? practitioners.map(practitioner => ({
-            avatar: {
-              image: R.pathOr(null, ['image', 'url'])(practitioner),
-              icon: getIcon(practitioner, 'practitioner')
-            },
-            text: toTitleCase(getName(practitioner)),
-            link: '/#/practitioner/' + practitioner.id + '/'
-          }))
-          : []
+        items: practitioners && practitioners.map(practitioner => ({
+          avatar: {
+            image: R.pathOr(null, ['image', 'url'])(practitioner),
+            icon: getIcon(practitioner, 'practitioner')
+          },
+          text: toTitleCase(getName(practitioner)),
+          link: '/#/practitioner/' + practitioner.id + '/'
+        }))
+      }),
+      List({
+        icon: 'Sheet',
+        title: 'Plans',
+        items: plans && plans.map(plan => ({
+          text: toTitleCase(getName(plan)),
+          link: '/#/plan/' + plan.id + '/'
+        }))
       })
     ]),
     div({
@@ -97,6 +105,8 @@ export default sources => {
   const viewState = {
     location$: sources.location$ || Observable.just({}),
     practitioners$: sources.practitioners$ || Observable.just([]),
+    groups$: sources.groups$ || Observable.just([]),
+    plans$: sources.plans$ || Observable.just([]),
     activities$: sources.activities$ || Observable.just([])
   }
 

@@ -2,7 +2,7 @@ import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { toTitleCase, getName, getActivity } from 'zwUtility'
+import { toTitleCase, getName, getActivity, getIcon } from 'zwUtility'
 
 import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
@@ -11,6 +11,9 @@ import constants from 'constants.css'
 
 const _render = ({
   group,
+  locations,
+  practitioners,
+  plans,
   activities
 }) => div({
   className: styles.container
@@ -24,20 +27,33 @@ const _render = ({
       List({
         icon: 'Hospital',
         title: 'Locations',
-        items: group && group.has_locations ? group.has_locations
+        items: locations && locations
           .map(location => ({
             text: toTitleCase(getName(location)),
             link: '/#/location/' + location.id + '/'
-          })) : null
+          }))
       }),
       List({
-        icon: 'Shield',
-        title: 'Organizations',
-        items: group && group.owns_groups ? group.owns_groups
-          .map(group => ({
-            text: toTitleCase(getName(group)),
-            link: '/#/group/' + group.id + '/'
-          })) : null
+        icon: 'Contact',
+        title: 'Practitioners',
+        items: practitioners && practitioners
+          .map(practitioner => ({
+            text: toTitleCase(getName(practitioner)),
+            avatar: {
+              image: R.pathOr(null, ['image', 'url'])(practitioner),
+              icon: getIcon(practitioner, 'practitioner')
+            },
+            link: '/#/practitioner/' + practitioner.id + '/'
+          }))
+      }),
+      List({
+        icon: 'Sheet',
+        title: 'Plans',
+        items: plans && plans
+          .map(plan => ({
+            text: toTitleCase(getName(plan)),
+            link: '/#/plan/' + plan.id + '/'
+          }))
       })
     ]),
     div({
@@ -81,6 +97,9 @@ const _render = ({
 
 export default sources => {
   const viewState = {
+    locations: sources.locations$,
+    practitioners: sources.practitioners$,
+    plans: sources.plans$,
     group$: sources.group$,
     activities$: sources.activities$
   }
