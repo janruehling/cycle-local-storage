@@ -47,7 +47,8 @@ export default sources => {
   const toolBar = ToolBar({
     ...sources,
     tools$: currentViewType$
-      .flatMap(viewType => Observable.just({
+      .combineLatest(sources.userProfile$)
+      .flatMap(([viewType, profile]) => Observable.just({
         left: [
           div('All Practitioners')
         ],
@@ -58,7 +59,7 @@ export default sources => {
               alignItems: 'center',
               background: constants.color4,
               cursor: 'pointer',
-              display: 'flex',
+              display: profile.email === 'zipwire_admin@zipwire.com' ? 'flex' : 'none',
               height: '18px',
               justifyContent: 'center',
               marginRight: '10px',
