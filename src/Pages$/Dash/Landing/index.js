@@ -557,7 +557,7 @@ export default sources => {
   const viewState = {
     organization$: sources.organization$,
     stats$: sources.stats$,
-    activities$: sources.activities$.do(console.log.bind(console)),
+    activities$: sources.activities$,
     maxStats$: maxStats$
   }
 

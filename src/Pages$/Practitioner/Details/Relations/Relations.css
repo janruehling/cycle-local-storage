@@ -52,3 +52,11 @@
     font-weight: bold;
   }
 }
+
+.hoverData {
+  display: none;
+}
+
+.hoverTarget:hover .hoverData {
+  display: block;
+}

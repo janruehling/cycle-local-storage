@@ -80,7 +80,7 @@ const _render = ({
         }
       }, 'Specialty')
     ]),
-    practitioners.map(practitioner => ListItem({
+    practitioners && practitioners.map(practitioner => ListItem({
       className: 'practitioner',
       image: pathOr(null, ['image', 'url'])(practitioner),
       icon: getIcon(practitioner, 'practitioner'),

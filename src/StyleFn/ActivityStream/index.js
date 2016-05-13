@@ -44,8 +44,8 @@ export const ActivityStream = (options = {}) => {
           flex: 1
         }
       }, [
-        item.date && moment(item.date).isValid()
-          && div({
+        item.date && moment(item.date).isValid() &&
+          div({
             className: styles.itemDate
           }, moment(item.date).format('ll')),
         div({

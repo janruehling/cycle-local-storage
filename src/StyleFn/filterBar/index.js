@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import styles from './filterBar.css'
 
 export const filterBar = ({props}) => {
-  console.log(props)
   return div({
     className: styles.container,
     style: props.style

@@ -1,4 +1,3 @@
-import R from 'ramda'
 import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 
@@ -28,7 +27,6 @@ export default sources => {
 
   const activities$ = sources.responses$
     .filter(res$ => res$.request.category === 'getInsuranceIdActivities$')
-    .do(console.log.bind(console))
     .map(res => res.body)
     .map(data => data.activities)
     .startWith([])
