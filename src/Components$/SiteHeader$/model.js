@@ -7,6 +7,12 @@ export default (actions, sources) => {
   )
   .startWith(false)
 
+  const isNotificationMenuOpen$ = Observable.merge(
+      actions.notificationMenuMouseOver$.throttle(10).map(ev => true),
+      actions.notificationMenuMouseOut$.throttle(10).map(ev => false)
+  )
+  .startWith(false)
+
   const signOutRequest$ = actions.signOutClick$
     .flatMap(ev => Observable.just({
       auth: null,
@@ -21,6 +27,7 @@ export default (actions, sources) => {
 
   return {
     isUserMenuOpen$,
+    isNotificationMenuOpen$,
     signOutRequest$,
     accountSettingsRequest$,
     feedbackRequest$

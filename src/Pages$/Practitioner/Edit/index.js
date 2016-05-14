@@ -93,7 +93,6 @@ export default sources => {
       (formData, config, id) => ({config, formData, id})
     )
     .map(({config, formData, id}) => {
-      console.log(formData)
       return {
         url: config.api + '/practitioners/' + id,
         method: 'PUT',

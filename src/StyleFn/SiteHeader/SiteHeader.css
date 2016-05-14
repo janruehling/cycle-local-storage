@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value additional12, color1, maxWidth from constants;
+@value color1_6, color1, color1_3, color1_6, color3, maxWidth from constants;
 
 .spacer {
   height: 59px;
@@ -43,7 +43,7 @@
   display: flex;
   height: 100%;
   position: absolute;
-  right: 0;
+  right: 55px;
   top: 0;
 }
 
@@ -87,7 +87,7 @@
   padding: 15px 0 10px;
   position: absolute;
   right: 0;
-  top: 31px;
+  top: 30px;
   width: 200px;
   z-index: 10;
 }
@@ -100,6 +100,86 @@
   z-index: 10;
 
   &:hover {
-    background: additional12;
+    background: color1_6;
   }
+}
+
+.notificationMenuContainer {
+  align-items: center;
+  display: flex;
+  height: 26px;
+  overflow: visible;
+  margin-top: 5px;
+  justify-content: center;
+  position: relative;
+
+  .notificationMenuIcon {
+    color: #fff;
+    margin-left: 10px;
+    padding: 5px 5px 10px;
+    z-index: 11;
+  }
+
+  &:hover, &.notificationMenuOpen {
+    .notificationMenuIcon {
+      background: #fff;
+      color: color1;
+      position: relative;
+    }
+
+    .notificationMenu {
+      visibility: visible;
+    }
+
+    .notificationMenu:hover {
+      visibility: visible;
+    }
+  }
+}
+
+.notificationMenu {
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .5);
+  color: color1;
+  visibility: hidden;
+  padding: 15px 0 10px;
+  position: absolute;
+  right: 0;
+  top: 28px;
+  width: 450px;
+  z-index: 10;
+}
+
+.notificationMenuItem {
+  align-items: flex-start;
+  border-bottom: 1px solid color1_6;
+  color: color1;
+  display: flex;
+  font-size: 14px;
+  padding: 15px 10px;
+  z-index: 10;
+
+  &:hover {
+    background: color1_6;
+  }
+}
+
+.notificationIcon {
+  margin-right: 10px;
+  width: 15px;
+}
+
+.notificationText {
+  margin-bottom: 10px;
+}
+
+.notificationDate {
+  color: color1_3;
+  font-size: 12px;
+}
+
+.notificationRead {
+  color: color3;
+  font-size: 12px;
+  margin-left: 10px;
 }

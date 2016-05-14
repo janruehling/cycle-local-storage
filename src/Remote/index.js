@@ -10,6 +10,6 @@ export { getGroups$, getGroupsId$, getGroupsActivities$, getGroupsRelations$,
 export { getPlans$, getPlansId$, getPlansActivities$, getPlansPractitioners$,
   getPlansRelations$, getPlansOrganizations$, getPlansLocations$ } from './Plans/get'
 export { getInsuranceId$, getInsuranceIdStats$, getInsuranceIdActivities$ } from './Insurance/get'
-export { getMe$ } from './Me/get'
+export { getMe$, getMeNotifications$ } from './Me/get'
 export { getConceptByName$ } from './Concepts/get'
 export { postFeedback$ } from './Feedback/post'

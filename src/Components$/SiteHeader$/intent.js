@@ -11,6 +11,16 @@ export default sources => ({
     sources.DOM.select('#userMenu').events('mouseout'),
     sources.DOM.select('#userMenuItem').events('mouseout')
   ]),
+  notificationMenuMouseOver$: Observable.merge([
+    sources.DOM.select('#notificationMenuTrigger').events('mouseover'),
+    sources.DOM.select('#notificationMenu').events('mouseover'),
+    sources.DOM.select('#notificationMenuItem').events('mouseover')
+  ]),
+  notificationMenuMouseOut$: Observable.merge([
+    sources.DOM.select('#notificationMenuTrigger').events('mouseout'),
+    sources.DOM.select('#notificationMenu').events('mouseout'),
+    sources.DOM.select('#notificationMenuItem').events('mouseout')
+  ]),
   signOutClick$: sources.DOM.select('#signOut').events('click'),
   accountSettingsClick$: sources.DOM.select('#accountSettings').events('click'),
   feedbackClick$: sources.DOM.select('#feedback').events('click')

@@ -5,3 +5,11 @@ export const getMe$ = ({config$}) => {
     category: 'getMe$'
   }))
 }
+
+export const getMeNotifications$ = ({config$}) => {
+  return config$.map(config => ({
+    url: config.api + '/me/notifications',
+    method: 'GET',
+    category: 'getMeNotifications$'
+  }))
+}

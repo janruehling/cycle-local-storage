@@ -1,4 +1,5 @@
 import R from 'ramda'
+import moment from 'moment'
 import { div, a, img } from '@cycle/dom'
 
 import { Icon, Avatar } from 'StyleFn'
@@ -7,10 +8,60 @@ import logo from 'assets/img/logo.svg'
 
 import styles from './SiteHeader.css'
 
+const _getNotificationIcon = type => {
+  let out
+  switch (type) {
+    default:
+      out = 'Info'
+      break
+  }
+  return out
+}
+
+const _createNotification = notification => {
+  return div({
+    className: styles.notificationMenuItem
+  }, [
+    div({
+      className: styles.notificationIcon
+    }, [
+      Icon({
+        icon: _getNotificationIcon(notification.type),
+        size: 15
+      })
+    ]),
+    div({
+      style: {
+        flex: 1
+      }
+    }, [
+      div({
+        className: styles.notificationText
+      }, notification.text),
+      div({
+        style: {
+          display: 'flex'
+        }
+      }, [
+        div({
+          className: styles.notificationDate
+        }, moment(notification.creation_date).fromNow()),
+        notification.read_date ? div({
+          className: styles.notificationRead
+        }) : div({
+          className: styles.notificationRead
+        }, 'Mark Read')
+      ])
+    ])
+  ])
+}
+
 const SiteHeader = ({
   profile,
   isLoggedIn,
   isUserMenuOpen,
+  isNotificationMenuOpen,
+  notifications,
   message,
   style
 }) => div([
@@ -158,20 +209,30 @@ const SiteHeader = ({
               ]
               )
               : null
+          ]),
+          div({
+            style: {
+              background: '#fff',
+              height: '26px',
+              width: '1px'
+            }
+          }),
+          div({
+            className: styles.notificationMenuContainer
+          }, [
+            Icon({
+              icon: 'Flag',
+              className: styles.notificationMenuIcon,
+              style: {}
+            }),
+            div({
+              className: styles.notificationMenu + (isNotificationMenuOpen ? ' ' + styles.notificationMenuOpen : '')
+            }, [
+              notifications && notifications.length ? R.compose(R.map(_createNotification), R.take(4))(notifications) : div({
+                className: styles.notificationMenuItem
+              }, 'No notifications yet')
+            ])
           ])
-          // ,
-          // div({
-          //   className: styles.notificationMenuContainer
-          // }, [
-          //   Icon({
-          //     icon: 'Flag',
-          //     style: {
-          //       borderLeft: '1px solid #fff',
-          //       color: '#fff',
-          //       padding: '5px 10px'
-          //     }
-          //   })
-          // ])
         ])
         : null
     ])

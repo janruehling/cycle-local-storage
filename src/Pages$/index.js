@@ -5,6 +5,7 @@ import { Observable, ReplaySubject } from 'rx'
 import R from 'ramda'
 import isolate from '@cycle/isolate'
 import { nestedComponent } from 'zwUtility'
+import { getMeNotifications$ } from 'Remote'
 
 import { ComingSoon } from 'Components$'
 import Account from './Me/Account'
