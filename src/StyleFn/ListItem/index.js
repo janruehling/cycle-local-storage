@@ -7,43 +7,52 @@ import styles from './ListItem.css'
 import { Avatar } from 'StyleFn'
 import { getName } from 'zwUtility'
 
-export const ListItem = (options = {}) => div({
-  className: classNames({
-    [styles.container]: true,
-    [options.className]: !!options.className
-  }),
-  attributes: options.attributes
-}, [
+export const ListItem = (options = {}) => div([
   div({
-    className: styles.column,
-    style: {
-      alignItems: 'center',
-      borderRadius: '5px',
-      background: constants.color1_6,
-      display: 'flex',
-      width: '190px'
-    }
-  }, [
-    Avatar({
-      image: options.image,
-      icon: options.icon,
-      size: 24
+    className: classNames({
+      [styles.container]: true,
+      [options.className]: !!options.className
     }),
+    attributes: options.attributes
+  }, [
     div({
+      className: styles.column,
       style: {
-        fontWeight: 'bold',
-        marginLeft: '10px',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
+        alignItems: 'center',
+        borderRadius: '4px',
+        background: constants.color1_6,
+        display: 'flex',
+        width: '190px'
       }
-    }, getName(options.entity))
+    }, [
+      Avatar({
+        image: options.image,
+        icon: options.icon,
+        size: 24
+      }),
+      div({
+        style: {
+          fontWeight: 'bold',
+          marginLeft: '10px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }
+      }, getName(options.entity))
+    ]),
+    options.children && options.children.map(child => {
+      child.properties ? child.properties.className = classNames({
+        [child.properties.className]: !!child.properties.className,
+        [styles.column]: true
+      }) : child.className = styles.column
+      return child
+    })
   ]),
-  options.children && options.children.map(child => {
-    child.properties ? child.properties.className = classNames({
-      [child.properties.className]: !!child.properties.className,
-      [styles.column]: true
-    }) : child.className = styles.column
-    return child
+  div({
+    style: {
+      background: constants.color1_6,
+      height: '1px',
+      width: '100%'
+    }
   })
 ])

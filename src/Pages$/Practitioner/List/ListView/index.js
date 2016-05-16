@@ -144,7 +144,7 @@ export default sources => {
     props$: Observable.just({
       title: 'FILTER',
       style: {
-        margin: '0 auto',
+        margin: '0 auto 15px',
         width: constants.maxWidth
       },
       children: [{

@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value color1_4, color1_6, color2 from constants;
+@value color1, color1_4, color1_6, color2 from constants;
 
 .container {
   align-items: center;
@@ -20,6 +20,7 @@
 }
 
 .item {
+  color: color1;
   cursor: pointer;
   margin-right: 30px;
   padding: 0 3px;

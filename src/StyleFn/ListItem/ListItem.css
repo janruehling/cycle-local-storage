@@ -5,13 +5,14 @@
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 3px 1px;
-  border-bottom: 1px solid color1_6;
+  margin: 3px 1px;
   font-size: 12px;
+  overflow: hidden;
 
   &:hover {
     background: color1_6;
     background-clip: content-box;
+    border-radius: 4px;
   }
 }
 

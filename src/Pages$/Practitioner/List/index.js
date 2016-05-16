@@ -50,7 +50,13 @@ export default sources => {
       .combineLatest(sources.userProfile$)
       .flatMap(([viewType, profile]) => Observable.just({
         left: [
-          div('All Practitioners')
+          div({
+            style: {
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: constants.color1
+            }
+          }, 'All Practitioners')
         ],
         right: [
           div({
@@ -96,10 +102,7 @@ export default sources => {
             }
           }, [
             Icon({
-              icon: 'Grid',
-              style: {
-                marginRight: '10px'
-              }
+              icon: 'Grid'
             })
           ])
         ]
