@@ -106,7 +106,7 @@ const UserManager = sources => {
 }
 
 const AuthedResponseManager = sources => {
-  const responses$ = new ReplaySubject(20)
+  const responses$ = new ReplaySubject(100)
 
   sources.HTTP
     .flatMap(response$ => {

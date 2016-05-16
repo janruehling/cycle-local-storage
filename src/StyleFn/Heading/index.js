@@ -9,7 +9,7 @@ import styles from './Heading.css'
 export const Heading = (options = {}) =>
   div({
     className: classNames({
-      [options.className]: true,
+      [options.className]: !!options.className,
       [styles.container]: true
     }),
     style: {
@@ -19,7 +19,7 @@ export const Heading = (options = {}) =>
     options.icon && Icon({
       icon: options.icon,
       className: classNames({
-        [options.classNameIcon]: true,
+        [options.classNameIcon]: !!options.classNameIcon,
         [styles.icon]: true
       }),
       style: {
@@ -28,7 +28,7 @@ export const Heading = (options = {}) =>
     }),
     options.text && div({
       className: classNames({
-        [options.classNameText]: true,
+        [options.classNameText]: !!options.classNameText,
         [styles.text]: true
       }),
       style: {

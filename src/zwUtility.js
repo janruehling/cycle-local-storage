@@ -76,6 +76,25 @@ export const getGender = (entity) => {
   return out
 }
 
+export const getLanguage = language => {
+  let out
+  switch (language.id) {
+    case 'en':
+      out = 'English'
+      break
+    case 'es':
+      out = 'Spanish'
+      break
+    case 'de':
+      out = 'German'
+      break
+    default:
+      out = ''
+      break
+  }
+  return out
+}
+
 export const getIcon = (entity, type = '') => {
   let icon = ''
 

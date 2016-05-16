@@ -95,6 +95,7 @@
 .userMenuItem {
   align-items: center;
   display: flex;
+  font-size: 14px;
   margin-bottom: 5px;
   padding: 5px 10px;
   z-index: 10;

@@ -71,7 +71,11 @@ const _render = ({
         button({
           id: 'submit',
           className: styles.button
-        }, 'Submit')
+        }, 'Submit'),
+        div({
+          id: 'cancel',
+          className: styles.link
+        }, 'Cancel')
       ])
     ])
   ])
@@ -105,6 +109,11 @@ export default sources => {
     .select('.' + styles.button)
     .events('click')
     .map(true)
+
+  const cancelClicks$ = sources.DOM
+    .select('#cancel')
+    .events('click')
+    .map(ev => '/')
 
   const HTTP = formData$
     .sample(submit$)
@@ -158,10 +167,15 @@ export default sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
 
+  const route$ = Observable.merge(
+    sources.redirectLogin$,
+    cancelClicks$
+  )
+
   return {
     DOM,
     HTTP,
-    route$: sources.redirectLogin$,
+    route$,
     message$
   }
 }

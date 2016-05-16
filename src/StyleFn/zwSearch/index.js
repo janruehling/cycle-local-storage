@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { zwInput, Avatar } from 'StyleFn'
 import { getIcon, getName, toTitleCase } from 'zwUtility'
 
+import constants from 'constants.css'
 import styles from './zwSearch.css'
 
 export const _highlightText = (string, match) => {
@@ -17,7 +18,7 @@ export const _highlightText = (string, match) => {
       .map(s => {
         return [span(s), span({
           style: {
-            background: 'yellow'
+            background: constants.color1_4
           }
         }, match)]
       })

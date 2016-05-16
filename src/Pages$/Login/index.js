@@ -16,7 +16,10 @@ const EmailInput = InputFactory({
   className: 'email',
   type: 'text',
   placeholder: 'Email',
-  required: true
+  required: true,
+  style: {
+    marginBottom: '15px'
+  }
 })
 
 const PasswordInput = InputFactory({
@@ -24,7 +27,10 @@ const PasswordInput = InputFactory({
   type: 'password',
   placeholder: 'Password',
   required: true,
-  className: 'password'
+  className: 'password',
+  style: {
+    marginBottom: '15px'
+  }
 })
 
 const _render = ({
@@ -63,8 +69,11 @@ const _render = ({
       div([
         a({
           className: styles.link,
-          href: '/#/forgotPassword'
-        }, 'Forgotten Password? '),
+          href: '/#/forgotPassword',
+          style: {
+            marginRight: '10px'
+          }
+        }, 'Forgotten Password?'),
         a({
           className: styles.link,
           href: '/#/register'

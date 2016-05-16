@@ -5,7 +5,7 @@ import { div } from '@cycle/dom'
 
 import { pathOr } from 'ramda'
 
-import { toTitleCase, getName, getIcon, getGender } from 'zwUtility'
+import { toTitleCase, getName, getIcon, getGender, getLanguage } from 'zwUtility'
 import { DetailsCard } from 'StyleFn'
 
 const _render = ({
@@ -50,9 +50,7 @@ const _render = ({
   lists: [
     {
       title: 'Languages:',
-      items: practitioner.languages ? practitioner.languages.map(language => ({
-        text: toTitleCase(language.id) + (language.level ? ' (' + toTitleCase(language.level) + ')' : '')
-      })) : null
+      items: practitioner.languages ? practitioner.languages.map(getLanguage).map(str => ({text: str})) : null
     },
     {
       title: 'Medical School:',

@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, additional1opaque75, additional4 from constants;
+@value primary1, additional1opaque75, color1 from constants;
 
 .container {
   display: flex;
@@ -16,7 +16,7 @@
 }
 
 .title {
-  color: additional4;
+  color: color1;
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -29,7 +29,7 @@
 }
 
 .link {
-  color: additional4;
+  color: color1;
   font-size: 14px;
   text-decoration: none;
 }

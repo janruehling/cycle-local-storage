@@ -4,7 +4,7 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { pathOr, pluck } from 'ramda'
 
-import { getIcon, toTitleCase } from 'zwUtility'
+import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
 import { ListItem } from 'StyleFn'
@@ -16,21 +16,6 @@ const styleEllipsis = {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap'
-}
-
-const getLanguageName = (targetLanguage = 'en') => {
-  return languageString => {
-    const translations = {
-      en: {
-        'en': 'English',
-        'es': 'Spanish',
-        'it': 'Italian',
-        'de': 'German'
-      }
-    }
-
-    return pathOr(languageString, [targetLanguage, languageString])(translations)
-  }
 }
 
 const _render = ({
@@ -109,7 +94,7 @@ const _render = ({
           }
         },
         practitioner.languages
-          ? [(pluck('id')(practitioner.languages)).map(getLanguageName('en')).join(', ')]
+          ? practitioner.languages.map(getLanguage).join(', ')
           : []
         ),
         ((residencies) => {

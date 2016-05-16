@@ -36,19 +36,26 @@ const _render = ({
     }, [
       div({
         className: styles.title
-      }, 'Forgot your username or Password'),
+      }, 'Forgot your username or password'),
       div({
         className: styles.intro
       }, 'Enter the email address associated with your account, and we’ll email you a link to reset your password. You may need to check your spam folder or unblock no-reply@zipwire.com'),
       div({
-        className: styles.inputGroup
+        className: styles.inputGroup,
+        style: {
+          marginBottom: '15px'
+        }
       }, [
         emailInputDOM,
         button({
           id: 'submit',
           className: styles.button
         }, 'Submit')
-      ])
+      ]),
+      div({
+        id: 'cancel',
+        className: styles.link
+      }, 'Cancel')
     ])
   ])
 ])
@@ -76,6 +83,11 @@ export default sources => {
     .select('.' + styles.button)
     .events('click')
     .map(true)
+
+  const cancelClick$ = sources.DOM
+    .select('#cancel')
+    .events('click')
+    .map(ev => '/')
 
   const HTTP = formData$
     .sample(submit$)
@@ -126,11 +138,16 @@ export default sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
 
+  const route$ = Observable.merge(
+    sources.redirectLogin,
+    cancelClick$
+  )
+
   return {
     DOM,
     formData$,
     HTTP,
-    route$: sources.redirectLogin$,
+    route$: route$,
     message$
   }
 }

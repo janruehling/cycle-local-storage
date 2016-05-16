@@ -7,6 +7,7 @@ import { div, span } from '@cycle/dom'
 import {} from 'Components$'
 import { Avatar, Icon, KeyValue } from 'StyleFn'
 
+import constants from 'constants.css'
 import styles from './AccountInfo.css'
 
 const { just } = Observable
@@ -23,7 +24,7 @@ const _render = ({
     Avatar({
       image: R.pathOr(null, ['image', 'url'])(organization),
       icon: 'Shield',
-      size: 75,
+      size: 60,
       className: styles.avatar,
       style: {
         backgroundColor: '#fff'
@@ -56,6 +57,13 @@ const _render = ({
         })
       ])
     ]),
+    div({
+      style: {
+        background: constants.color1_3,
+        height: '60px',
+        width: '1px'
+      }
+    }),
     profile && div({
       className: styles.userMeta
     }, [

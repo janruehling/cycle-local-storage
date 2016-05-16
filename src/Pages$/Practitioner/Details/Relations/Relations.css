@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, primary1opaque5, additional9, additional14 from constants;
+@value primary1, color1_2, additional9, additional14 from constants;
 
 .container {
   padding: 25px 0 0 25px;
@@ -22,7 +22,7 @@
 }
 
 .sortItem {
-  color: primary1opaque5;
+  color: color1_2;
   font-size: 12px;
   margin-right: 15px;
 

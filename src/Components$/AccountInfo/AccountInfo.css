@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, color4, color1_2 from constants;
+@value color1, color4, color1_2 from constants;
 
 .container {
   align-items: center;
@@ -18,24 +18,21 @@
 }
 
 .avatar {
-  border: 1px solid primary1;
+  border: 1px solid color1;
 }
 
 .orgMeta {
   align-content: center;
-  border-right: 1px solid #fff;
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
-  margin-right: 15px;
-  padding-right: 80px;
+  min-width: 66px;
 }
 
 .orgName {
   color: #fff;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin: 0 15px 8px;
 }
 
 .orgLastVerifiedContainer {
@@ -53,6 +50,7 @@
   color: #fff;
   font-size: 14px;
   line-height: 17px;
+  margin-left: 15px;
 }
 
 .userName {

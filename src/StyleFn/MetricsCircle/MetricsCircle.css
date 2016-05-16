@@ -1,8 +1,8 @@
 @value constants: 'constants.css';
-@value primary1, primary1opaque5 from constants;
+@value color1, color3, color1_2 from constants;
 
 .container {
-  color: primary1;
+  color: color1;
   padding: 15px;
   text-align: center;
 }
@@ -43,15 +43,21 @@
 
 .metricTitle {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 1px;
 }
 
 .viewLink {
-  font-size: 12px;
+  color: color3;
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .change {
-  background-color: primary1opaque5;
+  background-color: color1_2;
   border-radius: 8px;
   color: #fff;
   display: inline-block;

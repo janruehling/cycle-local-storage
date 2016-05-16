@@ -50,3 +50,7 @@
 .itemText {
   color: color3
 }
+
+.itemText:hover {
+  text-decoration: underline;
+}

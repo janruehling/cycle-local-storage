@@ -79,7 +79,7 @@ const _render = ({
     }, [
       div({
         className: styles.mainTitle
-      }, 'Your company at a glance'),
+      }, 'Your Company at a Glance'),
       div({
         className: styles.mainMetricsCircles
       }, [
@@ -166,11 +166,11 @@ const _render = ({
       }, [
         div([
           Heading({
-            text: 'Geographic spread',
+            text: 'Geographic Spread',
             style: {
               display: 'flex',
               justifyContent: 'center',
-              margin: '30px 0 20px'
+              margin: '15px 0 25px'
             }
           }),
           img({
@@ -199,6 +199,13 @@ const _render = ({
           }, [
             div({
               style: {
+                color: constants.color1,
+                textAlign: 'right',
+                marginRight: '5px',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
                 width: '65px'
               }
             }, 'Male: '),
@@ -210,11 +217,11 @@ const _render = ({
             }, [
               div({
                 style: {
-                  backgroundColor: constants.primary1,
+                  backgroundColor: constants.color1,
                   color: '#fff',
                   fontWeight: 'bold',
-                  textAlign: 'right',
                   padding: '2px 5px',
+                  textAlign: 'right',
                   width: Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats) / maxStats * 100) + '%'
                 }
               }, [Math.round(pathOr(0, ['average_practitioner', 'gender', 'male'])(stats)) + '%'])
@@ -228,6 +235,13 @@ const _render = ({
           }, [
             div({
               style: {
+                color: constants.color1,
+                textAlign: 'right',
+                marginRight: '5px',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
                 width: '65px'
               }
             }, 'Female: '),
@@ -240,7 +254,7 @@ const _render = ({
               div({
                 style: {
                   backgroundColor: constants.additional10,
-                  color: constants.primary1,
+                  color: constants.color1,
                   fontWeight: 'bold',
                   textAlign: 'right',
                   padding: '2px 5px',
@@ -252,7 +266,7 @@ const _render = ({
           pathOr(null, ['average_practitioner', 'accepting_medicaid'])(stats) && div([
             div({
               style: {
-                color: constants.additional11,
+                color: constants.color1,
                 fontSize: '14px',
                 margin: '15px 0 5px'
               }
@@ -260,7 +274,7 @@ const _render = ({
             div({
               style: {
                 alignItems: 'center',
-                backgroundColor: constants.primary1,
+                backgroundColor: constants.color1,
                 color: '#fff',
                 display: 'flex',
                 padding: '2px 5px',
@@ -270,7 +284,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, organization.name),
               div({
@@ -288,7 +302,7 @@ const _render = ({
               style: {
                 alignItems: 'center',
                 backgroundColor: constants.additional10,
-                color: constants.primary1,
+                color: constants.color1,
                 display: 'flex',
                 padding: '2px 5px',
                 width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicaid', 'average'])(stats) / maxStats * 100) + '%'
@@ -296,7 +310,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, 'National average'),
               div({
@@ -314,7 +328,7 @@ const _render = ({
           pathOr(null, ['average_practitioner', 'accepting_medicare'])(stats) && div([
             div({
               style: {
-                color: constants.additional11,
+                color: constants.color1,
                 fontSize: '14px',
                 margin: '15px 0 5px'
               }
@@ -322,7 +336,7 @@ const _render = ({
             div({
               style: {
                 alignItems: 'center',
-                backgroundColor: constants.primary1,
+                backgroundColor: constants.color1,
                 color: '#fff',
                 display: 'flex',
                 padding: '2px 5px',
@@ -332,7 +346,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, organization.name),
               div({
@@ -350,7 +364,7 @@ const _render = ({
               style: {
                 alignItems: 'center',
                 backgroundColor: constants.additional10,
-                color: constants.primary1,
+                color: constants.color1,
                 display: 'flex',
                 padding: '2px 5px',
                 width: Math.round(pathOr(0, ['average_practitioner', 'accepting_medicare', 'average'])(stats) / maxStats * 100) + '%'
@@ -358,7 +372,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, 'National average'),
               div({
@@ -376,7 +390,7 @@ const _render = ({
           pathOr(null, ['average_practitioner', 'accepting_new_patients'])(stats) && div([
             div({
               style: {
-                color: constants.additional11,
+                color: constants.color1,
                 fontSize: '14px',
                 margin: '15px 0 5px'
               }
@@ -384,7 +398,7 @@ const _render = ({
             div({
               style: {
                 alignItems: 'center',
-                backgroundColor: constants.primary1,
+                backgroundColor: constants.color1,
                 color: '#fff',
                 display: 'flex',
                 padding: '2px 5px',
@@ -394,7 +408,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, organization.name),
               div({
@@ -412,7 +426,7 @@ const _render = ({
               style: {
                 alignItems: 'center',
                 backgroundColor: constants.additional10,
-                color: constants.primary1,
+                color: constants.color1,
                 display: 'flex',
                 padding: '2px 5px',
                 width: Math.round(pathOr(0, ['average_practitioner', 'accepting_new_patients', 'average'])(stats) / maxStats * 100) + '%'
@@ -420,7 +434,7 @@ const _render = ({
             }, [
               div({
                 style: {
-                  fontSize: '10px'
+                  fontSize: '12px'
                 }
               }, 'National average'),
               div({
@@ -443,6 +457,9 @@ const _render = ({
     }, [
       List({
         title: 'Recent Searches',
+        styleHeading: {
+          marginTop: '0'
+        },
         items: [{
           text: 'No Searches yet'
         }]

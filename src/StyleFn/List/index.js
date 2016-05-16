@@ -6,11 +6,13 @@ import styles from './List.css'
 
 export const List = (options = {}) => {
   return (options.items && options.items.length) ? div({
-    className: styles.container
+    className: styles.container,
+    style: options.style
   }, [
     options.title && Heading({
       icon: options.icon,
-      text: options.title
+      text: options.title,
+      style: options.styleHeading
     }),
     (options.items && options.items.length)
       ? options.items.map(item => div({
