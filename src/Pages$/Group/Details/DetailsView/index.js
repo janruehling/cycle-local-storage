@@ -1,5 +1,5 @@
 import R from 'ramda'
-import { div } from '@cycle/dom'
+import { div, textarea } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { toTitleCase, getName, getActivity, getIcon } from 'zwUtility'
@@ -90,7 +90,12 @@ const _render = ({
         icon: 'Sheet',
         text: 'Description'
       }),
-      div(group.description)
+      textarea({
+        attributes: {
+          readonly: true
+        },
+        className: styles.description
+      }, group.description || 'No description yet')
     ])
   ])
 ])

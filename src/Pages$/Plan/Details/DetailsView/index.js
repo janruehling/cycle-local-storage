@@ -1,6 +1,6 @@
 import R from 'ramda'
 import { Observable } from 'rx'
-import { div } from '@cycle/dom'
+import { div, textarea } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { toTitleCase, getName, getActivity } from 'zwUtility'
@@ -95,12 +95,12 @@ const _render = ({
         icon: 'Sheet',
         text: 'Descripion'
       }),
-      plan && div({
-        style: {
-          color: constants.primary1,
-          fontSize: '14px'
-        }
-      }, plan.description || 'No Description yet')
+      textarea({
+        attributes: {
+          readonly: true
+        },
+        className: styles.description
+      }, plan.description || 'No description yet')
     ])
   ])
 ])

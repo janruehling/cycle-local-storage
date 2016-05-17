@@ -70,18 +70,20 @@ const _render = ({
         className: styles.activity
       }, [
         Calendar(),
-        activities.length > 0 ? ActivityStream({
-          title: 'Activity Feed',
-          items: R.compose(R.map(getActivity), R.reverse, R.sortBy(activity => {
-            return activity.timestamp
-          }), R.take(5))(activities)
-        }) : div({
-          style: {
-            color: constants.primary1,
-            fontSize: '14px',
-            marginTop: '15px'
-          }
-        }, 'No Activities yet')
+        activities && activities.length > 0
+          ? ActivityStream({
+            title: 'Activity Feed',
+            items: R.compose(R.map(getActivity), R.reverse, R.sortBy(activity => {
+              return activity.timestamp
+            }), R.take(5))(activities)
+          })
+          : div({
+            style: {
+              color: constants.primary1,
+              fontSize: '14px',
+              marginTop: '20px'
+            }
+          }, 'No Activities yet')
       ])
     ]),
     div({
