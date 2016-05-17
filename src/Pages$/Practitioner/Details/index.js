@@ -7,7 +7,7 @@ import { div } from '@cycle/dom'
 import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, PractitionerDetailsCard,
   Search, ToolBar } from 'Components$'
-import { Icon } from 'StyleFn'
+import { Icon, Button } from 'StyleFn'
 import { getPractitionersId$, getPractitionersPlans$,
   getPractitionersOrganizations$, getPractitionersLocations$,
   getPractitionersIdActivities$} from 'Remote'
@@ -25,7 +25,7 @@ const _routes = {
 
 const _tabs = [
   {path: '/', label: 'Details View'},
-  {path: '/relations', label: 'Relations'}
+  {path: '/relations', label: 'Relationships'}
 ]
 
 const _render = ({
@@ -122,19 +122,12 @@ export default sources => {
         ])
       ],
       right: [
-        div({
+        Button({
+          background: constants.color2,
           id: 'editData',
-          style: {
-            alignItems: 'center',
-            border: '1px solid currentColor',
-            color: constants.color2,
-            cursor: 'pointer',
-            display: 'flex',
-            fontSize: '12px',
-            lineHeight: '18px',
-            padding: '0 5px'
-          }
-        }, '+ Edit Data')
+          skin: 'narrow',
+          text: 'Edit Data'
+        })
       ]
     })
   })

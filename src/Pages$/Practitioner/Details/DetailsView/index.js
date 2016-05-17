@@ -7,6 +7,7 @@ import { toTitleCase, getName, getActivity } from 'zwUtility'
 
 import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
+import constants from 'constants.css'
 import styles from './DetailsView.css'
 
 const _render = ({
@@ -82,7 +83,12 @@ const _render = ({
         icon: 'Contact',
         text: 'Biography'
       }),
-      div(practitioner.biography)
+      div({
+        style: {
+          fontSize: '14px',
+          color: constants.color1_2
+        }
+      }, practitioner.biography)
     ])
   ])
 ])

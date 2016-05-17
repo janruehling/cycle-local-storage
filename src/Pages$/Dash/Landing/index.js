@@ -187,7 +187,7 @@ const _render = ({
               text: 'Practitioner Profile',
               icon: 'Contact',
               style: {
-                margin: '0 0 15px'
+                margin: '0 0 10px'
               }
             })
           ]),

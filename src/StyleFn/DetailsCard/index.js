@@ -99,11 +99,21 @@ const _render = (options) => div({
       : null,
     options.lists
       ? div({
-        className: styles.listsContainer
+        className: styles.listsContainer,
+        style: {
+          marginTop: '15px'
+        }
       }, [
         options.lists.map(list =>
           (list.items && list.items.length) ? List({
             title: list.title,
+            style: {
+              marginBottom: '5px'
+            },
+            styleHeading: {
+              marginBottom: '2px',
+              marginTop: '5px'
+            },
             items: list.items
           }) : null)
       ])

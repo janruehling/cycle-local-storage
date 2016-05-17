@@ -4,14 +4,17 @@
 .container {
   display: flex;
   max-width: maxWidth;
-  margin: 30px auto;
+  margin: 0 auto 30px;
 }
 
 .sidebarLeft {
   width: 290px;
+  z-index: 1;
 }
 
 .main {
-  flex: 1;
   border-top: 2px solid additional9;
+  flex: 1;
+  margin-left: -3px;
+  z-index: 0;
 }

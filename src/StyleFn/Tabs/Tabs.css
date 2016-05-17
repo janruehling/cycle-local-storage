@@ -1,16 +1,16 @@
 @value constants: 'constants.css';
-@value primary1, additional9 from constants;
+@value color1, color1_3, color1_6 from constants;
 
 .container {
-  border-bottom: 2px solid additional9;
-  border-right: 2px solid additional9;
+  border-bottom: 2px solid color1_6;
+  border-right: 2px solid color1_6;
   display: flex;
   margin-left: 20px;
   padding-top: 15px;
 }
 
 .tabs {
-  color: primary1;
+  color: color1_3;
   font-size: 14px;
   margin-right: 20px;
   padding-bottom: 7px;
@@ -21,6 +21,16 @@
   }
 }
 
+.tabs:hover {
+  border-bottom: 5px solid color1_3;
+}
+
 .tabs.isActive {
-  border-bottom: 5px solid primary1;
+  border-bottom: 5px solid color1;
+  color: color1;
+  cursor: default;
+
+  &:hover {
+    border-bottom: 5px solid color1;
+  }
 }
