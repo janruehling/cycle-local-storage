@@ -1,6 +1,6 @@
 import R from 'ramda'
 import { Observable } from 'rx'
-import { div } from '@cycle/dom'
+import { div, textarea } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { toTitleCase, getName, getActivity } from 'zwUtility'
@@ -83,11 +83,11 @@ const _render = ({
         icon: 'Contact',
         text: 'Biography'
       }),
-      div({
-        style: {
-          fontSize: '14px',
-          color: constants.color1_2
-        }
+      textarea({
+        attributes: {
+          readonly: true
+        },
+        className: styles.biography
       }, practitioner.biography)
     ])
   ])

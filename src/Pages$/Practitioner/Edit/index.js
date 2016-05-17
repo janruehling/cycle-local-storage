@@ -128,7 +128,7 @@ export default sources => {
     .delay(5000)
     .withLatestFrom(practitioner$)
     .map(([response, practitioner]) => ({
-      pathname: '/practitioner/' + practitioner.id
+      pathname: '/practitioner/' + practitioner.id + '/'
     }))
 
   const viewState = {

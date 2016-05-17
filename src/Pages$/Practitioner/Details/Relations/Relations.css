@@ -1,8 +1,23 @@
 @value constants: 'constants.css';
-@value primary1, color1_2, additional9, additional14 from constants;
+@value color1, color1_2, color1_4, color1_5, color3, additional9, additional14 from constants;
 
 .container {
   padding: 25px 0 0 25px;
+}
+
+.backgroundLight {
+  background: color1_5;
+  color: color3;
+
+  &:hover {
+    background: color1_4;
+    border: 1px solid color1;
+  }
+}
+
+.backgroundDark {
+  background: color1;
+  color: #fff;
 }
 
 .sort {
@@ -27,8 +42,8 @@
   margin-right: 15px;
 
   &.isActive {
-    border-bottom: 4px solid primary1;
-    color: primary1;
+    border-bottom: 4px solid color1;
+    color: color1;
     margin-bottom: -4px;
   }
 }
@@ -43,7 +58,7 @@
 
 .columnTitle {
   border-bottom: 2px solid additional9;
-  color: primary1;
+  color: color1;
   font-size: 14px;
   line-height: 20px;
   margin-right: 30px;

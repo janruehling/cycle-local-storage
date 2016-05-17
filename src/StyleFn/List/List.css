@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primary1, primary3 from constants;
+@value primary1, primary3, color3 from constants;
 
 .container {
   font-size: 14px;
@@ -13,8 +13,13 @@
 }
 
 .itemLink {
+  color: color3;
   flex: 1;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .itemText {

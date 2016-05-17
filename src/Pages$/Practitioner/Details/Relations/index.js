@@ -6,7 +6,7 @@ import { div } from '@cycle/dom'
 import { FilterBar } from 'Components$'
 import { getPractitionersRelations$ } from 'Remote'
 import { Avatar } from 'StyleFn'
-import { getName } from 'zwUtility'
+import { getName, truncateString } from 'zwUtility'
 
 import constants from 'constants.css'
 import styles from './Relations.css'
@@ -42,7 +42,7 @@ const _getIcon = (entity) => {
   }) : null
 }
 
-const _createRelationsBox = (entity, idx, list, options = {}) => {
+const _createRelationsBox = (entity, idx, list, depth = 0, options = {}) => {
   if (entity.type === 'plan') {
     entity = R.merge(entity.insurance_company, {
       hoverData: [{
@@ -56,42 +56,48 @@ const _createRelationsBox = (entity, idx, list, options = {}) => {
   return div({
     className: styles.hoverTarget,
     style: {
-      alignItems: 'center',
+      alignItems: 'flex-start',
       display: 'flex',
       margin: '15px 0'
     }
   }, [
     !options.skipLeftConnection ? div({
       style: {
-        alignItems: 'center',
         display: 'flex',
-        position: 'relative'
+        height: '30px',
+        alignItems: 'center'
       }
     }, [
-      !options.skipLeftBorder && idx > 0 ? div({
-        style: {
-          background: constants.color1,
-          height: '44px',
-          position: 'absolute',
-          top: '-44px',
-          width: '1px'
-        }
-      }) : null,
       div({
         style: {
-          background: constants.color1,
-          height: '1px',
-          width: '10px'
+          alignItems: 'center',
+          display: 'flex',
+          position: 'relative'
         }
-      })
+      }, [
+        !options.skipLeftBorder && idx > 0 ? div({
+          style: {
+            background: constants.color1,
+            height: '44px',
+            position: 'absolute',
+            top: '-44px',
+            width: '1px'
+          }
+        }) : null,
+        div({
+          style: {
+            background: constants.color1,
+            height: '1px',
+            width: '10px'
+          }
+        })
+      ])
     ]) : null,
     div({
+      className: options.background === 'light' ? styles.backgroundLight : styles.backgroundDark,
       style: {
         alignItems: 'center',
-        background: options.background === 'light' ? constants.color1_4 : constants.color1,
-        border: '1px solid ' + constants.color1,
         borderRadius: '3px',
-        color: options.background === 'light' ? constants.color3 : '#fff',
         display: 'flex',
         fontSize: '12px',
         height: '30px',
@@ -100,15 +106,27 @@ const _createRelationsBox = (entity, idx, list, options = {}) => {
       }
     }, [
       !options.skipIcon ? _getIcon(entity) : null,
-      div(getName(entity))
+      div({
+        attributes: {
+          title: getName(entity)
+        }
+      }, truncateString(getName(entity), 25))
     ]),
     !options.skipRightConnection ? div({
       style: {
-        background: constants.color1,
-        height: '1px',
-        width: '10px'
+        display: 'flex',
+        height: '30px',
+        alignItems: 'center'
       }
-    }) : null,
+    }, [
+      div({
+        style: {
+          background: constants.color1,
+          height: '1px',
+          width: '10px'
+        }
+      })
+    ]) : null,
     entity.hoverData ? div({
       className: styles.hoverData,
       style: {
@@ -117,9 +135,10 @@ const _createRelationsBox = (entity, idx, list, options = {}) => {
         borderRadius: '3px',
         color: constants.color3,
         fontSize: '12px',
-        position: 'absolute',
+        minHeight: '30px',
         marginLeft: '20px',
-        padding: '5px 15px',
+        padding: '7px 15px',
+        position: 'absolute',
         width: '200px'
       }
     }, [
@@ -128,6 +147,39 @@ const _createRelationsBox = (entity, idx, list, options = {}) => {
   ])
 }
 
+const _createRelationsMap = (relation, relations) => div({
+  style: {
+    borderBottom: '1px solid ' + constants.color1_6,
+    display: 'flex'
+  }
+}, [
+  _createRelationsBox(relation, null, [], 0, {
+    skipLeftConnection: true
+  }),
+  relations.order
+    .map(next => {
+      return div([
+        relation.relations
+          .map(rel => rel[next])
+          .map((data, idx, list) => {
+            let depth = 1
+            const options = {
+              skipIcon: true,
+              background: 'light'
+            }
+
+            if (data.type === 'plan') {
+              depth = 2
+              options.skipLeftBorder = true
+              options.skipRightConnection = true
+            }
+
+            return _createRelationsBox(data, idx, list, depth, options)
+          })
+      ])
+    })
+])
+
 const _render = ({
   filterBarDOM,
   relations
@@ -135,36 +187,7 @@ const _render = ({
   className: styles.container
 }, [
   filterBarDOM,
-  relations.data.map(relation => div({
-    style: {
-      borderBottom: '1px solid ' + constants.color1_6,
-      display: 'flex'
-    }
-  }, [
-    _createRelationsBox(relation, null, [], {
-      skipLeftConnection: true
-    }),
-    relations.order
-      .map(next => {
-        return div([
-          relation.relations
-            .map(rel => rel[next])
-            .map((data, idx, list) => {
-              const options = {
-                skipIcon: true,
-                background: 'light'
-              }
-
-              if (data.type === 'plan') {
-                options.skipLeftBorder = true
-                options.skipRightConnection = true
-              }
-
-              return _createRelationsBox(data, idx, list, options)
-            })
-        ])
-      })
-  ]))
+  relations.data.map(relation => _createRelationsMap(relation, relations))
 ])
 
 export default sources => {
@@ -187,6 +210,17 @@ export default sources => {
       data: relations[order] || [],
       order: order === 'groups' ? ['location', 'plan'] : ['group', 'location']
     }))
+
+  relations$
+    .map(res => {
+      const out = {}
+
+      res.data.map
+
+      return out
+    })
+    .do(console.log.bind(console))
+    .subscribe()
 
   const filterBar = FilterBar({
     ...sources,

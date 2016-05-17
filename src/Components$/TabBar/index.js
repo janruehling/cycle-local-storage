@@ -12,10 +12,6 @@ const _render = ({
       const link = createHref(path)
       const hashedRoute = '#' + router.pathname
 
-      console.log(hashedRoute)
-      console.log(link)
-      console.log(path)
-
       return Tab({
         id: label,
         isActive: hashedRoute === link,
