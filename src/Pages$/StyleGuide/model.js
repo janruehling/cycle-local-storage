@@ -22,11 +22,13 @@ import zwSelect from './styles/zwSelect'
 import zwDropdown from './styles/zwDropdown'
 import zwCheckbox from './styles/zwCheckbox'
 import zwTextarea from './styles/zwTextarea'
+import zwTextSelect from './styles/zwTextSelect'
 import calendar from './styles/calendar'
 import activityStream from './styles/activityStream'
 
 export default sources => {
   const StyleFns = [
+    zwTextSelect,
     colors,
     typography,
     icon,

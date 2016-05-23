@@ -37,12 +37,14 @@ export const SiteHeader$ = sources => {
   const actions = intent(sources)
   const state = model(actions, sources)
 
-  const notifications$ = sources.responses$
-    .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getMeNotifications$')
-    .map(res => res.body)
-    .map(res => res.notifications)
-    .startWith([])
+  const notifications$ = just([])
+
+  // const notifications$ = sources.responses$
+  //   .filter(res$ => res$ && res$.request)
+  //   .filter(res$ => res$.request.category === 'getMeNotifications$')
+  //   .map(res => res.body)
+  //   .map(res => res.notifications)
+  //   .startWith([])
 
   const route$ = Observable.merge(
     state.accountSettingsRequest$,

@@ -1,0 +1,166 @@
+@value constants: 'constants.css';
+@value color1, color1_5, color3, color1_6, additional2, additional7 from constants;
+
+:global :invalid {
+  box-shadow: none;
+}
+
+:global :-moz-submit-invalid {
+  box-shadow: none;
+}
+
+:global :-moz-ui-invalid {
+  box-shadow:none;
+}
+
+.default {
+  padding: 4px;
+  position:relative;
+  width: 100%;
+
+  .label {
+    color: color1;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .input {
+    border: 1px solid additional7;
+    border-radius: 4px;
+    color: color1;
+    display: block;
+    font-size: 18px;
+    line-height: 35px;
+    outline: none;
+    padding: 0 10px;
+    width: 100%;
+  }
+
+  .input::-webkit-input-placeholder {
+    color: color3;
+    opacity: .3;
+  }
+  .input::-moz-placeholder {
+    color: color3;
+    opacity: .3;
+  }
+  .input:-ms-input-placeholder {
+    color: color3;
+    opacity: .3;
+  }
+  .input:-moz-placeholder {
+    color: color3;
+    opacity: .3;
+  }
+}
+
+.narrow {
+  align-items: flex-start;
+  display: flex;
+  padding: 4px 4px 10px;
+  position:relative;
+  width: 100%;
+
+  .label {
+    color: color1;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 25px;
+    text-align: right;
+    margin-right: 5px;
+
+    &::after {
+      content: ':'
+    }
+  }
+
+  .input {
+    background: #fff;
+    border: 1px solid color1_5;
+    border-radius: 4px;
+    color: color1;
+    display: block;
+    flex: 1;
+    font-size: 14px;
+    line-height: 25px;
+    outline: none;
+    padding: 0 25px 0 5px;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .input::-webkit-input-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input::-moz-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input:-ms-input-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .input:-moz-placeholder {
+    color: primary3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon {
+    font-size: 10px;
+  }
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.focus {
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px color1_5,
+    0 0 0 2px color3,
+    0 0 8px 1px rgba(0, 0, 0, .35);
+  margin-bottom: 20px;
+  position: absolute;
+
+  & .input {
+    background: color1_6;
+    text-overflow: ellipsis;
+  }
+
+}
+
+.results {
+  background: #fff;
+  max-height: 300px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.resultsItem {
+  cursor: pointer;
+  color: color1;
+  font-size: 14px;
+  padding: 5px 20px 5px 5px;
+
+  &:hover, &.isActive {
+    background: color1_5;
+  }
+}
+
+.input:focus::-webkit-input-placeholder {
+  color: transparent;
+}

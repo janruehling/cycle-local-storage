@@ -100,6 +100,7 @@ export default sources => {
         category: 'putPractitioners$'
       }
     })
+    .take(1)
 
   const editResponse$ = sources.responses$
     .filter(res$ => res$ && res$.request)

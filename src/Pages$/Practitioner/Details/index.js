@@ -146,6 +146,7 @@ export default sources => {
     .map(([ev, id]) => ({
       pathname: '/practitioner/edit/' + id
     }))
+    .take(1)
 
   const viewState = {
     detailsCard: detailsCard.DOM,

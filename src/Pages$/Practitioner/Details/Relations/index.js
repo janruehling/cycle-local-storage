@@ -221,13 +221,11 @@ export default sources => {
       order: order === 'groups' ? ['location', 'plan'] : ['group', 'location']
     }))
 
-  const relationHover$ = sources.DOM
-    .select('.relation')
-    .events('mouseover')
-    .map(ev => ev.ownerTarget.dataset)
-    .distinctUntilChanged()
-    .do(console.log.bind(console))
-    .subscribe()
+  // const relationHover$ = sources.DOM
+  //   .select('.relation')
+  //   .events('mouseover')
+  //   .map(ev => ev.ownerTarget.dataset)
+  //   .distinctUntilChanged()
 
   relations$
     .map(res => {
