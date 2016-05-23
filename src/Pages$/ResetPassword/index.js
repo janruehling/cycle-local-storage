@@ -1,28 +1,36 @@
 import { Observable } from 'rx'
-import { div, button, a } from '@cycle/dom'
+import isolate from '@cycle/isolate'
+import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { FormContainer, InfoMessage, ErrorMessage } from 'StyleFn'
+import { Button, Link, FormContainer, InfoMessage, ErrorMessage } from 'StyleFn'
 
+import constants from 'constants.css'
 import styles from './ResetPassword.css'
 
 const { just } = Observable
 
-const PasswordInput = InputFactory({
+const PasswordInput = isolate(InputFactory({
   id: 'password',
   className: styles.input,
   type: 'password',
   placeholder: 'Password',
-  required: true
-})
+  required: true,
+  style: {
+    marginBottom: '15px'
+  }
+}))
 
-const ConfirmPasswordInput = InputFactory({
+const ConfirmPasswordInput = isolate(InputFactory({
   id: 'passwordConfirm',
   className: styles.input,
   type: 'password',
   placeholder: 'Confirm Password',
-  required: true
-})
+  required: true,
+  style: {
+    marginBottom: '15px'
+  }
+}))
 
 const _render = ({
   headerDOM,
@@ -47,11 +55,16 @@ const _render = ({
       }, 'Reset Password'),
       passwordInputDOM,
       confirmPasswordInputDOM,
-      button({
+      Button({
         id: 'submit',
-        className: styles.button
-      }, 'Submit'),
-      a({
+        text: 'Submit',
+        background: constants.color1,
+        style: {
+          marginBottom: '15px',
+          width: '100%'
+        }
+      }),
+      Link({
         href: '/#/login'
       }, 'Cancel')
     ])
@@ -80,7 +93,7 @@ export default sources => {
   })
 
   const submit$ = sources.DOM
-    .select('.' + styles.button)
+    .select('#submit')
     .events('click')
     .map(true)
 
@@ -92,7 +105,7 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/reset_password',
+        url: config.api + '/reset_password?category=postResetPassword$',
         method: 'POST',
         category: 'postResetPassword$',
         send: formData
@@ -109,7 +122,7 @@ export default sources => {
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return message
+            return just(message)
           } else {
             return just(null)
           }

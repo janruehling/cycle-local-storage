@@ -1,12 +1,14 @@
 import { Observable } from 'rx'
-import { div, button } from '@cycle/dom'
+import isolate from '@cycle/isolate'
+import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
-import { InfoMessage, ErrorMessage, FormContainer } from 'StyleFn'
+import { Button, InfoMessage, ErrorMessage, FormContainer } from 'StyleFn'
 
+import constants from 'constants.css'
 import styles from './ForgotPassword.css'
 
-const EmailInput = InputFactory({
+const EmailInput = isolate(InputFactory({
   id: 'username',
   className: styles.input,
   style: {
@@ -15,7 +17,7 @@ const EmailInput = InputFactory({
   type: 'email',
   placeholder: 'Email',
   required: true
-})
+}))
 
 const _render = ({
   headerDOM,
@@ -47,10 +49,15 @@ const _render = ({
         }
       }, [
         emailInputDOM,
-        button({
+        Button({
           id: 'submit',
-          className: styles.button
-        }, 'Submit')
+          text: 'Submit',
+          background: constants.color1,
+          style: {
+            marginLeft: '10px',
+            width: '93px'
+          }
+        })
       ]),
       div({
         id: 'cancel',
@@ -80,8 +87,9 @@ export default sources => {
   })
 
   const submit$ = sources.DOM
-    .select('.' + styles.button)
+    .select('#submit')
     .events('click')
+    .merge(emailInput.actions.enterClicks$)
     .map(true)
 
   const cancelClick$ = sources.DOM
@@ -97,7 +105,7 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/forgot_password',
+        url: config.api + '/forgot_password?category=postForgotPassword$',
         method: 'POST',
         category: 'postForgotPassword$',
         send: formData
@@ -114,7 +122,7 @@ export default sources => {
         .take(5)
         .flatMap(count => {
           if (count < 4) {
-            return message
+            return Observable.just(message)
           } else {
             return Observable.just(null)
           }

@@ -5,7 +5,6 @@ import { Observable, ReplaySubject } from 'rx'
 import R from 'ramda'
 import isolate from '@cycle/isolate'
 import { nestedComponent } from 'zwUtility'
-import { getMeNotifications$ } from 'Remote'
 
 import { ComingSoon } from 'Components$'
 import Account from './Me/Account'
@@ -106,12 +105,28 @@ const UserManager = sources => {
 }
 
 const AuthedResponseManager = sources => {
-  const responses$ = new ReplaySubject(100)
+  const responses$ = new ReplaySubject(20)
 
   sources.HTTP
     .flatMap(response$ => {
       return response$
-        .catch(err => Observable.just(err.response))
+        .catch(err => {
+          const res = err.response
+          if (!res.request) {
+            const data = res.req.url.split('?')[1]
+            const pairs = data.split('&')
+
+            res.request = {
+              url: res.req.url
+            }
+
+            pairs.map(pair => {
+              const d = pair.split('=')
+              res.request[d[0]] = d[1]
+            })
+          }
+          return Observable.just(res)
+        })
     })
     .subscribe(responses$)
 
@@ -148,13 +163,21 @@ export default sources => {
 
   const { responses$ } = AuthedResponseManager(sources)
 
+  const notifications$ = responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getMeNotifications$')
+    .map(res => res.body)
+    .map(res => res.notifications)
+    .startWith([])
+
   // const unauthedRequests$ = UnauthedResponseManager({...user, ...sources})
 
   const page$ = nestedComponent(sources.router.define(routes), {
     ...sources,
     ...user,
     ...redirects,
-    responses$
+    responses$,
+    notifications$
   })
 
   const DOM = page$.pluckFlat('DOM')

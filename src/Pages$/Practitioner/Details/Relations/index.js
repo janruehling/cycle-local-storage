@@ -11,6 +11,10 @@ import { getName, truncateString } from 'zwUtility'
 import constants from 'constants.css'
 import styles from './Relations.css'
 
+const _getPath = depth => {
+  return depth
+}
+
 const _getIcon = (entity) => {
   let out
 
@@ -94,7 +98,11 @@ const _createRelationsBox = (entity, idx, list, depth = 0, options = {}) => {
       ])
     ]) : null,
     div({
-      className: options.background === 'light' ? styles.backgroundLight : styles.backgroundDark,
+      className: 'relation ' + (options.background === 'light' ? styles.backgroundLight : styles.backgroundDark),
+      attributes: {
+        'data-depth': depth,
+        'data-path': _getPath(depth)
+      },
       style: {
         alignItems: 'center',
         borderRadius: '3px',
@@ -187,7 +195,9 @@ const _render = ({
   className: styles.container
 }, [
   filterBarDOM,
-  relations.data.map(relation => _createRelationsMap(relation, relations))
+  relations
+    .data
+    .map(relation => _createRelationsMap(relation, relations))
 ])
 
 export default sources => {
@@ -210,6 +220,14 @@ export default sources => {
       data: relations[order] || [],
       order: order === 'groups' ? ['location', 'plan'] : ['group', 'location']
     }))
+
+  const relationHover$ = sources.DOM
+    .select('.relation')
+    .events('mouseover')
+    .map(ev => ev.ownerTarget.dataset)
+    .distinctUntilChanged()
+    .do(console.log.bind(console))
+    .subscribe()
 
   relations$
     .map(res => {

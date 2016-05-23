@@ -1,17 +1,27 @@
 import { pathOr } from 'ramda'
 import { Observable } from 'rx'
-import { div, a } from '@cycle/dom'
+import isolate from '@cycle/isolate'
+import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { InputFactory, SiteHeader$ } from 'Components$'
 import { getUrlParams } from 'zwUtility'
-import { FormContainer, ErrorMessage, Button } from 'StyleFn'
+import { FormContainer, ErrorMessage, Button, Link } from 'StyleFn'
 
 import constants from 'constants.css'
 import styles from './Login.css'
 
 const { just } = Observable
 
-const EmailInput = InputFactory({
+const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
+  id,
+  label,
+  description,
+  styleInput: {
+    marginLeft: '145px'
+  }
+}))
+
+const EmailInput = isolate(InputFactory({
   id: 'username',
   className: 'email',
   type: 'text',
@@ -20,9 +30,9 @@ const EmailInput = InputFactory({
   style: {
     marginBottom: '15px'
   }
-})
+}))
 
-const PasswordInput = InputFactory({
+const PasswordInput = isolate(InputFactory({
   id: 'password',
   type: 'password',
   placeholder: 'Password',
@@ -31,7 +41,7 @@ const PasswordInput = InputFactory({
   style: {
     marginBottom: '15px'
   }
-})
+}))
 
 const _render = ({
   params,
@@ -54,12 +64,12 @@ const _render = ({
     }, [
       div({
         className: styles.title
-      }, 'Log into Zipwire'),
+      }, 'Sign Into Zipwire'),
       emailInputDOM,
       passwordInputDOM,
       Button({
         id: 'submit',
-        text: 'Log In',
+        text: 'Sign In',
         background: constants.color1,
         style: {
           marginBottom: '15px',
@@ -67,17 +77,16 @@ const _render = ({
         }
       }),
       div([
-        a({
-          className: styles.link,
+        Link({
           href: '/#/forgotPassword',
           style: {
-            marginRight: '10px'
+            color: constants.color1
           }
-        }, 'Forgotten Password?'),
-        a({
-          className: styles.link,
-          href: '/#/register'
-        }, 'Sign up for Zipwire')
+        }, 'Forgotten password?')
+        // a({
+        //   className: styles.link,
+        //   href: '/#/register'
+        // }, 'Sign up for Zipwire')
       ])
       // div([
       //   a({
@@ -118,7 +127,7 @@ export default sources => {
     .map(({config, formData}) => {
       return {
         skipToken: true,
-        url: config.api + '/login',
+        url: config.api + '/login?category=postLogin$',
         method: 'POST',
         category: 'postLogin$',
         send: formData

@@ -1,0 +1,13 @@
+@value constants: 'constants.css';
+@value color3 from constants;
+
+.link {
+  color: color3;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,6 +1,7 @@
 export { ActivityStream } from './ActivityStream'
 export { Avatar } from './Avatar'
 export { Button } from './Button'
+export { Link } from './Link'
 export { Calendar } from './Calendar'
 export { DesktopFrame } from './DesktopFrame'
 export { DetailsCard } from './DetailsCard'

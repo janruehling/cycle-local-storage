@@ -3,7 +3,6 @@ import classNames from 'classnames'
 
 import { Icon } from 'StyleFn'
 
-import constants from 'constants.css'
 import styles from './Heading.css'
 
 export const Heading = (options = {}) =>

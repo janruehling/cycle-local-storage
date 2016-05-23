@@ -7,7 +7,6 @@ import { toTitleCase, getName, getActivity } from 'zwUtility'
 
 import { ActivityStream, List, Heading, Calendar } from 'StyleFn'
 
-import constants from 'constants.css'
 import styles from './DetailsView.css'
 
 const _render = ({

@@ -52,23 +52,23 @@ const genderSelectOptions = [{
   value: '2'
 }]
 
-const _createTextField = (id, label) => InputFactory({
+const _createTextField = (id, label) => isolate(InputFactory({
   ...fieldConfig,
   id,
   label
-})
+}))
 
-const _createTextarea = (id) => TextareaFactory({
+const _createTextarea = (id) => isolate(TextareaFactory({
   id,
   styleInput: styleTextarea
-})
+}))
 
-const _createSelect = (id, label, options$) => SelectFactory({
+const _createSelect = (id, label, options$) => isolate(SelectFactory({
   ...fieldConfig,
   id,
   label,
   options$
-})
+}))
 
 const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
   id,
