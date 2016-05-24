@@ -7,7 +7,7 @@ import { getIcon } from 'zwUtility'
 
 import { Avatar, Heading } from 'StyleFn'
 import { InputFactory, SelectFactory, CheckboxFactory,
-  TextareaFactory } from 'Components$'
+  TextareaFactory, TextSelectFactory } from 'Components$'
 import { getConceptByName$ } from 'Remote'
 
 import styles from './AddView.css'
@@ -77,6 +77,13 @@ const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
   }
 }))
 
+const _createTextSelect = (id, label, options$) => TextSelectFactory({
+  ...fieldConfig,
+  id,
+  label,
+  options$
+})
+
 const _render = ({
   firstNameFieldDOM,
   middleNameFieldDOM,
@@ -84,7 +91,7 @@ const _render = ({
   emailFieldDOM,
   phoneFieldDOM,
   genderSelectDOM,
-  medicalSchoolSelectDOM,
+  medicalSchoolTextSelectDOM,
   npiFieldDOM,
   faaFieldDOM,
   deaFieldDOM,
@@ -121,7 +128,7 @@ const _render = ({
       emailFieldDOM,
       phoneFieldDOM,
       genderSelectDOM,
-      medicalSchoolSelectDOM,
+      medicalSchoolTextSelectDOM,
       npiFieldDOM,
       faaFieldDOM,
       deaFieldDOM,
@@ -151,20 +158,6 @@ export default sources => {
     .filter(res$ => res$.request.category === 'getConceptByName$medical_schools')
     .map(res => res.body)
     .map(res => res.elements)
-    .map(els => {
-      return els.map(el => ({
-        name: el.value,
-        value: el.key
-      }))
-    })
-    .map(els => {
-      els.unshift({
-        name: '',
-        value: null
-      })
-
-      return els
-    })
     .startWith([])
 
   const firstNameField = _createTextField('first_name', 'First Name')({
@@ -218,7 +211,7 @@ export default sources => {
     value$: null
   })
 
-  const medicalSchoolSelect = _createSelect('medical_school', 'Medical School')({
+  const medicalSchoolTextSelect = _createTextSelect('medical_school', 'Medical School')({
     ...sources,
     options$: medicalSchool$,
     value$: null
@@ -259,7 +252,7 @@ export default sources => {
     accepts_medicare: medicareCheck.value$,
     accepts_medicaid: medicaidCheck.value$,
     biography: biographyTextarea.value$,
-    medical_school: medicalSchoolSelect.value$
+    medical_school: medicalSchoolTextSelect.value$
   })
 
   const viewState = {
@@ -270,7 +263,7 @@ export default sources => {
     emailFieldDOM: emailField.DOM,
     phoneFieldDOM: phoneField.DOM,
     genderSelectDOM: genderSelect.DOM,
-    medicalSchoolSelectDOM: medicalSchoolSelect.DOM,
+    medicalSchoolTextSelectDOM: medicalSchoolTextSelect.DOM,
     npiFieldDOM: npiField.DOM,
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,

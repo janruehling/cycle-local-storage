@@ -18,6 +18,7 @@ module.exports = {
     '@cycle/core': 'Cycle',
     '@cycle/dom': 'CycleDOM',
     '@cycle/http': 'CycleHTTPDriver',
+    '@cycle/isolate': 'CycleIsolate',
     'history': 'History',
     'moment': 'moment'
   },
