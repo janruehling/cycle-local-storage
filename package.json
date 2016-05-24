@@ -17,7 +17,7 @@
     "prod": "npm run clean && npm run copy && npm run prod:build && npm run prod:serve",
     "copy": "npm run copy:rx && npm run copy:history && npm run copy:cycle && npm run copy:cycleDOM && npm run copy:cycleHTTP && npm run copy:cycleIsolate && npm run copy:ramda && npm run copy:moment && npm run copy:normalize",
     "copy:rx": "cp node_modules/rx/dist/rx.all.min.js dist/lib/",
-    "copy:history": "cp node_modules/history/umd/History.min.js dist/lib/",
+    "copy:history": "cp node_modules/history/umd/history.min.js dist/lib/",
     "copy:cycle": "cp node_modules/@cycle/core/dist/cycle.min.js dist/lib/",
     "copy:cycleDOM": "cp node_modules/@cycle/dom/dist/cycle-dom.min.js dist/lib/",
     "copy:cycleHTTP": "cp node_modules/@cycle/http/dist/cycle-http-driver.min.js dist/lib/",
