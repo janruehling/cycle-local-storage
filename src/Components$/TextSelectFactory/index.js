@@ -37,7 +37,7 @@ const TextSelectFactory = (attributes = {}) => sources => {
 
   const value$ = (sources.value$ || Observable.just(null))
     .merge(inputChange$.pluck('currentTarget', 'value'))
-    .merge(resultClicks$.pluck('ownerTarget', 'dataset', 'value'))
+    .merge(resultClicks$.pluck('ownerTarget', 'dataset', 'key'))
 
   const results$ = inputChange$
     .combineLatest(sources.options$, (change, options) => {

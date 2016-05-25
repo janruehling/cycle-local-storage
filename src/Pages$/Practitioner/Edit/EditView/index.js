@@ -97,6 +97,7 @@ const _render = ({
   genderSelectDOM,
   medicalSchoolSelectDOM,
   specialtiesSelectDOM,
+  typesSelectDOM,
   npiFieldDOM,
   faaFieldDOM,
   deaFieldDOM,
@@ -104,6 +105,7 @@ const _render = ({
   newPatientsCheckDOM,
   medicareCheckDOM,
   medicaidCheckDOM,
+  medicaidCertCheckDOM,
   biographyTextareaDOM,
   practitioner
 }) => div({
@@ -137,13 +139,15 @@ const _render = ({
       genderSelectDOM,
       medicalSchoolSelectDOM,
       specialtiesSelectDOM,
+      typesSelectDOM,
       npiFieldDOM,
       faaFieldDOM,
       deaFieldDOM,
       pacIdFieldDOM,
       newPatientsCheckDOM,
       medicareCheckDOM,
-      medicaidCheckDOM
+      medicaidCheckDOM,
+      medicaidCertCheckDOM
     ]),
     div({
       className: styles.thirdColumn
@@ -171,6 +175,13 @@ export default sources => {
   const specialties$ = sources.responses$
     .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getConceptByName$specialties')
+    .map(res => res.body)
+    .map(res => res.elements)
+    .startWith([])
+
+  const types$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getConceptByName$practitioner_types')
     .map(res => res.body)
     .map(res => res.elements)
     .startWith([])
@@ -257,6 +268,11 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
   })
 
+  const medicaidCertCheck = _createCheckbox('medicaid_certified', '', 'Medicaid Certified')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.medicaid_certified)
+  })
+
   const biographyTextarea = _createTextarea('biography')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.biography)
@@ -276,6 +292,13 @@ export default sources => {
       .map(practitioner => R.pathOr(null, ['specialties'])(practitioner))
   })
 
+  const typesTextSelect = _createTextSelect('types', 'Types')({
+    ...sources,
+    options$: types$ || Observable.just([]),
+    value$: sources.practitioner$
+      .map(practitioner => R.pathOr(null, ['types'])(practitioner))
+  })
+
   const formData$ = combineLatestObj({
     prefix: prefixField.value$,
     first_name: firstNameField.value$,
@@ -292,9 +315,11 @@ export default sources => {
     accepts_new_patients: newPatientsCheck.value$,
     accepts_medicare: medicareCheck.value$,
     accepts_medicaid: medicaidCheck.value$,
+    medicaid_certified: medicaidCertCheck.value$,
     biography: biographyTextarea.value$,
     medical_school: medicalSchoolTextSelect.value$,
-    specialties: specialtiesTextSelect.value$.map(specialty => [specialty])
+    specialties: specialtiesTextSelect.value$.map(specialty => [specialty]),
+    types: typesTextSelect.value$.map(type => [type])
   })
 
   const viewState = {
@@ -309,6 +334,7 @@ export default sources => {
     genderSelectDOM: genderSelect.DOM,
     medicalSchoolSelectDOM: medicalSchoolTextSelect.DOM,
     specialtiesSelectDOM: specialtiesTextSelect.DOM,
+    typesSelectDOM: typesTextSelect.DOM,
     npiFieldDOM: npiField.DOM,
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
@@ -316,6 +342,7 @@ export default sources => {
     newPatientsCheckDOM: newPatientsCheck.DOM,
     medicareCheckDOM: medicareCheck.DOM,
     medicaidCheckDOM: medicaidCheck.DOM,
+    medicaidCertCheckDOM: medicaidCertCheck.DOM,
     biographyTextareaDOM: biographyTextarea.DOM,
     practitioner: sources.practitioner$
   }
@@ -331,6 +358,10 @@ export default sources => {
     getConceptByName$({
       ...sources,
       conceptName$: Observable.just('specialties')
+    }),
+    getConceptByName$({
+      ...sources,
+      conceptName$: Observable.just('practitioner_types')
     })
   )
 

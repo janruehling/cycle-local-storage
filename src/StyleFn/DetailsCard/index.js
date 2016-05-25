@@ -150,8 +150,8 @@ const _render = (options) => div({
           value: fact.value
         }))
       ]),
-    options.bottomCallout && options.bottomCallout.length &&
-      options.bottomCallout.map(callout => div({
+    (options.bottomCallout && options.bottomCallout.length)
+      ? options.bottomCallout.map(callout => div({
         style: {
           marginBottom: '4px'
         }
@@ -167,6 +167,7 @@ const _render = (options) => div({
           }
         })
       ]))
+      : null
   ])
 ])
 
