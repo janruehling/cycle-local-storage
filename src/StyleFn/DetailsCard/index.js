@@ -151,16 +151,22 @@ const _render = (options) => div({
         }))
       ]),
     options.bottomCallout && options.bottomCallout.length &&
-      options.bottomCallout.map(callout => KeyValue({
-        ...callout,
+      options.bottomCallout.map(callout => div({
         style: {
-          color: '#fff',
-          background: constants.color4,
-          padding: '4px 8px',
-          borderRadius: '4px',
-          display: 'inline-block'
+          marginBottom: '4px'
         }
-      }))
+      }, [
+        KeyValue({
+          ...callout,
+          style: {
+            color: '#fff',
+            background: constants.color4,
+            padding: '4px 8px',
+            borderRadius: '4px',
+            display: 'inline-block'
+          }
+        })
+      ]))
   ])
 ])
 

@@ -2,11 +2,14 @@ import { Observable } from 'rx'
 import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
+import classNames from 'classnames'
 
-import { pathOr } from 'ramda'
+import R from 'ramda'
 
 import { toTitleCase, getName, getIcon, getGender, getLanguage } from 'zwUtility'
-import { DetailsCard } from 'StyleFn'
+import { DetailsCard, Icon } from 'StyleFn'
+
+import helpers from 'helpers.css'
 
 const _render = ({
   practitioner
@@ -25,9 +28,9 @@ const _render = ({
       value: 'Not verified'
     },
   title: toTitleCase(getName(practitioner)),
-  subTitle: practitioner.degrees ? practitioner.degrees.join(', ') : null,
+  subTitle: practitioner.types ? practitioner.types.join(', ') : null,
   image: {
-    src: pathOr(null, ['image', 'url'])(practitioner),
+    src: R.pathOr(null, ['image', 'url'])(practitioner),
     icon: getIcon(practitioner, 'practitioner')
   },
   meta: [
@@ -45,17 +48,92 @@ const _render = ({
     {
       key: 'NPI',
       value: practitioner.npi
+    },
+    {
+      key: 'DEA',
+      value: practitioner.dea_number
     }
   ],
   lists: [
     {
+      title: 'FAA Number',
+      items: practitioner.faa_number ? [{
+        text: practitioner.faa_number
+      }] : null
+    },
+    {
+      title: 'PAC ID',
+      items: practitioner.pac_id ? [{
+        text: practitioner.pac_id
+      }] : null
+    },
+    {
+      title: 'Contact:',
+      items: (practitioner.email || practitioner.phone) ? [
+        {
+          children: practitioner.email
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Envelope',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(practitioner.email)
+            ])
+            : null
+        },
+        {
+          children: practitioner.phone
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Phone',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(practitioner.phone)
+            ])
+            : null
+        }
+      ] : null
+    },
+    {
+      title: 'Degrees:',
+      items: practitioner.degrees ? [{
+        text: practitioner.degrees.join(', ')
+      }] : null
+    },
+    {
       title: 'Languages:',
-      items: practitioner.languages ? practitioner.languages.map(getLanguage).map(str => ({text: str})) : null
+      items: practitioner.languages ? [{
+        text: practitioner.languages
+          .map(getLanguage)
+          .join(', ')
+      }] : null
     },
     {
       title: 'Medical School:',
       items: practitioner.medical_school ? [practitioner.medical_school].map(school => ({
         text: toTitleCase(school.name) + (school.graduated ? ', ' + school.graduated : '')
+      })) : null
+    },
+    {
+      title: 'Internships:',
+      items: practitioner.internships ? practitioner.internships.map(intern => ({
+        text: toTitleCase(intern)
       })) : null
     },
     {
@@ -65,22 +143,54 @@ const _render = ({
       })) : null
     },
     {
-      title: 'State License:',
-      items: practitioner.state_license ? [{
-        text: practitioner.state_license
-      }] : null
+      title: 'State Licenses:',
+      items: practitioner.state_licenses ? practitioner.state_licenses.map(license => ({
+        text: license.state + ' ' + license.license + ' ( ' + toTitleCase(license.status) + ' )'
+      })) : null
     },
     {
-      title: 'DEA License:',
-      items: practitioner.dea_license ? [{
-        text: practitioner.dea_license
+      title: 'Awards:',
+      items: practitioner.awards ? [{
+        text: practitioner.awards
+          .map(toTitleCase)
+          .join(', ')
       }] : null
     },
     {
       title: 'Specialties:',
-      items: practitioner.specialties ? practitioner.specialties.map(specialty => ({
-        text: toTitleCase(specialty)
+      items: practitioner.specialties ? [{
+        text: practitioner.specialties
+          .map(toTitleCase)
+          .join(', ')
+      }] : null
+    },
+    {
+      title: 'Fellowships:',
+      items: practitioner.fellowships ? practitioner.fellowships.map(fellowship => ({
+        text: toTitleCase(fellowship)
       })) : null
+    },
+    {
+      title: 'Board Certifications:',
+      items: practitioner.board_certifications ? [{
+        text: practitioner.board_certifications.join(', ')
+      }] : null
+    },
+    {
+      title: 'Professional Associations:',
+      items: practitioner.professional_associations ? [{
+        text: practitioner.professional_associations
+          .map(toTitleCase)
+          .join(', ')
+      }] : null
+    },
+    {
+      title: 'Personal Interests:',
+      items: practitioner.personal_interests ? [{
+        text: practitioner.personal_interests
+          .map(toTitleCase)
+          .join(', ')
+      }] : null
     }
   ],
   workingHours: practitioner.hours ? {
@@ -99,12 +209,16 @@ const _render = ({
     {
       key: 'Accepts Medicare',
       value: practitioner.accepts_medicare
+    },
+    {
+      key: 'Medicaid certified',
+      value: practitioner.medicaid_certified
     }
   ],
-  bottomCallout: [{
-    key: 'Medicare Sanction',
-    value: 'XXX-111'
-  }]
+  bottomCallout: practitioner.sanctions && practitioner.sanctions.map(sanction => ({
+    key: toTitleCase(sanction.issuer) + ' Sanction',
+    value: sanction.code
+  }))
 }) : div()
 
 export const PractitionerDetailsCard = sources => {

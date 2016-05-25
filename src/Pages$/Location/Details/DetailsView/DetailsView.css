@@ -27,3 +27,17 @@
   margin-top: 15px;
   padding: 5px 15px 10px;
 }
+
+.description {
+  border: none;
+  color: color1_2;
+  font-size: 14px;
+  height: 135px;
+  overflow: auto;
+  resize: none;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}

@@ -37,19 +37,6 @@ const _render = ({
       }) : null
     }))
   ])
-  // plans.map(plan => GridItem({
-  //   className: 'plan',
-  //   size: 130,
-  //   style: {
-  //     cursor: 'pointer'
-  //   },
-  //   attributes: {
-  //     'data-id': plan.id
-  //   },
-  //   image: pathOr(null, ['image', 'url'])(plan),
-  //   icon: 'Shield',
-  //   text: toTitleCase(plan.name)
-  // }))
 ])
 
 const _navActions = (sources) => sources.DOM.select('.HighlightBox_title_hook')

@@ -73,7 +73,7 @@ export default sources => {
 
   const activities$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getActivities$')
+    .filter(res$ => res$.request.category === 'getGroupsActivities$')
     .map(res => res.body)
     .map(data => data.activities)
     .startWith([])

@@ -24,6 +24,7 @@ const _render = ({
       value: 'Not verified yet'
     },
   title: toTitleCase(getName(plan)),
+  subTitle: plan.type,
   image: {
     src: pathOr(null, ['image', 'url'])(plan),
     icon: 'Shield'
@@ -32,15 +33,13 @@ const _render = ({
     {
       key: 'ZWMID',
       value: plan.zwmid
+    },
+    {
+      key: 'IRS EIN',
+      value: plan.irs_ein
     }
   ],
   lists: [
-    {
-      title: 'Type:',
-      items: plan.type ? [{
-        text: plan.type
-      }] : null
-    },
     {
       title: 'State',
       items: plan.state ? [{

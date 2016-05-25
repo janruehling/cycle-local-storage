@@ -28,6 +28,7 @@ const _render = ({
       value: 'Not verified yet'
     },
   title: toTitleCase(getName(group)),
+  subTitle: group.type,
   image: {
     src: pathOr(null, ['image', 'url'])(group),
     icon: 'Hospital'
@@ -40,13 +41,21 @@ const _render = ({
     {
       key: 'NPI',
       value: group.npi
+    },
+    {
+      key: 'Tax #',
+      value: group.tax_number
+    },
+    {
+      key: 'PAC ID',
+      value: group.practice_pac_id
     }
   ],
   lists: [
     {
-      title: 'Type:',
-      items: group.type ? [{
-        text: group.type
+      title: 'Legal Name:',
+      items: group.legal_name ? [{
+        text: group.legal_name
       }] : null
     },
     {
@@ -100,6 +109,12 @@ const _render = ({
             : null
         }
       ] : null
+    }
+  ],
+  quickFacts: [
+    {
+      key: 'Medicaid Certified',
+      value: group.medicaid_certified
     }
   ]
 }) : div()

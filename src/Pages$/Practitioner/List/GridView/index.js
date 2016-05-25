@@ -26,7 +26,7 @@ const _render = ({
     div({
       className: styles.container
     }, [
-      practitioners.map(practitioner => GridItem({
+      practitioners && practitioners.map(practitioner => GridItem({
         className: 'practitioner',
         size: 130,
         style: {

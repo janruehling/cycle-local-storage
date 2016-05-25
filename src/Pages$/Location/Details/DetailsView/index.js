@@ -1,5 +1,5 @@
 import { Observable } from 'rx'
-import { div } from '@cycle/dom'
+import { div, textarea } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 import R from 'ramda'
 
@@ -89,16 +89,43 @@ const _render = ({
     div({
       className: styles.thirdColumn
     }, [
-      Heading({
-        icon: 'Photo',
-        text: 'Verified Photos'
-      }),
-      div({
-        style: {
-          color: constants.primary1,
-          fontSize: '14px'
-        }
-      }, 'No Photos yet')
+      location.description && div([
+        Heading({
+          icon: 'Sheet',
+          text: 'Description'
+        }),
+        textarea({
+          attributes: {
+            readonly: true
+          },
+          className: styles.description
+        }, location.description)
+      ]),
+      R.isEmpty(location.images)
+        ? div([
+          Heading({
+            icon: 'Photo',
+            text: 'Verified Photos'
+          }),
+          div({
+            style: {
+              color: constants.primary1,
+              fontSize: '14px'
+            }
+          }, 'No Photos yet')
+        ])
+        : div([
+          Heading({
+            icon: 'Photo',
+            text: 'Verified Photos'
+          }),
+          div({
+            style: {
+              color: constants.primary1,
+              fontSize: '14px'
+            }
+          }, 'No Photos yet')
+        ])
     ])
   ])
 ])

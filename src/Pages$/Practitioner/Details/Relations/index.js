@@ -227,17 +227,6 @@ export default sources => {
   //   .map(ev => ev.ownerTarget.dataset)
   //   .distinctUntilChanged()
 
-  relations$
-    .map(res => {
-      const out = {}
-
-      res.data.map
-
-      return out
-    })
-    .do(console.log.bind(console))
-    .subscribe()
-
   const filterBar = FilterBar({
     ...sources,
     props$: Observable.just({

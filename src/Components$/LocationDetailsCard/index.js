@@ -2,9 +2,12 @@ import moment from 'moment'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 import { pathOr } from 'ramda'
+import classNames from 'classnames'
 
 import { toTitleCase, getName, getStaticMap } from 'zwUtility'
-import { DetailsCard } from 'StyleFn'
+import { DetailsCard, Icon } from 'StyleFn'
+
+import helpers from 'helpers.css'
 
 const _render = ({
   location
@@ -13,6 +16,7 @@ const _render = ({
     icon: 'Hospital',
     name: 'Location'
   },
+  subTitle: location.type || null,
   topCallout: (location.last_verified && moment(location.last_verified).isValid())
     ? {
       key: 'Last Verified',
@@ -31,10 +35,53 @@ const _render = ({
       height: 181
     })
   },
-  lists: location.address ? [
+  lists: [
+    {
+      title: 'Contact:',
+      items: (location.email || location.phone) ? [
+        {
+          children: location.email
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Envelope',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(location.email)
+            ])
+            : null
+        },
+        {
+          children: location.phone
+            ? div({
+              className: classNames({
+                [helpers.layout]: true,
+                [helpers.center]: true
+              })
+            }, [
+              Icon({
+                icon: 'Phone',
+                style: {
+                  fontSize: '12px',
+                  marginRight: '10px'
+                }
+              }),
+              div(location.phone)
+            ])
+            : null
+        }
+      ] : null
+    },
     {
       title: 'Address:',
-      items: [
+      items: location.address ? [
         {
           text: pathOr(null, ['address', 'street_address'])(location)
         },
@@ -44,7 +91,7 @@ const _render = ({
         {
           text: pathOr(null, ['address', 'zipcode'])(location)
         }
-      ]
+      ] : null
     },
     {
       title: 'Geo Coordinates:',
@@ -57,7 +104,17 @@ const _render = ({
         }
       ]
     }
-  ] : []
+  ],
+  workingHours: location.hours ? {
+    title: 'Working Hours',
+    times: location.hours
+  } : null,
+  quickFacts: [
+    {
+      key: 'Emergency Room',
+      value: location.emergency_room
+    }
+  ]
 }) : div()
 
 export const LocationDetailsCard = sources => {
