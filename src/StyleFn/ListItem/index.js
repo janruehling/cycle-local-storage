@@ -37,7 +37,8 @@ export const ListItem = (options = {}) => div([
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap'
-        }
+        },
+        title: getName(options.entity)
       }, getName(options.entity))
     ]),
     options.children && options.children.map(child => {

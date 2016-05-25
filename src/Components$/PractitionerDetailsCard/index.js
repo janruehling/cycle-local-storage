@@ -83,6 +83,10 @@ const _render = ({
       })) : null
     }
   ],
+  workingHours: practitioner.hours ? {
+    title: 'Working Hours',
+    times: practitioner.hours
+  } : null,
   quickFacts: [
     {
       key: 'Accepts New Patients',

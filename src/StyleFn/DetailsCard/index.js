@@ -1,6 +1,6 @@
 import { div, img } from '@cycle/dom'
 
-import { Avatar, Icon, List, QuickFact, KeyValue } from 'StyleFn'
+import { Avatar, Icon, List, QuickFact, KeyValue, Heading } from 'StyleFn'
 
 import constants from 'constants.css'
 import styles from './DetailsCard.css'
@@ -118,6 +118,28 @@ const _render = (options) => div({
           }) : null)
       ])
       : null,
+    options.workingHours && div([
+      Heading({
+        text: options.workingHours.title,
+        style: {
+          margin: '5px 0 2px'
+        }
+      }),
+      ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => KeyValue({
+        key: day,
+        value: options.workingHours.times[day],
+        reverse: true,
+        style: {
+          color: constants.color1_3
+        },
+        styleKey: {
+          width: '40px'
+        },
+        styleValue: {
+          fontWeight: 'normal'
+        }
+      }))
+    ]),
     options.quickFacts && options.quickFacts.length &&
       div({
         className: styles.quickFactsContainer

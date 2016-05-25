@@ -2,21 +2,25 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
-import { AppShell, SiteHeader$, ComingSoon, Search, ToolBar } from 'Components$'
+import { nestedComponent, mergeOrFlatMapLatest, getCurrentViewType$ } from 'zwUtility'
+import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
+import { Icon } from 'StyleFn'
 
 import constants from 'constants.css'
 
 import { getPlans$ } from 'Remote'
 
+import ListView from './ListView'
 import GridView from './GridView'
 
 const _routes = {
-  '/': isolate(GridView),
-  '/list': isolate(ComingSoon('List View'))
+  '/': isolate(ListView),
+  '/grid': isolate(GridView)
 }
 
 export default sources => {
+  const currentViewType$ = getCurrentViewType$(sources)
+
   const plans$ = sources.responses$
     .filter(res$ => res$ && res$.request)
     .filter(res$ => res$.request.category === 'getPlans$')
@@ -36,24 +40,85 @@ export default sources => {
 
   const toolBar = ToolBar({
     ...sources,
-    tools$: Observable.just({
-      left: [
-        div({
-          style: {
-            color: constants.color1,
-            fontSize: '24px',
-            fontWeight: 'bold'
-          }
-        }, 'View All Plans')
-      ]
-    })
+    tools$: currentViewType$
+      .combineLatest(sources.userProfile$)
+      .flatMap(([viewType, profile]) => Observable.just({
+        left: [
+          div({
+            style: {
+              fontSize: '14px',
+              fontWeight: 'bold',
+              color: constants.color1
+            }
+          }, 'All Plans')
+        ],
+        right: [
+          div({
+            id: 'add',
+            style: {
+              alignItems: 'center',
+              background: constants.color4,
+              cursor: 'pointer',
+              display: profile.email === 'zipwire_admin@zipwire.com' ? 'flex' : 'none',
+              height: '18px',
+              justifyContent: 'center',
+              marginRight: '10px',
+              width: '18px'
+            }
+          }, [
+            Icon({
+              icon: 'Plus',
+              style: {
+                color: '#fff',
+                fontSize: '10px'
+              }
+            })
+          ]),
+          div({
+            id: 'list',
+            style: {
+              color: viewType === 'list' ? 'inherit' : constants.color1_3,
+              cursor: 'pointer'
+            }
+          }, [
+            Icon({
+              icon: 'List',
+              style: {
+                marginRight: '10px'
+              }
+            })
+          ]),
+          div({
+            id: 'grid',
+            style: {
+              color: viewType === 'grid' ? 'inherit' : constants.color1_3,
+              cursor: 'pointer'
+            }
+          }, [
+            Icon({
+              icon: 'Grid'
+            })
+          ])
+        ]
+      }))
   })
 
-  const backClick$ = sources.DOM.select('#back')
+  const addClick$ = sources.DOM.select('#add')
     .events('click')
     .map(ev => ({
-      type: 'go',
-      value: -1
+      pathname: '/plans/add'
+    }))
+
+  const listClick$ = sources.DOM.select('#list')
+    .events('click')
+    .map(ev => ({
+      pathname: '/plans'
+    }))
+
+  const gridClick$ = sources.DOM.select('#grid')
+    .events('click')
+    .map(ev => ({
+      pathname: '/plans/grid'
     }))
 
   const appShell = AppShell({
@@ -79,7 +144,9 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
-    backClick$,
+    addClick$,
+    listClick$,
+    gridClick$,
     redirectOnLogout$
   )
 

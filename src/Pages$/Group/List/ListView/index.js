@@ -2,9 +2,9 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr, pluck } from 'ramda'
+import { pathOr } from 'ramda'
 
-import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
+import { getIcon } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
 import { ListItem } from 'StyleFn'
@@ -20,7 +20,7 @@ const styleEllipsis = {
 
 const _render = ({
   filterBarDOM,
-  practitioners
+  groups
 }) => div([
   filterBarDOM,
   div({
@@ -38,16 +38,6 @@ const _render = ({
         style: {
           width: '95px'
         }
-      }, 'Phone'),
-      div({
-        style: {
-          width: '150px'
-        }
-      }, 'Email'),
-      div({
-        style: {
-          width: '95px'
-        }
       }, 'ZWMID'),
       div({
         style: {
@@ -58,104 +48,104 @@ const _render = ({
         style: {
           width: '95px'
         }
-      }, 'DEA'),
+      }, 'PAC ID'),
       div({
         style: {
-          width: '120px'
+          width: '95px'
         }
-      }, 'Languages'),
+      }, 'Tax #'),
       div({
         style: {
-          width: '160px'
+          width: '95px'
         }
-      }, 'Residency'),
+      }, 'Type'),
       div({
         style: {
-          width: '195px'
+          width: '95px'
         }
-      }, 'Specialty')
+      }, 'MedicAid Cert.'),
+      div({
+        style: {
+          width: '95px'
+        }
+      }, 'Legal Struc.'),
+      div({
+        style: {
+          width: '210px'
+        }
+      }, 'Legal Name'),
+      div({
+        style: {
+          width: '110px'
+        }
+      }, 'Last Verified')
     ]),
-    practitioners && practitioners.map(practitioner => ListItem({
-      className: 'practitioner',
-      image: pathOr(null, ['image', 'url'])(practitioner),
-      icon: getIcon(practitioner, 'practitioner'),
-      entity: practitioner,
+    groups && groups.map(group => ListItem({
+      className: 'group',
+      image: pathOr(null, ['image', 'url'])(group),
+      icon: getIcon(group, 'group'),
+      entity: group,
       style: {
         cursor: 'pointer'
       },
       attributes: {
-        'data-id': practitioner.id
+        'data-id': group.id
       },
       children: [
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.phone),
-        div({
-          style: {
-            width: '140px',
-            ...styleEllipsis
-          }
-        }, practitioner.email),
+        }, group.zwmid),
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.zwmid),
+        }, group.npi),
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.npi),
+        }, group.practice_pac_id),
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.dea_number),
+        }, group.tax_number),
         div({
           style: {
-            width: '110px',
-            ...styleEllipsis
+            width: '85px'
           }
-        },
-        practitioner.languages
-          ? practitioner.languages.map(getLanguage).join(', ')
-          : []
-        ),
-        ((residencies) => {
-          residencies = residencies || []
-          const residencyString = residencies.map(residency => toTitleCase(residency)).join(', ')
-
-          return div({
-            style: {
-              width: '150px',
-              ...styleEllipsis
-            },
-            title: residencyString
-          },
-            [residencyString]
-          )
-        })(practitioner.residencies),
+        }, group.type),
         div({
           style: {
-            width: '185px',
+            width: '85px'
+          }
+        }, group.medicaid_certified ? 'Yes' : 'No'),
+        div({
+          style: {
+            width: '85px'
+          }
+        }, group.legal_structure),
+        div({
+          style: {
+            width: '200px',
             ...styleEllipsis
           }
-        },
-        practitioner.specialties
-          ? practitioner.specialties
-              .map(specialty => toTitleCase(specialty) + ', ')
-          : []
-        )
+        }, group.legal_name),
+        div({
+          style: {
+            width: '100px'
+          }
+        }, group.last_verified || 'Not verified yet')
       ]
     }))
   ])
 ])
 
-const _navActions = (sources) => sources.DOM.select('.practitioner')
+const _navActions = (sources) => sources.DOM.select('.group')
     .events('click')
-    .map(ev => '/practitioner/' + ev.ownerTarget.dataset.id + '/')
+    .map(ev => '/group/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
   const route$ = _navActions(sources)
@@ -184,7 +174,7 @@ export default sources => {
 
   const viewState = {
     filterBarDOM: filterBar.DOM,
-    practitioners: sources.practitioners$
+    groups: sources.groups$
   }
 
   const DOM = combineLatestObj(viewState)

@@ -2,9 +2,9 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr, pluck } from 'ramda'
+import { pathOr } from 'ramda'
 
-import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
+import { getIcon } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
 import { ListItem } from 'StyleFn'
@@ -20,7 +20,7 @@ const styleEllipsis = {
 
 const _render = ({
   filterBarDOM,
-  practitioners
+  locations
 }) => div([
   filterBarDOM,
   div({
@@ -38,124 +38,110 @@ const _render = ({
         style: {
           width: '95px'
         }
-      }, 'Phone'),
-      div({
-        style: {
-          width: '150px'
-        }
-      }, 'Email'),
-      div({
-        style: {
-          width: '95px'
-        }
       }, 'ZWMID'),
       div({
         style: {
-          width: '95px'
+          width: '130px'
         }
-      }, 'NPI'),
+      }, 'Type'),
       div({
         style: {
-          width: '95px'
+          width: '130px'
         }
-      }, 'DEA'),
+      }, 'Phone'),
       div({
         style: {
-          width: '120px'
+          width: '210px'
         }
-      }, 'Languages'),
+      }, 'Address'),
       div({
         style: {
-          width: '160px'
+          width: '70px'
         }
-      }, 'Residency'),
+      }, 'City'),
       div({
         style: {
-          width: '195px'
+          width: '70px'
         }
-      }, 'Specialty')
+      }, 'ZIP'),
+      div({
+        style: {
+          width: '70px'
+        }
+      }, 'State'),
+      div({
+        style: {
+          width: '80px'
+        }
+      }, 'Emergency R.')
     ]),
-    practitioners && practitioners.map(practitioner => ListItem({
-      className: 'practitioner',
-      image: pathOr(null, ['image', 'url'])(practitioner),
-      icon: getIcon(practitioner, 'practitioner'),
-      entity: practitioner,
+    locations && locations.map(location => ListItem({
+      className: 'location',
+      image: pathOr(null, ['image', 'url'])(location),
+      icon: getIcon(location, 'location'),
+      entity: location,
       style: {
         cursor: 'pointer'
       },
       attributes: {
-        'data-id': practitioner.id
+        'data-id': location.id
       },
       children: [
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.phone),
+        }, location.zwmid),
         div({
           style: {
-            width: '140px',
+            width: '120px',
             ...styleEllipsis
           }
-        }, practitioner.email),
+        }, location.type),
         div({
           style: {
-            width: '85px'
-          }
-        }, practitioner.zwmid),
-        div({
-          style: {
-            width: '85px'
-          }
-        }, practitioner.npi),
-        div({
-          style: {
-            width: '85px'
-          }
-        }, practitioner.dea_number),
-        div({
-          style: {
-            width: '110px',
+            width: '120px',
             ...styleEllipsis
           }
-        },
-        practitioner.languages
-          ? practitioner.languages.map(getLanguage).join(', ')
-          : []
-        ),
-        ((residencies) => {
-          residencies = residencies || []
-          const residencyString = residencies.map(residency => toTitleCase(residency)).join(', ')
-
-          return div({
-            style: {
-              width: '150px',
-              ...styleEllipsis
-            },
-            title: residencyString
-          },
-            [residencyString]
-          )
-        })(practitioner.residencies),
+        }, location.phone),
         div({
           style: {
-            width: '185px',
+            width: '200px',
             ...styleEllipsis
           }
-        },
-        practitioner.specialties
-          ? practitioner.specialties
-              .map(specialty => toTitleCase(specialty) + ', ')
-          : []
-        )
+        }, pathOr('', ['address', 'street_address'])(location)),
+        div({
+          style: {
+            width: '60px',
+            ...styleEllipsis
+          }
+        }, pathOr('', ['address', 'city'])(location)),
+        div({
+          style: {
+            width: '60px',
+            ...styleEllipsis
+          }
+        }, pathOr('', ['address', 'zipcode'])(location)),
+        div({
+          style: {
+            width: '60px',
+            ...styleEllipsis
+          }
+        }, pathOr('', ['address', 'state'])(location)),
+        div({
+          style: {
+            width: '70px',
+            ...styleEllipsis
+          }
+        }, location.emergency_room ? 'Yes' : 'No')
       ]
     }))
   ])
 ])
 
-const _navActions = (sources) => sources.DOM.select('.practitioner')
+const _navActions = (sources) => sources.DOM.select('.location')
     .events('click')
-    .map(ev => '/practitioner/' + ev.ownerTarget.dataset.id + '/')
+    .map(ev => '/location/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
   const route$ = _navActions(sources)
@@ -184,7 +170,7 @@ export default sources => {
 
   const viewState = {
     filterBarDOM: filterBar.DOM,
-    practitioners: sources.practitioners$
+    locations: sources.locations$
   }
 
   const DOM = combineLatestObj(viewState)

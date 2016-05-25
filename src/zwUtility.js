@@ -16,6 +16,15 @@ export const truncateString = (str, length) => {
   return str.substr(0, length) + ' ...'
 }
 
+export const getCurrentViewType$ = sources => sources.router.observable
+  .map(x => x.pathname)
+  .map(x => x.split('/'))
+  .map(x => x[x.length - 1])
+  .map(x => {
+    if (['practitioners', 'locations', 'groups', 'plans'].indexOf(x) !== -1) return 'list'
+    return x
+  })
+
 export const getUrlParams = sources => {
   return sources.router.observable
     .map(route => route.search)
@@ -44,11 +53,13 @@ export const getName = (entity) => {
   if (entity.name) {
     return entity.name.trim()
   } else if (entity.first_name || entity.middle_name || entity.last_name) {
+    const prefix = entity.prefix ? entity.prefix + ' ' : ''
     const first = entity.first_name ? entity.first_name + ' ' : ''
     const middle = entity.middle_name ? entity.middle_name + ' ' : ''
     const last = entity.last_name ? entity.last_name + ' ' : ''
+    const suffix = entity.suffix ? entity.suffix + ' ' : ''
 
-    return (first + middle + last).trim()
+    return (prefix + first + middle + last + suffix).trim()
   } else {
     return ''
   }
@@ -78,7 +89,7 @@ export const getGender = (entity) => {
 
 export const getLanguage = language => {
   let out
-  switch (language.id) {
+  switch (language) {
     case 'en':
       out = 'English'
       break

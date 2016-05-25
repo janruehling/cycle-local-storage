@@ -1,0 +1,17 @@
+@value constants: 'constants.css';
+@value color1, color1_6, color5, maxWidth from constants;
+
+.container {
+  color: color5;
+  margin: 0 auto;
+  max-width: maxWidth;
+}
+
+.tableHeader {
+  border-bottom: 1px solid color1_6;
+  color: color1;
+  display: flex;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}

@@ -62,13 +62,13 @@ export const SiteHeader$ = sources => {
 
   const DOM = combineLatestObj(viewState).map(_render)
 
-  const HTTP = Observable
-    .timer(0, 30000)
-    .flatMap(count => getMeNotifications$(sources))
+  // const HTTP = Observable
+  //   .timer(0, 30000)
+  //   .flatMap(count => getMeNotifications$(sources))
 
   return {
     DOM,
-    HTTP,
+    // HTTP,
     route$,
     storage: state.signOutRequest$
   }

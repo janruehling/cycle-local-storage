@@ -6,7 +6,7 @@ export const KeyValue = (options = {}) =>
   options.value && div({
     className: classNames({
       [styles.container]: true,
-      [options.className]: true
+      [options.className]: !!options.className
     }),
     style: {
       ...options.style
@@ -15,21 +15,21 @@ export const KeyValue = (options = {}) =>
     options.key && span({
       className: classNames({
         [styles.key]: true,
-        [options.classNameKey]: true
+        [options.classNameKey]: !!options.classNameKey
       }),
       style: {
-        ...options.styleKey,
-        fontWeight: options.reverse ? 'normal' : 'bold'
+        fontWeight: options.reverse ? 'normal' : 'bold',
+        ...options.styleKey
       }
     }, options.key + ':'),
     span({
       className: classNames({
         [styles.value]: true,
-        [options.classNameValue]: true
+        [options.classNameValue]: !!options.classNameValue
       }),
       style: {
-        ...options.styleValue,
-        fontWeight: options.reverse ? 'bold' : 'normal'
+        fontWeight: options.reverse ? 'bold' : 'normal',
+        ...options.styleValue
       }
     }, options.value)
   ])

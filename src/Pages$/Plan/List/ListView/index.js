@@ -2,9 +2,9 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr, pluck } from 'ramda'
+import { pathOr } from 'ramda'
 
-import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
+import { getIcon } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
 import { ListItem } from 'StyleFn'
@@ -20,7 +20,7 @@ const styleEllipsis = {
 
 const _render = ({
   filterBarDOM,
-  practitioners
+  plans
 }) => div([
   filterBarDOM,
   div({
@@ -38,124 +38,114 @@ const _render = ({
         style: {
           width: '95px'
         }
-      }, 'Phone'),
-      div({
-        style: {
-          width: '150px'
-        }
-      }, 'Email'),
-      div({
-        style: {
-          width: '95px'
-        }
       }, 'ZWMID'),
       div({
         style: {
           width: '95px'
         }
-      }, 'NPI'),
+      }, 'Type'),
       div({
         style: {
           width: '95px'
         }
-      }, 'DEA'),
+      }, 'IRS EIN'),
       div({
         style: {
           width: '120px'
         }
-      }, 'Languages'),
+      }, 'Insurance C.'),
       div({
         style: {
-          width: '160px'
+          width: '50px'
         }
-      }, 'Residency'),
+      }, 'State'),
       div({
         style: {
-          width: '195px'
+          width: '95px'
         }
-      }, 'Specialty')
+      }, 'Practitioners'),
+      div({
+        style: {
+          width: '95px'
+        }
+      }, 'Organizations'),
+      div({
+        style: {
+          width: '110px'
+        }
+      }, 'More Info'),
+      div({
+        style: {
+          width: '110px'
+        }
+      }, 'Last Verified')
     ]),
-    practitioners && practitioners.map(practitioner => ListItem({
-      className: 'practitioner',
-      image: pathOr(null, ['image', 'url'])(practitioner),
-      icon: getIcon(practitioner, 'practitioner'),
-      entity: practitioner,
+    plans && plans.map(plan => ListItem({
+      className: 'plan',
+      image: pathOr(null, ['image', 'url'])(plan),
+      icon: getIcon(plan, 'plan'),
+      entity: plan,
       style: {
         cursor: 'pointer'
       },
       attributes: {
-        'data-id': practitioner.id
+        'data-id': plan.id
       },
       children: [
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.phone),
-        div({
-          style: {
-            width: '140px',
-            ...styleEllipsis
-          }
-        }, practitioner.email),
+        }, plan.zwmid),
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.zwmid),
+        }, plan.type),
         div({
           style: {
             width: '85px'
           }
-        }, practitioner.npi),
-        div({
-          style: {
-            width: '85px'
-          }
-        }, practitioner.dea_number),
+        }, plan.irs_ein),
         div({
           style: {
             width: '110px',
             ...styleEllipsis
           }
-        },
-        practitioner.languages
-          ? practitioner.languages.map(getLanguage).join(', ')
-          : []
-        ),
-        ((residencies) => {
-          residencies = residencies || []
-          const residencyString = residencies.map(residency => toTitleCase(residency)).join(', ')
-
-          return div({
-            style: {
-              width: '150px',
-              ...styleEllipsis
-            },
-            title: residencyString
-          },
-            [residencyString]
-          )
-        })(practitioner.residencies),
+        }, pathOr('', ['owned_by', 'name'])(plan)),
         div({
           style: {
-            width: '185px',
-            ...styleEllipsis
+            width: '40px'
           }
-        },
-        practitioner.specialties
-          ? practitioner.specialties
-              .map(specialty => toTitleCase(specialty) + ', ')
-          : []
-        )
+        }, plan.state),
+        div({
+          style: {
+            width: '85px'
+          }
+        }, plan.accepted_by_practitioners),
+        div({
+          style: {
+            width: '85px'
+          }
+        }, plan.accepted_by_groups),
+        div({
+          style: {
+            width: '100px'
+          }
+        }, plan.details_url),
+        div({
+          style: {
+            width: '100px'
+          }
+        }, plan.last_verified || 'Not verified yet')
       ]
     }))
   ])
 ])
 
-const _navActions = (sources) => sources.DOM.select('.practitioner')
+const _navActions = (sources) => sources.DOM.select('.plan')
     .events('click')
-    .map(ev => '/practitioner/' + ev.ownerTarget.dataset.id + '/')
+    .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
   const route$ = _navActions(sources)
@@ -184,7 +174,7 @@ export default sources => {
 
   const viewState = {
     filterBarDOM: filterBar.DOM,
-    practitioners: sources.practitioners$
+    plans: sources.plans$
   }
 
   const DOM = combineLatestObj(viewState)

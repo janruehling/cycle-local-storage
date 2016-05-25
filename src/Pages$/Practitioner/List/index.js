@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, getUrlParams } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest, getUrlParams, getCurrentViewType$ } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -19,14 +19,7 @@ const _routes = {
 }
 
 export default sources => {
-  const currentViewType$ = sources.router.observable
-    .map(x => x.pathname)
-    .map(x => x.split('/'))
-    .map(x => x[x.length - 1])
-    .map(x => {
-      if (x === 'practitioners') return 'list'
-      return x
-    })
+  const currentViewType$ = getCurrentViewType$(sources)
 
   const practitioners$ = sources.responses$
     .filter(res$ => res$ && res$.request)

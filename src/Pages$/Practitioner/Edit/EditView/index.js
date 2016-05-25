@@ -79,21 +79,24 @@ const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
   }
 }))
 
-const _createTextSelect = (id, label, options$) => TextSelectFactory({
+const _createTextSelect = (id, label, options$) => isolate(TextSelectFactory({
   ...fieldConfig,
   id,
   label,
   options$
-})
+}))
 
 const _render = ({
+  prefixFieldDOM,
   firstNameFieldDOM,
   middleNameFieldDOM,
   lastNameFieldDOM,
+  suffixFieldDOM,
   emailFieldDOM,
   phoneFieldDOM,
   genderSelectDOM,
   medicalSchoolSelectDOM,
+  specialtiesSelectDOM,
   npiFieldDOM,
   faaFieldDOM,
   deaFieldDOM,
@@ -124,13 +127,16 @@ const _render = ({
     div({
       className: styles.secondColumn
     }, [
+      prefixFieldDOM,
       firstNameFieldDOM,
       middleNameFieldDOM,
       lastNameFieldDOM,
+      suffixFieldDOM,
       emailFieldDOM,
       phoneFieldDOM,
       genderSelectDOM,
       medicalSchoolSelectDOM,
+      specialtiesSelectDOM,
       npiFieldDOM,
       faaFieldDOM,
       deaFieldDOM,
@@ -162,6 +168,18 @@ export default sources => {
     .map(res => res.elements)
     .startWith([])
 
+  const specialties$ = sources.responses$
+    .filter(res$ => res$ && res$.request)
+    .filter(res$ => res$.request.category === 'getConceptByName$specialties')
+    .map(res => res.body)
+    .map(res => res.elements)
+    .startWith([])
+
+  const prefixField = _createTextField('prefix', 'Prefix')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.prefix)
+  })
+
   const firstNameField = _createTextField('first_name', 'First Name')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.first_name)
@@ -175,6 +193,11 @@ export default sources => {
   const lastNameField = _createTextField('last_name', 'Last Name')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.last_name)
+  })
+
+  const suffixField = _createTextField('suffix', 'Suffix')({
+    ...sources,
+    value$: sources.practitioner$.map(practitioner => practitioner.suffix)
   })
 
   const emailField = _createTextField('email', 'Email')({
@@ -202,7 +225,7 @@ export default sources => {
     value$: sources.practitioner$.map(practitioner => practitioner.dea_number)
   })
 
-  const pacIdField = _createTextField('pac_id', 'DEA License')({
+  const pacIdField = _createTextField('pac_id', 'PAC ID')({
     ...sources,
     value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
   })
@@ -246,10 +269,19 @@ export default sources => {
       .map(practitioner => R.pathOr(null, ['medical_school', 'name'])(practitioner))
   })
 
+  const specialtiesTextSelect = _createTextSelect('specialties', 'Specialties')({
+    ...sources,
+    options$: specialties$ || Observable.just([]),
+    value$: sources.practitioner$
+      .map(practitioner => R.pathOr(null, ['specialties'])(practitioner))
+  })
+
   const formData$ = combineLatestObj({
+    prefix: prefixField.value$,
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
     last_name: lastNameField.value$,
+    suffix: suffixField.value$,
     email: emailField.value$,
     phone: phoneField.value$,
     gender: genderSelect.value$,
@@ -261,18 +293,22 @@ export default sources => {
     accepts_medicare: medicareCheck.value$,
     accepts_medicaid: medicaidCheck.value$,
     biography: biographyTextarea.value$,
-    medical_school: medicalSchoolTextSelect.value$
+    medical_school: medicalSchoolTextSelect.value$,
+    specialties: specialtiesTextSelect.value$.map(specialty => [specialty])
   })
 
   const viewState = {
     formData: formData$,
+    prefixFieldDOM: prefixField.DOM,
     firstNameFieldDOM: firstNameField.DOM,
     middleNameFieldDOM: middleNameField.DOM,
     lastNameFieldDOM: lastNameField.DOM,
+    suffixFieldDOM: suffixField.DOM,
     emailFieldDOM: emailField.DOM,
     phoneFieldDOM: phoneField.DOM,
     genderSelectDOM: genderSelect.DOM,
     medicalSchoolSelectDOM: medicalSchoolTextSelect.DOM,
+    specialtiesSelectDOM: specialtiesTextSelect.DOM,
     npiFieldDOM: npiField.DOM,
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
@@ -291,6 +327,10 @@ export default sources => {
     getConceptByName$({
       ...sources,
       conceptName$: Observable.just('medical_schools')
+    }),
+    getConceptByName$({
+      ...sources,
+      conceptName$: Observable.just('specialties')
     })
   )
 

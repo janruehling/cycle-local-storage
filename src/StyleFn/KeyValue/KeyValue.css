@@ -1,8 +1,8 @@
 @value constants: 'constants.css';
-@value primary1 from constants;
+@value color1 from constants;
 
 .container {
-  color: primary1;
+  color: color1;
   font-size: 14px;
 }
 
@@ -11,7 +11,10 @@
 }
 
 .key {
+  display: inline-block;
   margin-right: 5px;
 }
 
-.value {}
+.value {
+  display: inline-block;
+}
