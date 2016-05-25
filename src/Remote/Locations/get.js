@@ -1,11 +1,20 @@
-const _getFilter = id => JSON.stringify({ location: {id: id} })
+import { Observable } from 'rx'
+import { getGroups$, getPlans$, getPractitioners$ } from 'Remote'
 
-export const getLocations$ = ({config$}) => {
-  return config$.map(config => ({
-    url: config.api + '/locations',
-    method: 'GET',
-    category: 'getLocations$'
-  }))
+const _getFilter = id => ({ location: {id: id} })
+
+export const getLocations$ = ({config$, filter$}) => {
+  filter$ = filter$ || Observable.just(null)
+  return config$
+    .combineLatest(filter$, (config, filter) => {
+      const rootUrl = config.api + '/locations'
+      const url = filter ? rootUrl + '?filter=' + encodeURI(JSON.stringify(filter)) : rootUrl
+      return {
+        url: url,
+        method: 'GET',
+        category: 'getLocations$'
+      }
+    })
 }
 
 export const getLocationsId$ = ({locationId$, config$}) => {
@@ -38,36 +47,26 @@ export const getLocationsRelations$ = ({locationId$, config$}) => {
     }))
 }
 
-export const getLocationsPractitioners$ = ({locationId$, config$}) => {
-  return config$
-    .combineLatest(locationId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/practitioners?filter=' + encodeURIComponent({
-        locations: {
-          id: id
-        }
-      }),
-      method: 'GET',
-      category: 'getLocationsPractitioners$'
+export const getLocationsPractitioners$ = ({ locationId$, config$ }) => {
+  return locationId$
+    .flatMap(locationId => getPractitioners$({
+      config$,
+      filter$: Observable.just(_getFilter(locationId))
     }))
 }
 
-export const getLocationsPlans$ = ({locationId$, config$}) => {
-  return config$
-    .combineLatest(locationId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/plans?filter=' + encodeURI(_getFilter(id)),
-      method: 'GET',
-      category: 'getLocationsPlans$'
+export const getLocationsPlans$ = ({ locationId$, config$ }) => {
+  return locationId$
+    .flatMap(locationId => getPlans$({
+      config$,
+      filter$: Observable.just(_getFilter(locationId))
     }))
 }
 
-export const getLocationsOrganizations$ = ({locationId$, config$}) => {
-  return config$
-    .combineLatest(locationId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/groups?filter=' + encodeURI(_getFilter(id)),
-      method: 'GET',
-      category: 'getLocationsOrganizations$'
+export const getLocationsGroups$ = ({ locationId$, config$ }) => {
+  return locationId$
+    .flatMap(locationId => getGroups$({
+      config$,
+      filter$: Observable.just(_getFilter(locationId))
     }))
 }

@@ -8,7 +8,7 @@ import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, PlanDetailsCard, Search } from 'Components$'
 
 import { getPlansId$, getPlansPractitioners$, getPlansLocations$,
-  getPlansOrganizations$, getPlansActivities$ } from 'Remote'
+  getPlansGroups$, getPlansActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
@@ -52,21 +52,21 @@ export default sources => {
 
   const practitioners$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getPlansPractitioners$')
+    .filter(res$ => res$.request.category === 'getPractitioners$')
     .map(res => res.body)
     .map(data => data.practitioners)
     .startWith([])
 
   const locations$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getPlansLocations$')
+    .filter(res => res.request.category === 'getLocations$')
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
 
   const groups$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getPlansOrganizations$')
+    .filter(res => res.request.category === 'getGroups$')
     .map(res => res.body)
     .map(data => data.groups)
     .startWith([])
@@ -116,7 +116,7 @@ export default sources => {
     getPlansId$(sources),
     getPlansPractitioners$(sources),
     getPlansLocations$(sources),
-    getPlansOrganizations$(sources),
+    getPlansGroups$(sources),
     getPlansActivities$(sources),
     mergeOrFlatMapLatest('HTTP', ...children)
   )

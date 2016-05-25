@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr, pluck } from 'ramda'
+import { pathOr } from 'ramda'
 
 import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
 

@@ -9,7 +9,7 @@ import { AppShell, SiteHeader$, TabBar, PractitionerDetailsCard,
   Search, ToolBar } from 'Components$'
 import { Icon, Button } from 'StyleFn'
 import { getPractitionersId$, getPractitionersPlans$,
-  getPractitionersOrganizations$, getPractitionersLocations$,
+  getPractitionersGroups$, getPractitionersLocations$,
   getPractitionersIdActivities$} from 'Remote'
 
 import DetailsView from './DetailsView'
@@ -59,21 +59,21 @@ export default sources => {
 
   const plans$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getPractitionersPlans$')
+    .filter(res => res.request.category === 'getPlans$')
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])
 
   const organizations$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getPractitionersOrganizations$')
+    .filter(res => res.request.category === 'getGroups$')
     .map(res => res.body)
     .map(data => data.groups)
     .startWith([])
 
   const locations$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getPractitionersLocations$')
+    .filter(res => res.request.category === 'getLocations$')
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
@@ -173,7 +173,7 @@ export default sources => {
     .merge(
       mergeOrFlatMapLatest('HTTP', ...children),
       getPractitionersLocations$(sources),
-      getPractitionersOrganizations$(sources),
+      getPractitionersGroups$(sources),
       getPractitionersPlans$(sources),
       getPractitionersId$(sources),
       getPractitionersIdActivities$(sources)

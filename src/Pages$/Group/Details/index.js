@@ -52,28 +52,28 @@ export default sources => {
 
   const plans$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getGroupsPlans$')
+    .filter(res => res.request.category === 'getPlans$')
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])
 
   const practitioners$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getGroupsPractitioners$')
+    .filter(res => res.request.category === 'getPractitioners$')
     .map(res => res.body)
     .map(data => data.practitioners)
     .startWith([])
 
   const locations$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getGroupsLocations$')
+    .filter(res => res.request.category === 'getLocations$')
     .map(res => res.body)
     .map(data => data.locations)
     .startWith([])
 
   const activities$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getGroupsActivities$')
+    .filter(res$ => res$.request.category === 'getActivities$')
     .map(res => res.body)
     .map(data => data.activities)
     .startWith([])

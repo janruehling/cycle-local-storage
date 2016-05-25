@@ -103,7 +103,6 @@ export const zwSearch = (attributes = {}) => {
       ...attributes,
       skin: 'search',
       type: 'text',
-      value: attributes.value,
       style: {
         zIndex: attributes.value && attributes.value.length ? '8' : null
       },
@@ -141,7 +140,13 @@ export const zwSearch = (attributes = {}) => {
           : div({
             className: styles.noResults
           }, 'No results match your search')
-      ]) : div('Please type at least 3 characters to search')
+      ]) : div({
+        className: styles.resultsWrap
+      }, [
+        div({
+          className: styles.noResults
+        }, 'Please type at least 3 characters to search')
+      ])
     ]) : null
   ])
 }

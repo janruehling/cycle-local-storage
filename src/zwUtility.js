@@ -47,6 +47,17 @@ export const getUrlParams = sources => {
     })
 }
 
+export const getUrlFilter$ = sources => getUrlParams(sources)
+  .filter(params => !!params.filter)
+  .map(params => params.filter)
+  .map(r => r.split('_'))
+  .flatMap(r => Observable.just({
+    [r[0]]: {
+      id: r[1]
+    }
+  }))
+  .startWith(null)
+
 export const getName = (entity) => {
   if (!is(Object, entity)) return ''
 

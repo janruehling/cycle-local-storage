@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, getCurrentViewType$ } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest, getCurrentViewType$, getUrlFilter$ } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -134,7 +134,10 @@ export default sources => {
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
 
   const HTTP = Observable.merge(
-    getLocations$(sources),
+    getLocations$({
+      ...sources,
+      filter$: getUrlFilter$(sources)
+    }),
     mergeOrFlatMapLatest('HTTP', ...children)
   )
 

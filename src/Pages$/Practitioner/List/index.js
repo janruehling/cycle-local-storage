@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import isolate from '@cycle/isolate'
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, getUrlParams, getCurrentViewType$ } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest, getUrlFilter$, getCurrentViewType$ } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { Icon } from 'StyleFn'
 
@@ -128,25 +128,14 @@ export default sources => {
     ...sources
   })
 
-  const children = [appShell, search, toolBar, page$, header]
+  const children = [appShell, search, page$, header]
 
   const redirectOnLogout$ = sources.auth$.filter(auth => !auth).map(() => '/')
-
-  const filter$ = getUrlParams(sources)
-    .filter(params => !!params.filter)
-    .map(params => params.filter)
-    .map(r => r.split('_'))
-    .flatMap(r => Observable.just({
-      [r[0]]: {
-        id: r[1]
-      }
-    }))
-    .startWith(null)
 
   const HTTP = Observable.merge(
     getPractitioners$({
       ...sources,
-      filter$
+      filter$: getUrlFilter$(sources)
     }),
     mergeOrFlatMapLatest('HTTP', ...children)
   )

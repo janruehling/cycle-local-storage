@@ -48,7 +48,7 @@ const _render = ({
         title: 'Practitioners',
         items: practitioners && practitioners
           .map(practitioner => ({
-            text: toTitleCase(getName(practitioner)),
+            text: getName(practitioner),
             link: '/#/practitioner/' + practitioner.id + '/'
           }))
       }),
@@ -107,10 +107,10 @@ const _render = ({
 
 export default sources => {
   const viewState = {
-    plan: sources.plan$ || Observable.just({}),
+    plan: sources.plan$,
     locations: sources.locations$ || Observable.just([]),
     groups: sources.groups$ || Observable.just([]),
-    practitioners: sources.practitioner$ || Observable.just([]),
+    practitioners: sources.practitioners$ || Observable.just([]),
     activities: sources.activities$ || Observable.just([])
   }
 

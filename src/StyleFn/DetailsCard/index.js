@@ -1,6 +1,7 @@
 import { div, img } from '@cycle/dom'
 
 import { Avatar, Icon, List, QuickFact, KeyValue, Heading } from 'StyleFn'
+import { toTitleCase } from 'zwUtility'
 
 import constants from 'constants.css'
 import styles from './DetailsCard.css'
@@ -126,7 +127,7 @@ const _render = (options) => div({
         }
       }),
       ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => KeyValue({
-        key: day,
+        key: toTitleCase(day),
         value: options.workingHours.times[day],
         reverse: true,
         style: {

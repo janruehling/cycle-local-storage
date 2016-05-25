@@ -1,6 +1,7 @@
 import { Observable } from 'rx'
+import { getLocations$, getGroups$, getPlans$ } from 'Remote'
 
-const _getFilter = id => JSON.stringify({ practitioner: {id: id} })
+const _getFilter = id => ({ practitioner: {id: id} })
 
 export const getPractitioners$ = ({config$, filter$}) => {
   filter$ = filter$ || Observable.just(null)
@@ -46,32 +47,26 @@ export const getPractitionersRelations$ = ({practitionerId$, config$}) => {
     }))
 }
 
-export const getPractitionersLocations$ = ({practitionerId$, config$}) => {
-  return config$
-    .combineLatest(practitionerId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/locations?filter=' + encodeURI(_getFilter(id)),
-      method: 'GET',
-      category: 'getPractitionersLocations$'
+export const getPractitionersLocations$ = ({ practitionerId$, config$ }) => {
+  return practitionerId$
+    .flatMap(practitionerId => getLocations$({
+      config$,
+      filter$: Observable.just(_getFilter(practitionerId))
     }))
 }
 
-export const getPractitionersOrganizations$ = ({practitionerId$, config$}) => {
-  return config$
-    .combineLatest(practitionerId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/groups?filter=' + encodeURI(_getFilter(id)),
-      method: 'GET',
-      category: 'getPractitionersOrganizations$'
+export const getPractitionersGroups$ = ({ practitionerId$, config$ }) => {
+  return practitionerId$
+    .flatMap(practitionerId => getGroups$({
+      config$,
+      filter$: Observable.just(_getFilter(practitionerId))
     }))
 }
 
-export const getPractitionersPlans$ = ({practitionerId$, config$}) => {
-  return config$
-    .combineLatest(practitionerId$, (config, id) => ({config, id}))
-    .map(({config, id}) => ({
-      url: config.api + '/plans?filter=' + encodeURI(_getFilter(id)),
-      method: 'GET',
-      category: 'getPractitionersPlans$'
+export const getPractitionersPlans$ = ({ practitionerId$, config$ }) => {
+  return practitionerId$
+    .flatMap(practitionerId => getPlans$({
+      config$,
+      filter$: Observable.just(_getFilter(practitionerId))
     }))
 }

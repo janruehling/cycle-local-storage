@@ -7,7 +7,7 @@ import { div } from '@cycle/dom'
 import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, TabBar, LocationDetailsCard, Search } from 'Components$'
 
-import { getLocationsId$, getLocationsPractitioners$, getLocationsOrganizations$,
+import { getLocationsId$, getLocationsPractitioners$, getLocationsGroups$,
   getLocationsPlans$, getLocationsActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
@@ -52,21 +52,21 @@ export default sources => {
 
   const practitioners$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getLocationsPractitioners$')
+    .filter(res$ => res$.request.category === 'getPractitioners$')
     .map(res => res.body)
     .map(data => data.practitioners)
     .startWith([])
 
   const plans$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getLocationsPlans$')
+    .filter(res => res.request.category === 'getPlans$')
     .map(res => res.body)
     .map(data => data.plans)
     .startWith([])
 
   const groups$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res => res.request.category === 'getLocationsOrganizations$')
+    .filter(res => res.request.category === 'getGroups$')
     .map(res => res.body)
     .map(data => data.groups)
     .startWith([])
@@ -115,7 +115,7 @@ export default sources => {
   const HTTP = Observable.merge(
     getLocationsId$(sources),
     getLocationsPractitioners$(sources),
-    getLocationsOrganizations$(sources),
+    getLocationsGroups$(sources),
     getLocationsPlans$(sources),
     getLocationsActivities$(sources),
     mergeOrFlatMapLatest('HTTP', ...children)
