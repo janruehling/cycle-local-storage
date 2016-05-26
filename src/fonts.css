@@ -23,6 +23,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconSort:before {
+  content: "\58";
+}
+.iconDate:before {
+    content: "\57";
+}
 .iconAccount:before {
     content: "\56";
 }

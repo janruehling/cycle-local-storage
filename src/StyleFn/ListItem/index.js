@@ -5,7 +5,6 @@ import constants from 'constants.css'
 import styles from './ListItem.css'
 
 import { Avatar } from 'StyleFn'
-import { getName } from 'zwUtility'
 
 export const ListItem = (options = {}) => div([
   div({
@@ -22,24 +21,24 @@ export const ListItem = (options = {}) => div([
         borderRadius: '4px',
         background: constants.color1_6,
         display: 'flex',
-        width: '190px'
+        width: '34px'
       }
     }, [
       Avatar({
         image: options.image,
         icon: options.icon,
         size: 24
-      }),
-      div({
-        style: {
-          fontWeight: 'bold',
-          marginLeft: '10px',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
-        },
-        title: getName(options.entity)
-      }, getName(options.entity))
+      })
+      // div({
+      //   style: {
+      //     fontWeight: 'bold',
+      //     marginLeft: '10px',
+      //     overflow: 'hidden',
+      //     textOverflow: 'ellipsis',
+      //     whiteSpace: 'nowrap'
+      //   },
+      //   title: getName(options.entity)
+      // }, getName(options.entity))
     ]),
     options.children && options.children.map(child => {
       child.properties ? child.properties.className = classNames({

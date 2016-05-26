@@ -28,7 +28,6 @@ import activityStream from './styles/activityStream'
 
 export default sources => {
   const StyleFns = [
-    zwTextSelect,
     colors,
     typography,
     icon,
@@ -55,6 +54,7 @@ export default sources => {
     zwSelect,
     zwDropdown,
     zwCheckbox,
+    zwTextSelect,
     zwTextarea
   ]
   return {

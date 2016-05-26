@@ -12,12 +12,6 @@ import { ListItem } from 'StyleFn'
 import constants from 'constants.css'
 import styles from './ListView.css'
 
-const styleEllipsis = {
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap'
-}
-
 const _render = ({
   filterBarDOM,
   plans

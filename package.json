@@ -63,6 +63,7 @@
     "@cycle/dom": "^9.1.0",
     "@cycle/http": "^8.2.2",
     "@cycle/isolate": "^1.2.0",
+    "@panosoft/ramda-utils": "^0.2.8",
     "compression": "^1.6.1",
     "cycle-local-storage": "git+https://github.com/TylorS/cycle-local-storage.git",
     "cyclic-router": "^1.0.0",
