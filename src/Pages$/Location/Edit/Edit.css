@@ -1,0 +1,10 @@
+@value constants: 'constants.css';
+@value maxWidth, primary1 from constants;
+
+.container {
+  border-top: 1px solid primary1;
+  display: flex;
+  max-width: maxWidth;
+  margin: 0 auto;
+  padding-top: 20px;
+}

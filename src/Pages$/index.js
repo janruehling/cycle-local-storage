@@ -19,6 +19,7 @@ import GroupList from './Group/List'
 import GroupDetails from './Group/Details'
 import LocationList from './Location/List'
 import LocationDetails from './Location/Details'
+import LocationEdit from './Location/Edit'
 import PlanList from './Plan/List'
 import PlanDetails from './Plan/Details'
 import PractitionerList from './Practitioner/List'
@@ -53,6 +54,11 @@ const routes = {
       isolate(LocationDetails)({
         locationId$: Observable.just(id),
         ...sources
+      }),
+  '/location/edit/:id': id => sources =>
+      isolate(LocationEdit)({
+        ...sources,
+        locationId$: Observable.just(id)
       }),
   '/plans': isolate(PlanList),
   '/plan/:id': id => sources =>

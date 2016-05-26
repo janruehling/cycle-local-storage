@@ -2,7 +2,7 @@ import { Observable } from 'rx'
 import combineLatestObj from 'rx-combine-latest-obj'
 import { zwTextSelect } from 'StyleFn'
 
-const TextSelectFactory = (attributes = {}) => sources => {
+const TextSelectFactory2 = (attributes = {}) => sources => {
   if (!attributes.id) {
     throw new Error('TextSelectFactory needs an id to work properly')
   }
@@ -39,6 +39,14 @@ const TextSelectFactory = (attributes = {}) => sources => {
     .merge(inputChange$.pluck('currentTarget', 'value'))
     .merge(resultClicks$.pluck('ownerTarget', 'dataset', attributes.valueProp || 'value'))
 
+  const valueObj$ = (sources.value$ || Observable.just({}))
+    .combineLatest(resultClicks$.pluck('ownerTarget', 'dataset'))
+    .map(([_, result]) => ({
+      key: result.key,
+      value: result.value
+    }))
+    .startWith({})
+
   const results$ = inputChange$
     .combineLatest(sources.options$, (change, options) => {
       const value = String(change.ownerTarget.value).toLowerCase()
@@ -61,9 +69,10 @@ const TextSelectFactory = (attributes = {}) => sources => {
 
   return {
     DOM,
-    value$
+    value$,
+    valueObj$
   }
 }
 
-export default TextSelectFactory
-export { TextSelectFactory }
+export default TextSelectFactory2
+export { TextSelectFactory2 }

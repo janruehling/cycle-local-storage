@@ -5,13 +5,15 @@ import combineLatestObj from 'rx-combine-latest-obj'
 import { div } from '@cycle/dom'
 
 import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
-import { AppShell, SiteHeader$, TabBar, LocationDetailsCard, Search } from 'Components$'
+import { AppShell, SiteHeader$, TabBar, LocationDetailsCard, Search, ToolBar } from 'Components$'
+import { Icon, Button } from 'StyleFn'
 
 import { getLocationsId$, getLocationsPractitioners$, getLocationsGroups$,
   getLocationsPlans$, getLocationsActivities$ } from 'Remote'
 
 import DetailsView from './DetailsView'
 
+import constants from 'constants.css'
 import styles from './Details.css'
 
 const _routes = {
@@ -94,6 +96,53 @@ export default sources => {
 
   const search = Search({...sources})
 
+  const toolBar = ToolBar({
+    ...sources,
+    tools$: Observable.just({
+      left: [
+        div({
+          style: {
+            cursor: 'pointer',
+            display: 'flex'
+          },
+          id: 'back'
+        }, [
+          Icon({
+            icon: 'Back',
+            style: {
+              marginRight: '10px'
+            }
+          }),
+          div('Back')
+        ])
+      ],
+      right: [
+        Button({
+          background: constants.color2,
+          id: 'editData',
+          skin: 'narrow',
+          text: 'Edit Data'
+        })
+      ]
+    })
+  })
+
+  const backClick$ = sources.DOM.select('#back')
+    .events('click')
+    .map(ev => 'locations/')
+    // .map(ev => ({
+    //   type: 'go',
+    //   value: -1
+    // }))
+
+  const editClick$ = sources.DOM.select('#editData')
+    .events('click')
+    .withLatestFrom(sources.locationId$)
+    .map(([ev, id]) => ({
+      pathname: '/location/edit/' + id
+    }))
+    .take(1)
+
   const viewState = {
     detailsCard: detailsCard.DOM,
     tabBar: tabBar.DOM,
@@ -106,6 +155,7 @@ export default sources => {
   const appShell = AppShell({
     headerDOM: header.DOM,
     searchDOM: search.DOM,
+    toolBarDOM: toolBar.DOM,
     pageDOM: _pageDOM,
     ...sources
   })
@@ -129,6 +179,8 @@ export default sources => {
 
   const route$ = Observable.merge(
     mergeOrFlatMapLatest('route$', ...children),
+    backClick$,
+    editClick$,
     redirectOnLogout$
   )
 
