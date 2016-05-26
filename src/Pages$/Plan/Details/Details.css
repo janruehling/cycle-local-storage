@@ -4,7 +4,7 @@
 .container {
   display: flex;
   max-width: maxWidth;
-  margin: 30px auto;
+  margin: 0 auto 30px;
 }
 
 .sidebarLeft {
