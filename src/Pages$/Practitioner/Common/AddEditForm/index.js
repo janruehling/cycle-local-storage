@@ -73,6 +73,13 @@ const _render = ({
   faaFieldDOM,
   deaFieldDOM,
   pacIdFieldDOM,
+  hoursMondayFieldDOM,
+  hoursTuesdayFieldDOM,
+  hoursWednesdayFieldDOM,
+  hoursThursdayFieldDOM,
+  hoursFridayFieldDOM,
+  hoursSaturdayFieldDOM,
+  hoursSundayFieldDOM,
   newPatientsCheckDOM,
   medicareCheckDOM,
   medicaidCheckDOM,
@@ -115,10 +122,27 @@ const _render = ({
       faaFieldDOM,
       deaFieldDOM,
       pacIdFieldDOM,
-      newPatientsCheckDOM,
-      medicaidCheckDOM,
-      medicareCheckDOM,
-      medicaidCertCheckDOM
+      div([
+        Heading({
+          text: 'Working Hours'
+        }),
+        hoursMondayFieldDOM,
+        hoursTuesdayFieldDOM,
+        hoursWednesdayFieldDOM,
+        hoursThursdayFieldDOM,
+        hoursFridayFieldDOM,
+        hoursSaturdayFieldDOM,
+        hoursSundayFieldDOM
+      ]),
+      div([
+        Heading({
+          text: 'Quick Facts'
+        }),
+        newPatientsCheckDOM,
+        medicaidCheckDOM,
+        medicareCheckDOM,
+        medicaidCertCheckDOM
+      ])
     ]),
     div({
       className: styles.thirdColumn
@@ -234,6 +258,55 @@ export default sources => {
       : Observable.just(null)
   })
 
+  const hoursMondayField = createTextField('mon', 'Monday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'mon'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursTuesdayField = createTextField('tue', 'Tuesday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'tue'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursWednesdayField = createTextField('wed', 'Wednesday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'wed'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursThursdayField = createTextField('thu', 'Thursday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'thu'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursFridayField = createTextField('fri', 'Friday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'fri'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursSaturdayField = createTextField('sat', 'Saturday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'sat'])(practitioner))
+      : Observable.just(null)
+  })
+
+  const hoursSundayField = createTextField('sun', 'Sunday', fieldConfig)({
+    ...sources,
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['hours', 'sun'])(practitioner))
+      : Observable.just(null)
+  })
+
   const genderSelect = createSelect('gender', 'Gender', fieldConfig)({
     ...sources,
     options$: Observable.just(genderSelectOptions),
@@ -314,6 +387,20 @@ export default sources => {
     faa_number: faaField.value$,
     dea_number: deaField.value$,
     pac_id: pacIdField.value$,
+    hours: Observable.just({})
+      .combineLatest(
+        hoursMondayField.value$,
+        hoursTuesdayField.value$,
+        hoursWednesdayField.value$,
+        hoursThursdayField.value$,
+        hoursFridayField.value$,
+        hoursSaturdayField.value$,
+        hoursSundayField.value$
+      )
+      .map(([_, mon, tue, wed, thu, fri, sat, sun]) => ({
+        mon, tue, wed, thu, fri, sat, sun
+      }))
+      .map(hours => JSON.stringify(hours)),
     accepts_new_patients: newPatientsCheck.value$,
     accepts_medicare: medicareCheck.value$,
     accepts_medicaid: medicaidCheck.value$,
@@ -341,6 +428,13 @@ export default sources => {
     faaFieldDOM: faaField.DOM,
     deaFieldDOM: deaField.DOM,
     pacIdFieldDOM: pacIdField.DOM,
+    hoursMondayFieldDOM: hoursMondayField.DOM,
+    hoursTuesdayFieldDOM: hoursTuesdayField.DOM,
+    hoursWednesdayFieldDOM: hoursWednesdayField.DOM,
+    hoursThursdayFieldDOM: hoursThursdayField.DOM,
+    hoursFridayFieldDOM: hoursFridayField.DOM,
+    hoursSaturdayFieldDOM: hoursSaturdayField.DOM,
+    hoursSundayFieldDOM: hoursSundayField.DOM,
     newPatientsCheckDOM: newPatientsCheck.DOM,
     medicareCheckDOM: medicareCheck.DOM,
     medicaidCheckDOM: medicaidCheck.DOM,

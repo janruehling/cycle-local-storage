@@ -51,6 +51,20 @@ const _render = ({
   phoneFieldDOM,
   emergencyRoomCheckDOM,
   typesSelectDOM,
+  hoursMondayFieldDOM,
+  hoursTuesdayFieldDOM,
+  hoursWednesdayFieldDOM,
+  hoursThursdayFieldDOM,
+  hoursFridayFieldDOM,
+  hoursSaturdayFieldDOM,
+  hoursSundayFieldDOM,
+  addressStreetFieldDOM,
+  addressZipFieldDOM,
+  addressStateFieldDOM,
+  addressCityFieldDOM,
+  addressCountryFieldDOM,
+  addressCoordinatesLatitudeFieldDOM,
+  addressCoordinatesLongitudeFieldDOM,
   descriptionTextareaDOM,
   location
 }) => div({
@@ -77,7 +91,31 @@ const _render = ({
       nameFieldDOM,
       typesSelectDOM,
       phoneFieldDOM,
-      emergencyRoomCheckDOM
+      emergencyRoomCheckDOM,
+      div([
+        Heading({
+          text: 'Address'
+        }),
+        addressStreetFieldDOM,
+        addressZipFieldDOM,
+        addressStateFieldDOM,
+        addressCityFieldDOM,
+        addressCountryFieldDOM,
+        addressCoordinatesLatitudeFieldDOM,
+        addressCoordinatesLongitudeFieldDOM
+      ]),
+      div([
+        Heading({
+          text: 'Working Hours'
+        }),
+        hoursMondayFieldDOM,
+        hoursTuesdayFieldDOM,
+        hoursWednesdayFieldDOM,
+        hoursThursdayFieldDOM,
+        hoursFridayFieldDOM,
+        hoursSaturdayFieldDOM,
+        hoursSundayFieldDOM
+      ])
     ]),
     div({
       className: styles.thirdColumn
@@ -125,6 +163,104 @@ export default sources => {
       : Observable.just(null)
   })
 
+  const hoursMondayField = createTextField('mon', 'Monday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'mon'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursTuesdayField = createTextField('tue', 'Tuesday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'tue'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursWednesdayField = createTextField('wed', 'Wednesday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'wed'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursThursdayField = createTextField('thu', 'Thursday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'thu'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursFridayField = createTextField('fri', 'Friday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'fri'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursSaturdayField = createTextField('sat', 'Saturday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'sat'])(location))
+      : Observable.just(null)
+  })
+
+  const hoursSundayField = createTextField('sun', 'Sunday', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['hours', 'sun'])(location))
+      : Observable.just(null)
+  })
+
+  const addressStreetField = createTextField('street_address', 'Street', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'street_address'])(location))
+      : Observable.just(null)
+  })
+
+  const addressZipField = createTextField('zipcode', 'ZIP', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'zipcode'])(location))
+      : Observable.just(null)
+  })
+
+  const addressStateField = createTextField('state', 'State', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'state'])(location))
+      : Observable.just(null)
+  })
+
+  const addressCityField = createTextField('city', 'Street', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'city'])(location))
+      : Observable.just(null)
+  })
+
+  const addressCountryField = createTextField('country', 'Street', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'country'])(location))
+      : Observable.just(null)
+  })
+
+  const addressCoordinatesLatitudeField = createTextField('latitude', 'Latitude', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'coordinates', 'latitude'])(location))
+      : Observable.just(null)
+  })
+
+  const addressCoordinatesLongitudeField = createTextField('longitude', 'Longitude', fieldConfig)({
+    ...sources,
+    value$: sources.location$
+      ? sources.location$.map(location => R.pathOr(null, ['address', 'coordinates', 'longitude'])(location))
+      : Observable.just(null)
+  })
+
   const emergencyRoomCheck = createCheckbox('emergency_room', '', 'Emergency Room', checkboxConfig)({
     ...sources,
     value$: sources.location$
@@ -144,7 +280,35 @@ export default sources => {
     phone: phoneField.value$,
     emergency_room: emergencyRoomCheck.value$,
     type: typesTextSelect.valueObj$.map(result => result.value),
-    description: descriptionTextarea.value$
+    description: descriptionTextarea.value$,
+    hours: Observable.just({})
+      .combineLatest(
+        hoursMondayField.value$,
+        hoursTuesdayField.value$,
+        hoursWednesdayField.value$,
+        hoursThursdayField.value$,
+        hoursFridayField.value$,
+        hoursSaturdayField.value$,
+        hoursSundayField.value$
+      )
+      .map(([_, mon, tue, wed, thu, fri, sat, sun]) => ({
+        mon, tue, wed, thu, fri, sat, sun
+      }))
+      .map(hours => JSON.stringify(hours)),
+    address: Observable.just({})
+      .combineLatest(
+        addressStreetField.value$,
+        addressZipField.value$,
+        addressStateField.value$,
+        addressCityField.value$,
+        addressCountryField.value$,
+        addressCoordinatesLatitudeField.value$,
+        addressCoordinatesLongitudeField.value$
+      )
+      .map(([_, mon, tue, wed, thu, fri, sat, sun]) => ({
+        mon, tue, wed, thu, fri, sat, sun
+      }))
+      .map(hours => JSON.stringify(hours))
   })
 
   const viewState = {
@@ -154,6 +318,20 @@ export default sources => {
     emergencyRoomCheckDOM: emergencyRoomCheck.DOM,
     typesSelectDOM: typesTextSelect.DOM,
     descriptionTextareaDOM: descriptionTextarea.DOM,
+    hoursMondayFieldDOM: hoursMondayField.DOM,
+    hoursTuesdayFieldDOM: hoursTuesdayField.DOM,
+    hoursWednesdayFieldDOM: hoursWednesdayField.DOM,
+    hoursThursdayFieldDOM: hoursThursdayField.DOM,
+    hoursFridayFieldDOM: hoursFridayField.DOM,
+    hoursSaturdayFieldDOM: hoursSaturdayField.DOM,
+    hoursSundayFieldDOM: hoursSundayField.DOM,
+    addressStreetFieldDOM: addressStreetField.DOM,
+    addressZipFieldDOM: addressZipField.DOM,
+    addressStateFieldDOM: addressStateField.DOM,
+    addressCityFieldDOM: addressCityField.DOM,
+    addressCountryFieldDOM: addressCountryField.DOM,
+    addressCoordinatesLatitudeFieldDOM: addressCoordinatesLatitudeField.DOM,
+    addressCoordinatesLongitudeFieldDOM: addressCoordinatesLongitudeField.DOM,
     location: sources.location$ || Observable.just({})
   }
 
