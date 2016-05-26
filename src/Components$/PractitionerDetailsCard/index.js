@@ -56,13 +56,13 @@ const _render = ({
   ],
   lists: [
     {
-      title: 'FAA Number',
+      title: 'FAA Number:',
       items: practitioner.faa_number ? [{
         text: practitioner.faa_number
       }] : null
     },
     {
-      title: 'PAC ID',
+      title: 'PAC ID:',
       items: practitioner.pac_id ? [{
         text: practitioner.pac_id
       }] : null
@@ -185,6 +185,14 @@ const _render = ({
       }] : null
     },
     {
+      title: 'Clinic Interests:',
+      items: practitioner.clinic_interests ? [{
+        text: practitioner.clinic_interests
+          .map(toTitleCase)
+          .join(', ')
+      }] : null
+    },
+    {
       title: 'Personal Interests:',
       items: practitioner.personal_interests ? [{
         text: practitioner.personal_interests
@@ -211,7 +219,7 @@ const _render = ({
       value: practitioner.accepts_medicare
     },
     {
-      key: 'Medicaid certified',
+      key: 'Medicaid Certified',
       value: practitioner.medicaid_certified
     }
   ],
