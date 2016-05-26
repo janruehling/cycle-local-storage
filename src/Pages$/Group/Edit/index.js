@@ -54,7 +54,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          group$.map(group => div(getName(group)))
+          group$.map(group => div(getName(group) + (group.zwmid ? ' (' + group.zwmid + ')' : '')))
         ])
       ],
       right: [

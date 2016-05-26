@@ -44,16 +44,16 @@ const _render = ({
           width: '95px'
         }
       }, 'Type'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'IRS EIN'),
-      div({
-        style: {
-          width: '120px'
-        }
-      }, 'Insurance C.'),
+      // div({
+      //   style: {
+      //     width: '95px'
+      //   }
+      // }, 'IRS EIN'),
+      // div({
+      //   style: {
+      //     width: '120px'
+      //   }
+      // }, 'Insurance C.'),
       div({
         style: {
           width: '50px'
@@ -102,17 +102,17 @@ const _render = ({
             width: '85px'
           }
         }, plan.type),
-        div({
-          style: {
-            width: '85px'
-          }
-        }, plan.irs_ein),
-        div({
-          style: {
-            width: '110px',
-            ...styleEllipsis
-          }
-        }, pathOr('', ['owned_by', 'name'])(plan)),
+        // div({
+        //   style: {
+        //     width: '85px'
+        //   }
+        // }, plan.irs_ein),
+        // div({
+        //   style: {
+        //     width: '110px',
+        //     ...styleEllipsis
+        //   }
+        // }, pathOr('', ['owned_by', 'name'])(plan)),
         div({
           style: {
             width: '40px'

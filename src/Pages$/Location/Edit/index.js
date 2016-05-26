@@ -54,7 +54,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          location$.map(location => div(getName(location)))
+          location$.map(location => div(getName(location) + (location.zwmid ? ' (' + location.zwmid + ')' : '')))
         ])
       ],
       right: [

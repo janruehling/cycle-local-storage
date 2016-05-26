@@ -54,7 +54,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          plan$.map(plan => div(getName(plan)))
+          plan$.map(plan => div(getName(plan) + (plan.zwmid ? ' (' + plan.zwmid + ')' : '')))
         ])
       ],
       right: [

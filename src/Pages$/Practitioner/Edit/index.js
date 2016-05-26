@@ -54,7 +54,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          practitioner$.map(practitioner => div(getName(practitioner)))
+          practitioner$.map(practitioner => div(getName(practitioner) + (practitioner.zwmid ? ' (' + practitioner.zwmid + ')' : '')))
         ])
       ],
       right: [
