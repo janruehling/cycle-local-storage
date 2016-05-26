@@ -9,7 +9,7 @@ import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { SuccessMessage, ErrorMessage, Button } from 'StyleFn'
 import { filterChangedFields } from 'Helpers'
 
-import { getPractitionersId$, putPractitionersId$ } from 'Remote'
+import { getGroupsId$, putGroupsId$ } from 'Remote'
 
 import EditView from '../Common/AddEditForm'
 
@@ -30,16 +30,16 @@ const _render = ({
 ])
 
 export default sources => {
-  const practitioner$ = sources.responses$
+  const group$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getPractitionersId$')
+    .filter(res$ => res$.request.category === 'getGroupsId$')
     .map(res => res.body)
-    .map(data => data.practitioner)
+    .map(data => data.group)
     .startWith({})
 
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { practitioner$, ...sources }
+    { group$, ...sources }
   )
 
   const search = Search({...sources})
@@ -54,7 +54,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          practitioner$.map(practitioner => div(getName(practitioner)))
+          group$.map(group => div(getName(group)))
         ])
       ],
       right: [
@@ -79,9 +79,9 @@ export default sources => {
 
   const cancelClick$ = sources.DOM.select('#cancel')
     .events('click')
-    .withLatestFrom(sources.practitionerId$)
+    .withLatestFrom(sources.groupId$)
     .map(([ev, id]) => ({
-      pathname: '/practitioner/' + id + '/'
+      pathname: '/group/' + id + '/'
     }))
 
   const saveClick$ = sources.DOM.select('#save')
@@ -89,10 +89,10 @@ export default sources => {
     .map(true)
 
   const editRequest$ = mergeOrFlatMapLatest('formData$', page$)
-    .combineLatest(practitioner$)
+    .combineLatest(group$)
     .sample(saveClick$)
-    .map(([formData, location]) => filterChangedFields(formData, location))
-    .flatMap(formData => putPractitionersId$({
+    .map(([formData, group]) => filterChangedFields(formData, group))
+    .flatMap(formData => putGroupsId$({
       ...sources,
       formData$: Observable.just(formData)
     }))
@@ -100,7 +100,7 @@ export default sources => {
 
   const editResponse$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'putPractitionersId$')
+    .filter(res$ => res$.request.category === 'putGroupsId$')
 
   const message$ = editResponse$
     .flatMapLatest(response => {
@@ -122,10 +122,10 @@ export default sources => {
 
   const successRedirect$ = editResponse$
     .filter(response => !response.error)
-    .delay(3000)
-    .withLatestFrom(practitioner$)
-    .map(([response, practitioner]) => ({
-      pathname: '/practitioner/' + practitioner.id + '/'
+    .delay(2000)
+    .withLatestFrom(group$)
+    .map(([response, group]) => ({
+      pathname: '/group/' + group.id + '/'
     }))
 
   const viewState = {
@@ -148,15 +148,15 @@ export default sources => {
     ...sources
   })
 
-  const practitionerReq = {
-    HTTP: getPractitionersId$(sources)
+  const groupReq = {
+    HTTP: getGroupsId$(sources)
   }
 
   const editReq = {
     HTTP: editRequest$
   }
 
-  const children = [header, search, appShell, page$, practitionerReq, editReq]
+  const children = [header, search, appShell, page$, groupReq, editReq]
 
   const HTTP = Observable.merge(
     mergeOrFlatMapLatest('HTTP', ...children)

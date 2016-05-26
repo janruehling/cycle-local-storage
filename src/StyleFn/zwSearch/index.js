@@ -26,7 +26,11 @@ export const _highlightText = (string, match) => {
 
   const spans = R.concat(mergeSpans, span(last))
 
-  return spans
+  return div({
+    style: {
+      display: 'inline-block'
+    }
+  }, [ spans ])
 }
 
 const _getEntityType = (type) => {

@@ -11,7 +11,7 @@ import {
   createTextField, createTextSelect, createCheckbox, createTextarea
 } from 'Helpers'
 
-import styles from './EditView.css'
+import styles from './AddEditForm.css'
 
 const styleLabel = {
   width: '140px'
@@ -104,29 +104,39 @@ export default sources => {
 
   const nameField = createTextField('name', 'Name', fieldConfig)({
     ...sources,
-    value$: sources.location$.map(location => location.name)
+    value$: sources.location$
+      ? sources.location$.map(location => location.name)
+      : Observable.just(null)
   })
 
   const phoneField = createTextField('phone', 'Phone', fieldConfig)({
     ...sources,
-    value$: sources.location$.map(location => location.phone)
+    value$: sources.location$
+      ? sources.location$.map(location => location.phone)
+      : Observable.just(null)
   })
 
   const typesTextSelect = createTextSelect('type', 'Type', 'value', fieldConfig)({
     ...sources,
     options$: types$ || Observable.just([]),
     value$: sources.location$
-      .map(location => R.pathOr(null, ['type'])(location))
+      ? sources.location$
+        .map(location => R.pathOr(null, ['type'])(location))
+      : Observable.just(null)
   })
 
   const emergencyRoomCheck = createCheckbox('emergency_room', '', 'Emergency Room', checkboxConfig)({
     ...sources,
-    value$: sources.location$.map(location => location.emergency_room)
+    value$: sources.location$
+      ? sources.location$.map(location => location.emergency_room)
+      : Observable.just(null)
   })
 
   const descriptionTextarea = createTextarea('description', textAreaConfig)({
     ...sources,
-    value$: sources.location$.map(location => location.description)
+    value$: sources.location$
+      ? sources.location$.map(location => location.description)
+      : Observable.just(null)
   })
 
   const formData$ = combineLatestObj({
@@ -144,7 +154,7 @@ export default sources => {
     emergencyRoomCheckDOM: emergencyRoomCheck.DOM,
     typesSelectDOM: typesTextSelect.DOM,
     descriptionTextareaDOM: descriptionTextarea.DOM,
-    location: sources.location$
+    location: sources.location$ || Observable.just({})
   }
 
   const DOM = combineLatestObj(viewState)

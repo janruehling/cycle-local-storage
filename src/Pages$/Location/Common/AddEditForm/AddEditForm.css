@@ -1,5 +1,5 @@
 @value constants: 'constants.css';
-@value primaryFontStack, primary1, primary3, additional18, maxWidth from constants;
+@value primaryFontStack, color1, primary3, additional18, maxWidth from constants;
 
 .columns {
   display: flex;
@@ -25,7 +25,7 @@
 .textArea {
   background: additional18;
   border: none;
-  color: primary1;
+  color: color1;
   font-size: 14px;
   font-family: primaryFontStack;
   padding: 15px;

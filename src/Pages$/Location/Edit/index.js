@@ -7,10 +7,11 @@ import { div } from '@cycle/dom'
 import { nestedComponent, mergeOrFlatMapLatest, getName } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { SuccessMessage, ErrorMessage, Button } from 'StyleFn'
+import { filterChangedFields } from 'Helpers'
 
-import { getLocationsId$ } from 'Remote'
+import { getLocationsId$, putLocationsId$ } from 'Remote'
 
-import EditView from './EditView'
+import EditView from '../Common/AddEditForm'
 
 import constants from 'constants.css'
 import styles from './Edit.css'
@@ -88,23 +89,18 @@ export default sources => {
     .map(true)
 
   const editRequest$ = mergeOrFlatMapLatest('formData$', page$)
+    .combineLatest(location$)
     .sample(saveClick$)
-    .combineLatest(sources.config$, sources.locationId$,
-      (formData, config, id) => ({config, formData, id})
-    )
-    .map(({config, formData, id}) => {
-      return {
-        url: config.api + '/locations/' + id,
-        method: 'PUT',
-        send: formData,
-        category: 'putLocations$'
-      }
-    })
+    .map(([formData, location]) => filterChangedFields(formData, location))
+    .flatMap(formData => putLocationsId$({
+      ...sources,
+      formData$: Observable.just(formData)
+    }))
     .take(1)
 
   const editResponse$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'putLocations$')
+    .filter(res$ => res$.request.category === 'putLocationsId$')
 
   const message$ = editResponse$
     .flatMapLatest(response => {

@@ -118,7 +118,7 @@ const _render = ({
     },
     {
       title: 'Languages:',
-      items: practitioner.languages ? [{
+      items: (practitioner.languages && practitioner.languages.length) ? [{
         text: practitioner.languages
           .map(getLanguage)
           .join(', ')
@@ -132,7 +132,7 @@ const _render = ({
     },
     {
       title: 'Internships:',
-      items: practitioner.internships ? practitioner.internships.map(intern => ({
+      items: (practitioner.internships && practitioner.internships.length) ? practitioner.internships.map(intern => ({
         text: toTitleCase(intern)
       })) : null
     },

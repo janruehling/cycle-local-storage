@@ -1,8 +1,8 @@
 @value constants: 'constants.css';
-@value maxWidth, color1 from constants;
+@value maxWidth, primary1 from constants;
 
 .container {
-  border-top: 1px solid color1;
+  border-top: 1px solid primary1;
   display: flex;
   max-width: maxWidth;
   margin: 0 auto;

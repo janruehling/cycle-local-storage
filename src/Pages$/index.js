@@ -17,11 +17,16 @@ import ResetPassword from './ResetPassword'
 import Dash from './Dash'
 import GroupList from './Group/List'
 import GroupDetails from './Group/Details'
+import GroupAdd from './Group/Add'
+import GroupEdit from './Group/Edit'
 import LocationList from './Location/List'
 import LocationDetails from './Location/Details'
+import LocationAdd from './Location/Add'
 import LocationEdit from './Location/Edit'
 import PlanList from './Plan/List'
 import PlanDetails from './Plan/Details'
+import PlanAdd from './Plan/Add'
+import PlanEdit from './Plan/Edit'
 import PractitionerList from './Practitioner/List'
 import PractitionerDetails from './Practitioner/Details'
 import PractitionerAdd from './Practitioner/Add'
@@ -49,12 +54,19 @@ const routes = {
         groupId$: Observable.just(id),
         ...sources
       }),
+  '/groups/add': isolate(GroupAdd),
+  '/group/edit/:id': id => sources =>
+      isolate(GroupEdit)({
+        ...sources,
+        groupId$: Observable.just(id)
+      }),
   '/locations': isolate(LocationList),
   '/location/:id': id => sources =>
       isolate(LocationDetails)({
         locationId$: Observable.just(id),
         ...sources
       }),
+  '/locations/add': isolate(LocationAdd),
   '/location/edit/:id': id => sources =>
       isolate(LocationEdit)({
         ...sources,
@@ -65,6 +77,12 @@ const routes = {
       isolate(PlanDetails)({
         planId$: Observable.just(id),
         ...sources
+      }),
+  '/plans/add': isolate(PlanAdd),
+  '/plan/edit/:id': id => sources =>
+      isolate(PlanEdit)({
+        ...sources,
+        planId$: Observable.just(id)
       }),
   '/practitioners': isolate(PractitionerList),
   '/practitioners/add': isolate(PractitionerAdd),

@@ -10,7 +10,7 @@ import { SuccessMessage, ErrorMessage, Button } from 'StyleFn'
 
 import { postPractitioners$ } from 'Remote'
 
-import AddView from './AddView'
+import AddView from '../Common/AddEditForm'
 
 import constants from 'constants.css'
 import styles from './Add.css'
@@ -100,7 +100,7 @@ export default sources => {
           if (count < 4) {
             return response.error
               ? Observable.just(ErrorMessage(response.message))
-              : Observable.just(SuccessMessage('All edits were saved successfully'))
+              : Observable.just(SuccessMessage('The entity was created successfully'))
           } else {
             return Observable.just(null)
           }
@@ -111,7 +111,7 @@ export default sources => {
 
   const successRedirect$ = response$
     .filter(response => !response.error)
-    .delay(5000)
+    .delay(2000)
     .map(response => ({
       pathname: '/practitioners'
     }))

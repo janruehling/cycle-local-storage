@@ -95,14 +95,17 @@ const _render = ({
     },
     {
       title: 'Geo Coordinates:',
-      items: [
+      items: (
+        pathOr(null, ['address', 'coordinates', 'latitude'])(location) ||
+        pathOr(null, ['address', 'coordinates', 'longitude'])(location)
+      ) ? [
         {
           text: pathOr(null, ['address', 'coordinates', 'latitude'])(location)
         },
         {
           text: pathOr(null, ['address', 'coordinates', 'longitude'])(location)
         }
-      ]
+      ] : null
     }
   ],
   workingHours: location.hours ? {

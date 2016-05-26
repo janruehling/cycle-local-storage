@@ -135,6 +135,7 @@
     0 0 8px 1px rgba(0, 0, 0, .35);
   margin-bottom: 20px;
   position: absolute;
+  z-index: 10;
 
   & .input {
     background: color1_6;

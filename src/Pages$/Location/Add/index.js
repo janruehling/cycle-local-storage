@@ -4,20 +4,19 @@ import combineLatestObj from 'rx-combine-latest-obj'
 
 import { div } from '@cycle/dom'
 
-import { nestedComponent, mergeOrFlatMapLatest, getName } from 'zwUtility'
+import { nestedComponent, mergeOrFlatMapLatest } from 'zwUtility'
 import { AppShell, SiteHeader$, Search, ToolBar } from 'Components$'
 import { SuccessMessage, ErrorMessage, Button } from 'StyleFn'
-import { filterChangedFields } from 'Helpers'
 
-import { getPractitionersId$, putPractitionersId$ } from 'Remote'
+import { postLocations$ } from 'Remote'
 
-import EditView from '../Common/AddEditForm'
+import AddView from '../Common/AddEditForm'
 
 import constants from 'constants.css'
-import styles from './Edit.css'
+import styles from './Add.css'
 
 const _routes = {
-  '/': isolate(EditView)
+  '/': isolate(AddView)
 }
 
 const _render = ({
@@ -30,16 +29,9 @@ const _render = ({
 ])
 
 export default sources => {
-  const practitioner$ = sources.responses$
-    .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'getPractitionersId$')
-    .map(res => res.body)
-    .map(data => data.practitioner)
-    .startWith({})
-
   const page$ = nestedComponent(
     sources.router.define(_routes),
-    { practitioner$, ...sources }
+    { ...sources }
   )
 
   const search = Search({...sources})
@@ -54,7 +46,7 @@ export default sources => {
             fontWeight: 'bold'
           }
         }, [
-          practitioner$.map(practitioner => div(getName(practitioner)))
+          div('Create a Location')
         ])
       ],
       right: [
@@ -79,30 +71,27 @@ export default sources => {
 
   const cancelClick$ = sources.DOM.select('#cancel')
     .events('click')
-    .withLatestFrom(sources.practitionerId$)
-    .map(([ev, id]) => ({
-      pathname: '/practitioner/' + id + '/'
+    .map(ev => ({
+      pathname: '/locations'
     }))
 
   const saveClick$ = sources.DOM.select('#save')
     .events('click')
     .map(true)
 
-  const editRequest$ = mergeOrFlatMapLatest('formData$', page$)
-    .combineLatest(practitioner$)
+  const saveRequest$ = mergeOrFlatMapLatest('formData$', page$)
     .sample(saveClick$)
-    .map(([formData, location]) => filterChangedFields(formData, location))
-    .flatMap(formData => putPractitionersId$({
+    .flatMap(data => postLocations$({
       ...sources,
-      formData$: Observable.just(formData)
+      data$: Observable.just(data)
     }))
-    .take(1)
 
-  const editResponse$ = sources.responses$
+  const response$ = sources.responses$
     .filter(res$ => res$ && res$.request)
-    .filter(res$ => res$.request.category === 'putPractitionersId$')
+    .filter(res$ => res$.request.category === 'postLocations$')
+    .map(res => res.body)
 
-  const message$ = editResponse$
+  const message$ = response$
     .flatMapLatest(response => {
       return Observable
         .timer(0, 1000)
@@ -111,7 +100,7 @@ export default sources => {
           if (count < 4) {
             return response.error
               ? Observable.just(ErrorMessage(response.message))
-              : Observable.just(SuccessMessage('All edits were saved successfully'))
+              : Observable.just(SuccessMessage('The entity was created successfully'))
           } else {
             return Observable.just(null)
           }
@@ -120,12 +109,11 @@ export default sources => {
     })
     .startWith(null)
 
-  const successRedirect$ = editResponse$
+  const successRedirect$ = response$
     .filter(response => !response.error)
-    .delay(3000)
-    .withLatestFrom(practitioner$)
-    .map(([response, practitioner]) => ({
-      pathname: '/practitioner/' + practitioner.id + '/'
+    .delay(2000)
+    .map(response => ({
+      pathname: '/locations'
     }))
 
   const viewState = {
@@ -148,15 +136,11 @@ export default sources => {
     ...sources
   })
 
-  const practitionerReq = {
-    HTTP: getPractitionersId$(sources)
+  const createReq = {
+    HTTP: saveRequest$
   }
 
-  const editReq = {
-    HTTP: editRequest$
-  }
-
-  const children = [header, search, appShell, page$, practitionerReq, editReq]
+  const children = [header, search, appShell, page$, createReq]
 
   const HTTP = Observable.merge(
     mergeOrFlatMapLatest('HTTP', ...children)

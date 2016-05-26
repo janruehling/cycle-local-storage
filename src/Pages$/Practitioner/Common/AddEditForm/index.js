@@ -1,26 +1,21 @@
 import { Observable } from 'rx'
 import R from 'ramda'
 import { div } from '@cycle/dom'
-import isolate from '@cycle/isolate'
 import combineLatestObj from 'rx-combine-latest-obj'
 
 import { getIcon } from 'zwUtility'
 
 import { Avatar, Heading } from 'StyleFn'
-import { InputFactory, SelectFactory, CheckboxFactory,
-  TextareaFactory, TextSelectFactory } from 'Components$'
 import { getConceptByName$ } from 'Remote'
+import {
+  createTextField, createTextarea, createCheckbox, createSelect, createTextSelect
+} from 'Helpers'
 
-import styles from './EditView.css'
+import styles from './AddEditForm.css'
 
 const styleLabel = {
   width: '140px'
 }
-
-// const styleRadioLabel = {
-//   fontWeight: 'bold',
-//   fontSize: '14px'
-// }
 
 const styleInput = {
   flex: 'initial',
@@ -41,6 +36,16 @@ const fieldConfig = {
   styleInput
 }
 
+const checkboxConfig = {
+  styleInput: {
+    marginLeft: '145px'
+  }
+}
+
+const textAreaConfig = {
+  styleInput: styleTextarea
+}
+
 const genderSelectOptions = [{
   name: '',
   value: 'null'
@@ -51,40 +56,6 @@ const genderSelectOptions = [{
   name: 'Female',
   value: '2'
 }]
-
-const _createTextField = (id, label) => isolate(InputFactory({
-  ...fieldConfig,
-  id,
-  label
-}))
-
-const _createTextarea = (id) => isolate(TextareaFactory({
-  id,
-  styleInput: styleTextarea
-}))
-
-const _createSelect = (id, label, options$) => isolate(SelectFactory({
-  ...fieldConfig,
-  id,
-  label,
-  options$
-}))
-
-const _createCheckbox = (id, label, description) => isolate(CheckboxFactory({
-  id,
-  label,
-  description,
-  styleInput: {
-    marginLeft: '145px'
-  }
-}))
-
-const _createTextSelect = (id, label, options$) => isolate(TextSelectFactory({
-  ...fieldConfig,
-  id,
-  label,
-  options$
-}))
 
 const _render = ({
   prefixFieldDOM,
@@ -145,8 +116,8 @@ const _render = ({
       deaFieldDOM,
       pacIdFieldDOM,
       newPatientsCheckDOM,
-      medicareCheckDOM,
       medicaidCheckDOM,
+      medicareCheckDOM,
       medicaidCertCheckDOM
     ]),
     div({
@@ -186,117 +157,148 @@ export default sources => {
     .map(res => res.elements)
     .startWith([])
 
-  const prefixField = _createTextField('prefix', 'Prefix')({
+  const prefixField = createTextField('prefix', 'Prefix', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.prefix)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.prefix)
+      : Observable.just(null)
   })
 
-  const firstNameField = _createTextField('first_name', 'First Name')({
+  const firstNameField = createTextField('first_name', 'First Name', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.first_name)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.first_name)
+      : Observable.just(null)
   })
 
-  const middleNameField = _createTextField('middle_name', 'Middle Name')({
+  const middleNameField = createTextField('middle_name', 'Middle Name', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.middle_name)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.middle_name)
+      : Observable.just(null)
   })
 
-  const lastNameField = _createTextField('last_name', 'Last Name')({
+  const lastNameField = createTextField('last_name', 'Last Name', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.last_name)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.last_name)
+      : Observable.just(null)
   })
 
-  const suffixField = _createTextField('suffix', 'Suffix')({
+  const suffixField = createTextField('suffix', 'Suffix', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.suffix)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.suffix)
+      : Observable.just(null)
   })
 
-  const emailField = _createTextField('email', 'Email')({
+  const emailField = createTextField('email', 'Email', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.email)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.email)
+      : Observable.just(null)
   })
 
-  const phoneField = _createTextField('phone', 'Phone')({
+  const phoneField = createTextField('phone', 'Phone', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.phone)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.phone)
+      : Observable.just(null)
   })
 
-  const npiField = _createTextField('npi', 'NPI')({
+  const npiField = createTextField('npi', 'NPI', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.npi)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.npi)
+      : Observable.just(null)
   })
 
-  const faaField = _createTextField('faa_number', 'FAA Number')({
+  const faaField = createTextField('faa_number', 'FAA Number', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.faa_number)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.faa_number)
+      : Observable.just(null)
   })
 
-  const deaField = _createTextField('dea_number', 'DEA License')({
+  const deaField = createTextField('dea_number', 'DEA License', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.dea_number)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.dea_number)
+      : Observable.just(null)
   })
 
-  const pacIdField = _createTextField('pac_id', 'PAC ID')({
+  const pacIdField = createTextField('pac_id', 'PAC ID', fieldConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.pac_id)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.pac_id)
+      : Observable.just(null)
   })
 
-  const genderSelect = _createSelect('gender', 'Gender')({
+  const genderSelect = createSelect('gender', 'Gender', fieldConfig)({
     ...sources,
     options$: Observable.just(genderSelectOptions),
-    value$: sources.practitioner$.map(practitioner => practitioner.gender)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.gender)
+      : Observable.just(null)
   })
 
-  // const medicalSchoolSelect = _createSelect('medical_school', 'Medical School')({
-  //   ...sources,
-  //   options$: medicalSchool$,
-  //   value$: sources.practitioner$.map(practitioner => practitioner.medical_school)
-  // })
-
-  const newPatientsCheck = _createCheckbox('accepts_new_patients', '', 'Accepts New Patients')({
+  const newPatientsCheck = createCheckbox('accepts_new_patients', '', 'Accepts New Patients', checkboxConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_new_patients)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.accepts_new_patients)
+      : Observable.just(null)
   })
 
-  const medicareCheck = _createCheckbox('accepts_medicare', '', 'Accepts Medicare')({
+  const medicareCheck = createCheckbox('accepts_medicare', '', 'Accepts Medicare', checkboxConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicare)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.accepts_medicare)
+      : Observable.just(null)
   })
 
-  const medicaidCheck = _createCheckbox('accepts_medicaid', '', 'Accepts Medicaid')({
+  const medicaidCheck = createCheckbox('accepts_medicaid', '', 'Accepts Medicaid', checkboxConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.accepts_medicaid)
+      : Observable.just(null)
   })
 
-  const medicaidCertCheck = _createCheckbox('medicaid_certified', '', 'Medicaid Certified')({
+  const medicaidCertCheck = createCheckbox('medicaid_certified', '', 'Medicaid Certified', checkboxConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.medicaid_certified)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.medicaid_certified)
+      : Observable.just(null)
   })
 
-  const biographyTextarea = _createTextarea('biography')({
+  const biographyTextarea = createTextarea('biography', textAreaConfig)({
     ...sources,
-    value$: sources.practitioner$.map(practitioner => practitioner.biography)
+    value$: sources.practitioner$
+      ? sources.practitioner$.map(practitioner => practitioner.biography)
+      : Observable.just(null)
   })
 
-  const medicalSchoolTextSelect = _createTextSelect('medical_school', 'Medical School')({
+  const medicalSchoolTextSelect = createTextSelect('medical_school', 'Medical School', 'value', fieldConfig)({
     ...sources,
     options$: medicalSchool$ || Observable.just([]),
     value$: sources.practitioner$
-      .map(practitioner => R.pathOr(null, ['medical_school', 'name'])(practitioner))
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['medical_school', 'name'])(practitioner))
+      : Observable.just(null)
   })
 
-  const specialtiesTextSelect = _createTextSelect('specialties', 'Specialties')({
+  const specialtiesTextSelect = createTextSelect('specialties', 'Specialties', 'value', fieldConfig)({
     ...sources,
     options$: specialties$ || Observable.just([]),
     value$: sources.practitioner$
-      .map(practitioner => R.pathOr(null, ['specialties'])(practitioner))
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['specialties'])(practitioner))
+      : Observable.just(null)
   })
 
-  const typesTextSelect = _createTextSelect('types', 'Types')({
+  const typesTextSelect = createTextSelect('types', 'Types', 'value', fieldConfig)({
     ...sources,
     options$: types$ || Observable.just([]),
     value$: sources.practitioner$
-      .map(practitioner => R.pathOr(null, ['types'])(practitioner))
+      ? sources.practitioner$.map(practitioner => R.pathOr(null, ['types'])(practitioner))
+      : Observable.just(null)
   })
 
   const formData$ = combineLatestObj({
@@ -344,7 +346,7 @@ export default sources => {
     medicaidCheckDOM: medicaidCheck.DOM,
     medicaidCertCheckDOM: medicaidCertCheck.DOM,
     biographyTextareaDOM: biographyTextarea.DOM,
-    practitioner: sources.practitioner$
+    practitioner: sources.practitioner$ || Observable.just({})
   }
 
   const DOM = combineLatestObj(viewState)

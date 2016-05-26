@@ -1,0 +1,47 @@
+@value constants: 'constants.css';
+@value primaryFontStack, color1, primary3, additional18, maxWidth from constants;
+
+.columns {
+  display: flex;
+  width: maxWidth;
+}
+
+.firstColumn {
+  margin-right: 20px;
+  width: 180px;
+}
+
+.secondColumn {
+  background-image: linear-gradient(#f6f9fc, #fbfdfe);
+  margin-right: 20px;
+  padding: 15px;
+  width: 485px;
+}
+
+.thirdColumn {
+  flex: 1;
+}
+
+.textArea {
+  background: additional18;
+  border: none;
+  color: color1;
+  font-size: 14px;
+  font-family: primaryFontStack;
+  padding: 15px;
+  resize: none;
+  width: 100%;
+
+  &::-webkit-input-placeholder {
+    color: primary3;
+  }
+  &::-moz-placeholder {
+    color: primary3;
+  }
+  &:-ms-input-placeholder {
+    color: primary3;
+  }
+  &:-moz-placeholder {
+    color: primary3;
+  }
+}

@@ -5,6 +5,8 @@ chai.use(require('chai-virtual-dom'))
 const {expect} = chai
 import { div, span } from '@cycle/dom'
 
+import constants from 'constants.css'
+
 import { _highlightText } from './index'
 
 describe('zwSearch', () => {
@@ -21,7 +23,7 @@ describe('zwSearch', () => {
         span('T'),
         span({
           style: {
-            background: 'yellow'
+            background: constants.color1_4
           }
         }, 'his'),
         span(' is the test string')
