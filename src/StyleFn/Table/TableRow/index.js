@@ -2,11 +2,11 @@ import { div } from '@cycle/dom'
 import classNames from 'classnames'
 
 import constants from 'constants.css'
-import styles from './ListItem.css'
+import styles from './TableRow.css'
 
 import { Avatar } from 'StyleFn'
 
-export const ListItem = (options = {}) => div([
+export const TableRow = (options = {}) => div([
   div({
     className: classNames({
       [styles.container]: true,

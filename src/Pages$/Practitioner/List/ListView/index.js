@@ -8,39 +8,12 @@ import Ru from '@panosoft/ramda-utils'
 import { getIcon, toTitleCase, getLanguage } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
-import { ListItem, Icon } from 'StyleFn'
+import { TableRow, TableHeading } from 'StyleFn'
 
 import constants from 'constants.css'
 
 import intent from './intent'
 import styles from './ListView.css'
-
-const _heading = (width, title, sortBy) => div({
-  className: sortBy ? 'sortTarget' : null,
-  style: {
-    alignItems: 'center',
-    cursor: sortBy ? 'pointer' : null,
-    display: 'flex',
-    width: width
-  },
-  attributes: {
-    'data-sortby': sortBy || null
-  }
-}, [
-  div({
-    style: {
-      whiteSpace: 'nowrap'
-    }
-  }, title),
-  sortBy && Icon({
-    icon: 'Sort',
-    style: {
-      color: constants.color1_3,
-      fontSize: '10px',
-      margin: '0 5px'
-    }
-  })
-])
 
 const styleEllipsis = {
   overflow: 'hidden',
@@ -64,18 +37,18 @@ const _render = ({
           width: '46px'
         }
       }),
-      _heading('95px', 'First Name', 'first_name&last_name'),
-      _heading('95px', 'Last Name', 'last_name&first_name'),
-      _heading('95px', 'Phone', 'phone&first_name&last_name'),
-      _heading('150px', 'Email', 'email&first_name&last_name'),
-      _heading('95px', 'ZWMID', 'zwmid&first_name&last_name'),
-      _heading('95px', 'NPI', 'npi&first_name&last_name'),
-      _heading('95px', 'DEA', 'dea_number&first_name&last_name'),
-      _heading('120px', 'Languages', 'languages&first_name&last_name'),
-      _heading('160px', 'Residencies', 'residencies&first_name&last_name'),
-      _heading('195px', 'Specialties', 'specialties&first_name&last_name')
+      TableHeading('95px', 'First Name', 'first_name&last_name', 'sortTarget'),
+      TableHeading('95px', 'Last Name', 'last_name&first_name', 'sortTarget'),
+      TableHeading('95px', 'Phone', 'phone&first_name&last_name', 'sortTarget'),
+      TableHeading('150px', 'Email', 'email&first_name&last_name', 'sortTarget'),
+      TableHeading('95px', 'ZWMID', 'zwmid&first_name&last_name', 'sortTarget'),
+      TableHeading('95px', 'NPI', 'npi&first_name&last_name', 'sortTarget'),
+      TableHeading('95px', 'DEA', 'dea_number&first_name&last_name', 'sortTarget'),
+      TableHeading('120px', 'Languages', 'languages&first_name&last_name', 'sortTarget'),
+      TableHeading('160px', 'Residencies', 'residencies&first_name&last_name', 'sortTarget'),
+      TableHeading('195px', 'Specialties', 'specialties&first_name&last_name', 'sortTarget')
     ]),
-    practitioners && practitioners.map(practitioner => ListItem({
+    practitioners && practitioners.map(practitioner => TableRow({
       className: 'practitioner',
       image: R.pathOr(null, ['image', 'url'])(practitioner),
       icon: getIcon(practitioner, 'practitioner'),

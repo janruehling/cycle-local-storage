@@ -2,12 +2,15 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr } from 'ramda'
+import R from 'ramda'
+import Ru from '@panosoft/ramda-utils'
 
 import { getIcon } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
-import { ListItem } from 'StyleFn'
+import { TableHeading, TableRow } from 'StyleFn'
+
+import intent from './intent'
 
 import constants from 'constants.css'
 import styles from './ListView.css'
@@ -25,58 +28,21 @@ const _render = ({
     }, [
       div({
         style: {
-          width: '200px'
+          width: '46px'
         }
-      }, 'Name'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'ZWMID'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'Type'),
-      // div({
-      //   style: {
-      //     width: '95px'
-      //   }
-      // }, 'IRS EIN'),
-      // div({
-      //   style: {
-      //     width: '120px'
-      //   }
-      // }, 'Insurance C.'),
-      div({
-        style: {
-          width: '50px'
-        }
-      }, 'State'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'Practitioners'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'Organizations'),
-      div({
-        style: {
-          width: '110px'
-        }
-      }, 'More Info'),
-      div({
-        style: {
-          width: '110px'
-        }
-      }, 'Last Verified')
+      }),
+      TableHeading('110px', 'Name', 'name', 'sortTarget'),
+      TableHeading('95px', 'ZWMID', 'zwmid&name', 'sortTarget'),
+      TableHeading('95px', 'Type', 'type&name', 'sortTarget'),
+      TableHeading('50px', 'State', 'state&name', 'sortTarget'),
+      TableHeading('95px', 'Practitioners', 'accepted_by_practitioners&name', 'sortTarget'),
+      TableHeading('95px', 'Organizations', 'accepted_by_groups&name', 'sortTarget'),
+      TableHeading('110px', 'More Info', 'details_url&name', 'sortTarget'),
+      TableHeading('110px', 'Last Verified', 'last_verified&name', 'sortTarget')
     ]),
-    plans && plans.map(plan => ListItem({
+    plans && plans.map(plan => TableRow({
       className: 'plan',
-      image: pathOr(null, ['image', 'url'])(plan),
+      image: R.pathOr(null, ['image', 'url'])(plan),
       icon: getIcon(plan, 'plan'),
       entity: plan,
       style: {
@@ -88,6 +54,11 @@ const _render = ({
       children: [
         div({
           style: {
+            width: '100px'
+          }
+        }, plan.name),
+        div({
+          style: {
             width: '85px'
           }
         }, plan.zwmid),
@@ -96,17 +67,6 @@ const _render = ({
             width: '85px'
           }
         }, plan.type),
-        // div({
-        //   style: {
-        //     width: '85px'
-        //   }
-        // }, plan.irs_ein),
-        // div({
-        //   style: {
-        //     width: '110px',
-        //     ...styleEllipsis
-        //   }
-        // }, pathOr('', ['owned_by', 'name'])(plan)),
         div({
           style: {
             width: '40px'
@@ -142,7 +102,24 @@ const _navActions = (sources) => sources.DOM.select('.plan')
     .map(ev => '/plan/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
+  const actions = intent(sources)
   const route$ = _navActions(sources)
+
+  const currentSortOrder$ = actions.sortTargetClicks$
+    .startWith('name')
+    .scan((prev, curr) => {
+      if (curr === prev) return '-' + curr
+      return curr
+    })
+
+  const sortedPlans$ = currentSortOrder$
+    .combineLatest(sources.plans$)
+    .map(([sortOrder, plans]) => {
+      const props = sortOrder.split('&')
+      const comparator = Ru.compareProps(props)
+      const sortedList = R.sort(comparator)(plans)
+      return sortedList
+    })
 
   const filterBar = FilterBar({
     ...sources,
@@ -168,7 +145,7 @@ export default sources => {
 
   const viewState = {
     filterBarDOM: filterBar.DOM,
-    plans: sources.plans$
+    plans: sortedPlans$
   }
 
   const DOM = combineLatestObj(viewState)

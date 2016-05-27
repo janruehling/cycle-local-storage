@@ -2,12 +2,15 @@ import { Observable } from 'rx'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { pathOr } from 'ramda'
+import R from 'ramda'
+import Ru from '@panosoft/ramda-utils'
 
 import { getIcon } from 'zwUtility'
 
 import { FilterBar } from 'Components$'
-import { ListItem } from 'StyleFn'
+import { TableHeading, TableRow } from 'StyleFn'
+
+import intent from './intent'
 
 import constants from 'constants.css'
 import styles from './ListView.css'
@@ -31,53 +34,22 @@ const _render = ({
     }, [
       div({
         style: {
-          width: '200px'
+          width: '46px'
         }
-      }, 'Name'),
-      div({
-        style: {
-          width: '95px'
-        }
-      }, 'ZWMID'),
-      div({
-        style: {
-          width: '130px'
-        }
-      }, 'Type'),
-      div({
-        style: {
-          width: '130px'
-        }
-      }, 'Phone'),
-      div({
-        style: {
-          width: '210px'
-        }
-      }, 'Address'),
-      div({
-        style: {
-          width: '70px'
-        }
-      }, 'City'),
-      div({
-        style: {
-          width: '70px'
-        }
-      }, 'ZIP'),
-      div({
-        style: {
-          width: '70px'
-        }
-      }, 'State'),
-      div({
-        style: {
-          width: '80px'
-        }
-      }, 'Emergency R.')
+      }),
+      TableHeading('110px', 'Name', 'name', 'sortTarget'),
+      TableHeading('95px', 'ZWMID', 'zwmid&name', 'sortTarget'),
+      TableHeading('130px', 'Type', 'type&name', 'sortTarget'),
+      TableHeading('130px', 'Phone', 'phone&name', 'sortTarget'),
+      TableHeading('210px', 'Address', 'address.street_address&name', 'sortTarget'),
+      TableHeading('70px', 'City', 'address.city&name', 'sortTarget'),
+      TableHeading('70px', 'Zip', 'address.zipcode&name', 'sortTarget'),
+      TableHeading('70px', 'State', 'address.state&name', 'sortTarget'),
+      TableHeading('80px', 'Emergency R.', 'emergency_room&name', 'sortTarget')
     ]),
-    locations && locations.map(location => ListItem({
+    locations && locations.map(location => TableRow({
       className: 'location',
-      image: pathOr(null, ['image', 'url'])(location),
+      image: R.pathOr(null, ['image', 'url'])(location),
       icon: getIcon(location, 'location'),
       entity: location,
       style: {
@@ -87,6 +59,11 @@ const _render = ({
         'data-id': location.id
       },
       children: [
+        div({
+          style: {
+            width: '100px'
+          }
+        }, location.name),
         div({
           style: {
             width: '85px'
@@ -109,25 +86,25 @@ const _render = ({
             width: '200px',
             ...styleEllipsis
           }
-        }, pathOr('', ['address', 'street_address'])(location)),
+        }, R.pathOr('', ['address', 'street_address'])(location)),
         div({
           style: {
             width: '60px',
             ...styleEllipsis
           }
-        }, pathOr('', ['address', 'city'])(location)),
+        }, R.pathOr('', ['address', 'city'])(location)),
         div({
           style: {
             width: '60px',
             ...styleEllipsis
           }
-        }, pathOr('', ['address', 'zipcode'])(location)),
+        }, R.pathOr('', ['address', 'zipcode'])(location)),
         div({
           style: {
             width: '60px',
             ...styleEllipsis
           }
-        }, pathOr('', ['address', 'state'])(location)),
+        }, R.pathOr('', ['address', 'state'])(location)),
         div({
           style: {
             width: '70px',
@@ -144,7 +121,24 @@ const _navActions = (sources) => sources.DOM.select('.location')
     .map(ev => '/location/' + ev.ownerTarget.dataset.id + '/')
 
 export default sources => {
+  const actions = intent(sources)
   const route$ = _navActions(sources)
+
+  const currentSortOrder$ = actions.sortTargetClicks$
+    .startWith('name')
+    .scan((prev, curr) => {
+      if (curr === prev) return '-' + curr
+      return curr
+    })
+
+  const sortedLocations$ = currentSortOrder$
+    .combineLatest(sources.locations$)
+    .map(([sortOrder, locations]) => {
+      const props = sortOrder.split('&')
+      const comparator = Ru.compareProps(props)
+      const sortedList = R.sort(comparator)(locations)
+      return sortedList
+    })
 
   const filterBar = FilterBar({
     ...sources,
@@ -170,7 +164,7 @@ export default sources => {
 
   const viewState = {
     filterBarDOM: filterBar.DOM,
-    locations: sources.locations$
+    locations: sortedLocations$
   }
 
   const DOM = combineLatestObj(viewState)
