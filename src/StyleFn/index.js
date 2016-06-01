@@ -1,5 +1,6 @@
 export { ActivityStream } from './ActivityStream'
 export { Avatar } from './Avatar'
+export { AvatarCrop } from './AvatarCrop'
 export { Button } from './Button'
 export { Link } from './Link'
 export { Calendar } from './Calendar'

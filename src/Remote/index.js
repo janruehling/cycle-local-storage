@@ -30,3 +30,4 @@ export {
 export { getMe$, getMeNotifications$ } from './Me/get'
 export { getConceptByName$ } from './Concepts/get'
 export { postFeedback$ } from './Feedback/post'
+export { postImages$ } from './Images/post'

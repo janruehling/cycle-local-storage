@@ -3,9 +3,8 @@ import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { getIcon } from 'zwUtility'
-
-import { Avatar, Heading } from 'StyleFn'
+import { AvatarCrop$ } from 'Components$'
+import { Heading } from 'StyleFn'
 import { getConceptByName$ } from 'Remote'
 import {
   createTextField, createTextSelect, createTextarea
@@ -41,6 +40,7 @@ const textAreaConfig = {
 }
 
 const _render = ({
+  avatarCrop,
   nameFieldDOM,
   stateFieldDOM,
   countryFieldDOM,
@@ -58,14 +58,7 @@ const _render = ({
     div({
       className: styles.firstColumn
     }, [
-      Avatar({
-        size: 180,
-        image: R.pathOr(null, ['image', 'url'])(plan),
-        icon: getIcon(plan, 'plan'),
-        style: {
-          borderRadius: '6px'
-        }
-      })
+      avatarCrop
     ]),
     div({
       className: styles.secondColumn
@@ -151,7 +144,13 @@ export default sources => {
       : Observable.just(null)
   })
 
+  const avatarCrop = AvatarCrop$({
+    ...sources,
+    entity$: sources.plan$
+  })
+
   const formData$ = combineLatestObj({
+    image: avatarCrop.value$,
     name: nameField.value$,
     state: stateField.value$,
     country: countryField.value$,
@@ -162,6 +161,7 @@ export default sources => {
   })
 
   const viewState = {
+    avatarCrop: avatarCrop.DOM,
     formData: formData$,
     nameFieldDOM: nameField.DOM,
     stateFieldDOM: stateField.DOM,
@@ -177,6 +177,7 @@ export default sources => {
     .map(_render)
 
   const HTTP = Observable.merge(
+    avatarCrop.HTTP,
     getConceptByName$({
       ...sources,
       conceptName$: Observable.just('plan_types')

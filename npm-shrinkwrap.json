@@ -855,6 +855,11 @@
       "from": "cron@1.1.0",
       "resolved": "https://registry.npmjs.org/cron/-/cron-1.1.0.tgz"
     },
+    "cropperjs": {
+      "version": "0.7.1",
+      "from": "cropperjs@*",
+      "resolved": "https://registry.npmjs.org/cropperjs/-/cropperjs-0.7.1.tgz"
+    },
     "cryptiles": {
       "version": "2.0.5",
       "from": "cryptiles@>=2.0.0 <3.0.0",

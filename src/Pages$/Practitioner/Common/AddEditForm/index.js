@@ -3,9 +3,9 @@ import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { getIcon } from 'zwUtility'
+import { AvatarCrop$ } from 'Components$'
 
-import { Avatar, Heading } from 'StyleFn'
+import { Heading } from 'StyleFn'
 import { getConceptByName$ } from 'Remote'
 import {
   createTextField, createTextarea, createCheckbox, createSelect, createTextSelect
@@ -58,6 +58,7 @@ const genderSelectOptions = [{
 }]
 
 const _render = ({
+  avatarCrop,
   prefixFieldDOM,
   firstNameFieldDOM,
   middleNameFieldDOM,
@@ -95,14 +96,7 @@ const _render = ({
     div({
       className: styles.firstColumn
     }, [
-      Avatar({
-        size: 180,
-        image: R.pathOr(null, ['image', 'url'])(practitioner),
-        icon: getIcon(practitioner, 'practitioner'),
-        style: {
-          borderRadius: '6px'
-        }
-      })
+      avatarCrop
     ]),
     div({
       className: styles.secondColumn
@@ -374,7 +368,13 @@ export default sources => {
       : Observable.just(null)
   })
 
+  const avatarCrop = AvatarCrop$({
+    ...sources,
+    entity$: sources.practitioner$
+  })
+
   const formData$ = combineLatestObj({
+    image: avatarCrop.value$,
     prefix: prefixField.value$,
     first_name: firstNameField.value$,
     middle_name: middleNameField.value$,
@@ -412,6 +412,7 @@ export default sources => {
   })
 
   const viewState = {
+    avatarCrop: avatarCrop.DOM,
     formData: formData$,
     prefixFieldDOM: prefixField.DOM,
     firstNameFieldDOM: firstNameField.DOM,
@@ -447,6 +448,7 @@ export default sources => {
     .map(_render)
 
   const HTTP = Observable.merge(
+    avatarCrop.HTTP,
     getConceptByName$({
       ...sources,
       conceptName$: Observable.just('medical_schools')

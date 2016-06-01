@@ -20,7 +20,8 @@ module.exports = {
     '@cycle/http': 'CycleHTTPDriver',
     '@cycle/isolate': 'CycleIsolate',
     'history': 'History',
-    'moment': 'moment'
+    'moment': 'moment',
+    'cropperjs': 'Cropper'
   },
   module: {
     loaders: [

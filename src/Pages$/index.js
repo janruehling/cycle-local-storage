@@ -215,15 +215,15 @@ export default sources => {
     })
     .flatMap(([req, auth]) => {
       if (req.skipToken) {
-        return Observable.just(R.pick(['url', 'send', 'method', 'category'])(req))
+        return Observable.just(R.pick(['url', 'send', 'method', 'accept', 'type', 'field', 'eager', 'query', 'category', 'headers', 'attach'])(req))
       } else if (!auth || !req || !req.url) {
         return Observable.empty()
       } else {
         return user.auth$
-          .map(auth => R.merge(R.pick(['url', 'send', 'method', 'category'])(req), {
-            headers: {
+          .map(auth => R.merge(R.pick(['url', 'send', 'method', 'accept', 'type', 'field', 'eager', 'query', 'category', 'headers', 'attach'])(req), {
+            headers: R.merge(req.headers, {
               Authorization: auth ? 'Bearer ' + auth.access_token : null
-            }
+            })
           }))
       }
     })

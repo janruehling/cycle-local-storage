@@ -117,6 +117,22 @@ export const getLanguage = language => {
   return out
 }
 
+export const getType = entity => {
+  let type = ''
+
+  if (entity.first_name !== 'undefined') {
+    type = 'practitioner'
+  } else if (entity.top_level_plan !== 'undefined') {
+    type = 'plan'
+  } else if (entity.practice_pac_id !== 'undefined') {
+    type = 'group'
+  } else if (entity.emergency_room !== 'undefined') {
+    type = 'location'
+  }
+
+  return type
+}
+
 export const getIcon = (entity, type = '') => {
   let icon = ''
 
