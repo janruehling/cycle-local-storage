@@ -21,7 +21,8 @@ module.exports = {
     '@cycle/isolate': 'CycleIsolate',
     'history': 'History',
     'moment': 'moment',
-    'cropperjs': 'Cropper'
+    'cropperjs': 'Cropper',
+    'jquery': '$'
   },
   module: {
     loaders: [

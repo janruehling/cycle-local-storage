@@ -15,12 +15,20 @@ const getImage$ = sources => sources.DOM.select('#image')
 const getFileUpload$ = actions$ => actions$.fileInputChange$
   .map(ev => ev.ownerTarget.files[0])
   .filter(file => !!file)
+  .merge(actions$.dropAreaDrop$
+    .map(ev => {
+      ev.preventDefault()
+      return ev.dataTransfer.files[0]
+    }))
   .flatMap(file => Observable.fromPromise(new Promise((resolve, reject) => {
     const reader = new window.FileReader()
-    reader.onload = e => resolve(e.target.result)
+    reader.onload = e => resolve({
+      file: file,
+      dataURL: e.target.result
+    })
     reader.readAsDataURL(file)
   })))
-  .startWith(null)
+  .startWith({})
 
 export default (actions$, sources) => ({
   uploadResponse$: getUploadResponse$(sources),

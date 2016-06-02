@@ -2584,6 +2584,11 @@
       "from": "jodid25519@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/jodid25519/-/jodid25519-1.0.2.tgz"
     },
+    "jquery": {
+      "version": "2.2.4",
+      "from": "jquery@*",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz"
+    },
     "js-base64": {
       "version": "2.1.9",
       "from": "js-base64@>=2.1.9 <3.0.0",
@@ -3763,6 +3768,18 @@
       "version": "0.21.0",
       "from": "ramda@>=0.21.0 <0.22.0",
       "resolved": "https://registry.npmjs.org/ramda/-/ramda-0.21.0.tgz"
+    },
+    "ramda-fantasy": {
+      "version": "0.5.0",
+      "from": "ramda-fantasy@*",
+      "resolved": "https://registry.npmjs.org/ramda-fantasy/-/ramda-fantasy-0.5.0.tgz",
+      "dependencies": {
+        "ramda": {
+          "version": "0.19.1",
+          "from": "ramda@>=0.15.0 <0.20.0",
+          "resolved": "https://registry.npmjs.org/ramda/-/ramda-0.19.1.tgz"
+        }
+      }
     },
     "randomatic": {
       "version": "1.1.5",

@@ -17,13 +17,15 @@ const _render = ({
   preview,
   isEditMode,
   props,
-  image
+  image,
+  entity
 }) => {
   return isEditMode
     ? AvatarCrop({
       ...props,
       preview,
-      image
+      image,
+      entity
     })
     : avatar
 }
@@ -43,8 +45,45 @@ export const AvatarCrop$ = sources => {
     .withLatestFrom(sources.entity$)
     .map(([image, entity]) => {
       return new Cropper(image, {
-        aspectRatio: 1 / 1,
-        viewMode: 2
+        aspectRatio: 1 / 1, // Number (NaN)
+        dragMode: 'move', // crop, move, none (crop)
+        viewMode: 2, // Number 0 - 3 (0)
+        data: null, // Object (null)
+        preview: '', // jQuery selector ('')
+        responsive: false, // Boolean (true)
+        restore: false, // Boolean (true)
+        checkCrossOrigin: true, // Boolean (true)
+        checkOrientation: true, // Boolean (true) -- might cause problems in IE < 10
+        modal: true, // Boolean (true)
+        guides: true, // Boolean (true)
+        center: true, // Boolean (true)
+        highlight: true, // Boolean (true)
+        background: true, // Boolean (true)
+        autoCrop: true, // Boolean (true),
+        autoCropArea: 0.8, // Number 0 - 1 (0.8)
+        movable: true, // Boolean (true)
+        rotatable: true, // Boolean (true)
+        scalable: true, // Boolean (true)
+        zoomable: true, // Boolean (true)
+        zoomOnTouch: true, // Boolean (true)
+        zoomOnWheel: true, // Boolean (true)
+        wheelZoomRatio: 0.1, // Number (0.1)
+        cropBoxMovable: true, // Boolean (true)
+        cropBoxResizable: true, // Boolean (true)
+        toggleDragModeOnDblclick: true, // Boolean (true)
+        minContainerWidth: 200, // Number (200)
+        minContainerHeight: 200, // Number (200)
+        minCanvasWidth: 0, // Number (0)
+        minCanvasHeight: 0, // Number (0)
+        minCropBoxWidth: 0, // Number (0)
+        minCropBoxHeight: 0, // Number (0)
+        build: null, // Function (null)
+        built: null, // Function (null)
+        cropstart: null, // Function (null)
+        cropmove: null, // Function (null)
+        cropend: null, // Function (null)
+        crop: null, // Function (null)
+        zoom: null // Function (null)
       })
     })
 
@@ -55,23 +94,27 @@ export const AvatarCrop$ = sources => {
     .startWith(null)
 
   const canvas$ = crops$
-    .combineLatest(cropper)
-    .flatMap(([_, cropper]) => {
+    .combineLatest(cropper, model$.fileUpload$)
+    .flatMap(([_, cropper, originalFile]) => {
       return Observable
         .fromEvent(cropper.element, 'crop')
         .flatMap(_ => {
-          return Observable.just(cropper.getCroppedCanvas())
+          return Observable.just(cropper.getCroppedCanvas({
+            height: 200,
+            width: 200
+          }))
             .filter(canvas => !!canvas)
         })
         .map(canvas => ({
-          dataURL: canvas.toDataURL(),
+          dataURL: canvas.toDataURL(R.pathOr('image/png', ['file', 'type'])(originalFile)),
           blob: Observable.fromPromise(new Promise((resolve, reject) => {
             canvas.toBlob(blob => {
               resolve(blob)
-            })
+            }, R.pathOr('image/png', ['file', 'type'])(originalFile), 0.8)
           }))
         }))
     })
+    .startWith({})
     .shareReplay()
 
   const avatarProps = {
@@ -88,7 +131,7 @@ export const AvatarCrop$ = sources => {
     .combineLatest(canvas$)
     .map(([entity, canvas]) => {
       return R.merge(avatarProps, {
-        image: canvas.dataURL || R.pathOr(null, ['data', 'image', 'url'])(entity),
+        image: canvas.dataURL || R.pathOr(null, ['image', 'url'])(entity),
         icon: getIcon(entity || {}, getType(entity))
       })
     })
@@ -97,6 +140,9 @@ export const AvatarCrop$ = sources => {
   const avatar$ = Avatar$({
     ...sources,
     props$: avatarProps$
+      .map(props => ({
+        ...props
+      }))
   })
 
   const preview$ = Avatar$({
@@ -128,12 +174,42 @@ export const AvatarCrop$ = sources => {
     .merge(model$.uploadResponse$.map(false))
     .startWith(false)
 
+  // const currentImage$ = sources.entity$
+  //   .sample(actions$.cropCurrentButtonClicks$)
+  //   .pluck('image')
+  //   .filter(image => !!image)
+  //   .pluck('url')
+  //   .flatMap(url => {
+  //     return Observable.fromPromise(new Promise((resolve, reject) => {
+  //       const img = new window.Image()
+  //
+  //       img.crossOrigin = 'anonymous'
+  //
+  //       img.onload = function () {
+  //         const canvas = document.createElement('canvas')
+  //         canvas.width = this.width
+  //         canvas.height = this.height
+  //
+  //         const ctx = canvas.getContext('2d')
+  //         ctx.drawImage(this, 0, 0)
+  //
+  //         const dataURL = canvas.toDataURL('image/png')
+  //
+  //         resolve(dataURL)
+  //       }
+  //       img.src = url
+  //     }))
+  //   })
+
   const viewState = {
     isEditMode$,
     avatar: avatar$.DOM,
     preview: preview$.DOM,
     props$: sources.props$ || Observable.just({}),
     image: model$.fileUpload$
+      .map(file => file.dataURL),
+      // .merge(currentImage$),
+    entity: sources.entity$
   }
 
   const DOM = combineLatestObj(viewState)

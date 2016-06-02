@@ -1,4 +1,5 @@
 import { div, img, input } from '@cycle/dom'
+import R from 'ramda'
 
 import { Button } from 'StyleFn'
 
@@ -79,7 +80,8 @@ export const AvatarCrop = (options = {}) => {
     }, [
       div([
         options.preview || options.avatar,
-        Button({
+        (false && R.pathOr(null, ['image', 'url'])(options.entity) && !options.image) ? Button({
+          id: 'cropCurrentButton',
           text: 'Crop current image',
           background: constants.color1,
           style: {
@@ -87,7 +89,7 @@ export const AvatarCrop = (options = {}) => {
             padding: '0 5px',
             width: '180px'
           }
-        })
+        }) : null
       ]),
       div({
         style: {
@@ -96,6 +98,7 @@ export const AvatarCrop = (options = {}) => {
         }
       }, [
         div({
+          id: 'dropArea',
           style: {
             alignItems: 'center',
             background: '#fff',
@@ -105,7 +108,8 @@ export const AvatarCrop = (options = {}) => {
             flexDirection: 'column',
             height: '600px',
             justifyContent: 'center'
-          }
+          },
+          ondragover: ev => false
         }, [
           options.image
             ? cropArea(options)
