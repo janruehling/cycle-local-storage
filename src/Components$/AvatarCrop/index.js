@@ -187,27 +187,53 @@ export const AvatarCrop$ = sources => {
   //   .pluck('image')
   //   .filter(image => !!image)
   //   .pluck('url')
-  //   .flatMap(url => {
-  //     return Observable.fromPromise(new Promise((resolve, reject) => {
-  //       const img = new window.Image()
+  //   .flatMap(url => Observable.fromPromise(new Promise((resolve, reject) => window.$.ajax({
+  //     type: 'GET',
+  //     crossOrigin: true,
+  //     dataType: 'jsonp',
+  //     url: url,
+  //     processData: false,
+  //     success: function (data) {
+  //       const blob = new window.Blob([data])
+  //       console.log(blob)
+  //       const canvas = document.createElement('canvas')
+  //       canvas.width = this.width
+  //       canvas.height = this.height
   //
-  //       img.crossOrigin = 'anonymous'
+  //       const ctx = canvas.getContext('2d')
+  //       ctx.drawImage(data, 0, 0)
   //
-  //       img.onload = function () {
-  //         const canvas = document.createElement('canvas')
-  //         canvas.width = this.width
-  //         canvas.height = this.height
+  //       const dataURL = canvas.toDataURL('image/png')
   //
-  //         const ctx = canvas.getContext('2d')
-  //         ctx.drawImage(this, 0, 0)
-  //
-  //         const dataURL = canvas.toDataURL('image/png')
-  //
-  //         resolve(dataURL)
-  //       }
-  //       img.src = url
-  //     }))
-  //   })
+  //       resolve(dataURL)
+  //     },
+  //     error: function (err) {
+  //       console.log(err)
+  //       reject(err)
+  //     }
+  //   }))))
+  //   .do(console.log.bind(console))
+    // .flatMap(url => {
+    //   return Observable.fromPromise(new Promise((resolve, reject) => {
+    //     const img = document.createElement('img')
+    //
+    //     img.onload = function () {
+          // const canvas = document.createElement('canvas')
+          // canvas.width = this.width
+          // canvas.height = this.height
+          //
+          // const ctx = canvas.getContext('2d')
+          // ctx.drawImage(this, 0, 0)
+          //
+          // const dataURL = canvas.toDataURL('image/png')
+          //
+          // resolve(dataURL)
+    //     }
+    //
+    //     img.crossorigin = null
+    //     img.src = url
+    //   }))
+    // })
 
   const viewState = {
     isEditMode$,
