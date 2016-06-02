@@ -4,5 +4,6 @@ export default sources => ({
   cropCurrentButtonClicks$: sources.DOM.select('#cropCurrentButton').events('click'),
   uploadClicks$: sources.DOM.select('#uploadButton').events('click'),
   fileInputChange$: sources.DOM.select('#fileInput').events('change'),
-  dropAreaDrop$: sources.DOM.select('#dropArea').events('drop')
+  dropAreaDrop$: sources.DOM.select('#dropArea').events('drop'),
+  removeButtonClick$: sources.DOM.select('.removeButton').events('click')
 })

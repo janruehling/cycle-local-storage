@@ -43,7 +43,7 @@ const _render = ({
       TableHeading('95px', 'PAC ID', 'pac_id&name', 'sortTarget'),
       TableHeading('95px', 'Tax #', 'tax_number&name', 'sortTarget'),
       TableHeading('95px', 'Type', 'type&name', 'sortTarget'),
-      TableHeading('95px', 'MedicAid Cert.', 'medicaid_certified&name', 'sortTarget'),
+      TableHeading('110px', 'MedicAid Cert.', 'medicaid_certified&name', 'sortTarget'),
       TableHeading('95px', 'Legal Struc.', 'legal_structure&name', 'sortTarget'),
       TableHeading('210px', 'Legal Name', 'legal_name&name', 'sortTarget'),
       TableHeading('110px', 'Last Verified', 'last_verified&name', 'sortTarget')
@@ -92,7 +92,7 @@ const _render = ({
         }, group.type),
         div({
           style: {
-            width: '85px'
+            width: '100px'
           }
         }, group.medicaid_certified ? 'Yes' : 'No'),
         div({

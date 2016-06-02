@@ -12,7 +12,7 @@ const getImage$ = sources => sources.DOM.select('#image')
   .filter(images => images.length)
   .map(arr => arr[0])
 
-const getFileUpload$ = actions$ => actions$.fileInputChange$
+const getFileUpload$ = (actions$, sources) => actions$.fileInputChange$
   .map(ev => ev.ownerTarget.files[0])
   .filter(file => !!file)
   .merge(actions$.dropAreaDrop$
@@ -28,10 +28,12 @@ const getFileUpload$ = actions$ => actions$.fileInputChange$
     })
     reader.readAsDataURL(file)
   })))
+  .merge(actions$.cancelClicks$.map({}))
+  .merge(getUploadResponse$(sources).map({}))
   .startWith({})
 
 export default (actions$, sources) => ({
   uploadResponse$: getUploadResponse$(sources),
   image$: getImage$(sources),
-  fileUpload$: getFileUpload$(actions$)
+  fileUpload$: getFileUpload$(actions$, sources)
 })

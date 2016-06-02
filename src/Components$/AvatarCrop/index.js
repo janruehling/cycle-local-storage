@@ -114,6 +114,7 @@ export const AvatarCrop$ = sources => {
           }))
         }))
     })
+    .merge(actions$.cancelClicks$.map({}))
     .startWith({})
     .shareReplay()
 
@@ -132,9 +133,16 @@ export const AvatarCrop$ = sources => {
     .map(([entity, canvas]) => {
       return R.merge(avatarProps, {
         image: canvas.dataURL || R.pathOr(null, ['image', 'url'])(entity),
-        icon: getIcon(entity || {}, getType(entity))
+        icon: getIcon((entity || {}), getType(entity))
       })
     })
+    .merge(actions$.cancelClicks$
+        .combineLatest(sources.entity$)
+        .map(([_, entity]) => R.merge(avatarProps, {
+          image: R.pathOr(null, ['image', 'url'])(entity),
+          icon: getIcon((entity || {}), getType(entity))
+        })))
+    .merge(actions$.removeButtonClick$.map(avatarProps))
     .startWith(avatarProps)
 
   const avatar$ = Avatar$({
