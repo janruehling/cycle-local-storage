@@ -1,11 +1,10 @@
 import { Observable } from 'rx'
-import R from 'ramda'
 import { div } from '@cycle/dom'
 import combineLatestObj from 'rx-combine-latest-obj'
 
-import { getIcon } from 'zwUtility'
+import { AvatarCrop$ } from 'Components$'
 
-import { Avatar, Heading } from 'StyleFn'
+import { Heading } from 'StyleFn'
 import {
   createTextField, createCheckbox, createTextarea
 } from 'Helpers'
@@ -46,6 +45,7 @@ const textAreaConfig = {
 }
 
 const _render = ({
+  avatarCrop,
   nameFieldDOM,
   legalNameFieldDOM,
   legalStructureFieldDOM,
@@ -65,14 +65,7 @@ const _render = ({
     div({
       className: styles.firstColumn
     }, [
-      Avatar({
-        size: 180,
-        image: R.pathOr(null, ['image', 'url'])(group),
-        icon: getIcon(group, 'group'),
-        style: {
-          borderRadius: '6px'
-        }
-      })
+      avatarCrop
     ]),
     div({
       className: styles.secondColumn
@@ -165,7 +158,13 @@ export default sources => {
       : Observable.just(null)
   })
 
+  const avatarCrop = AvatarCrop$({
+    ...sources,
+    entity$: sources.group$
+  })
+
   const formData$ = combineLatestObj({
+    image: avatarCrop.value$,
     name: nameField.value$,
     legal_name: legalNameField.value$,
     legal_structure: legalStructureField.value$,
@@ -178,6 +177,7 @@ export default sources => {
   })
 
   const viewState = {
+    avatarCrop: avatarCrop.DOM,
     formData: formData$,
     nameFieldDOM: nameField.DOM,
     legalNameFieldDOM: legalNameField.DOM,
@@ -194,7 +194,9 @@ export default sources => {
   const DOM = combineLatestObj(viewState)
     .map(_render)
 
-  const HTTP = Observable.merge()
+  const HTTP = Observable.merge(
+    avatarCrop.HTTP
+  )
 
   return {
     formData$,
