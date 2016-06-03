@@ -1,0 +1,84 @@
+{
+  "_args": [
+    [
+      "git+https://github.com/TylorS/cycle-local-storage.git",
+      "/Users/jan/_git/zipwire/app.zipwiremedical.com"
+    ]
+  ],
+  "_from": "git+https://github.com/TylorS/cycle-local-storage.git",
+  "_id": "cycle-local-storage@1.2.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/cycle-local-storage",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/TylorS/cycle-local-storage/master/package.json",
+      "gitUrl": "git://github.com/TylorS/cycle-local-storage.git",
+      "httpsUrl": "git+https://github.com/TylorS/cycle-local-storage.git",
+      "shortcut": "github:TylorS/cycle-local-storage",
+      "ssh": "git@github.com:TylorS/cycle-local-storage.git",
+      "sshUrl": "git+ssh://git@github.com/TylorS/cycle-local-storage.git",
+      "type": "github"
+    },
+    "name": null,
+    "raw": "git+https://github.com/TylorS/cycle-local-storage.git",
+    "rawSpec": "git+https://github.com/TylorS/cycle-local-storage.git",
+    "scope": null,
+    "spec": "git+https://github.com/TylorS/cycle-local-storage.git",
+    "type": "hosted"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/TylorS/cycle-local-storage.git#26d6e362518b8980aebd0e44e1c09a89013f60b1",
+  "_shasum": "673159e827438dcf5211444b1ab1a891dd145c81",
+  "_shrinkwrap": null,
+  "_spec": "git+https://github.com/TylorS/cycle-local-storage.git",
+  "_where": "/Users/jan/_git/zipwire/app.zipwiremedical.com",
+  "author": {
+    "name": "Tylor Steinberger"
+  },
+  "bugs": {
+    "url": "https://github.com/tylors/cycle-local-storage/issues"
+  },
+  "dependencies": {},
+  "description": "Cycle driver for locally",
+  "devDependencies": {
+    "@cycle/core": "^3.1.0",
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "tape": "^4.2.0",
+    "testling": "^1.7.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "gitHead": "26d6e362518b8980aebd0e44e1c09a89013f60b1",
+  "homepage": "https://github.com/tylors/cycle-local-storage#readme",
+  "keywords": [
+    "Cycle",
+    "Driver",
+    "LocalStorage"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "cycle-local-storage",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "rx": "*"
+  },
+  "readme": "# cycle-local-storage\nSimple local storage driver for cycle.js\n\n# Install\n`npm install cycle-local-storage`\n\n# Example Usage\n```javascript\nimport localStorageDriver from 'cycle-local-storage';\n\nconst main = ({Storage}) => {\n  ...\n\n  Storage\n    .get('key1')\n    .map(value => console.log(value)) // value1\n\n  Storage\n    .get(['key1', 'key2'])\n    .map(value => console.log(value)) // ['value1', 'value2']\n\n  ...\n\n  let storage$ = Rx.Observable.just({\n    \"key1\": \"value1\",\n    \"key2\": \"value2\"\n  }); // Observable object of key:value\n\n  /*\n  OR\n  */\n\n  storage$ = Rx.Observable.just([\n    {\"key1\": \"value1\"},\n    {\"key2\": \"value2\"}\n  ]) // Observable array of objects\n\n  return {\n    Storage: storage$\n  }\n}\n\nrun(main, {\n  Storage: localStorageDriver // is not a factory function\n})\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylors/cycle-local-storage.git"
+  },
+  "scripts": {
+    "build": "babel src -d lib/",
+    "prepublish": "npm run build",
+    "test": "browserify -t babelify test/ | ./node_modules/.bin/testling"
+  },
+  "version": "1.2.0"
+}
