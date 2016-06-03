@@ -68,7 +68,7 @@
     "@panosoft/ramda-utils": "^0.2.8",
     "compression": "^1.6.1",
     "cropperjs": "^0.7.1",
-    "cycle-local-storage": "git+https://github.com/TylorS/cycle-local-storage.git",
+    "cycle-local-storage": "git+https://github.com/janruehling/cycle-local-storage.git",
     "cyclic-router": "^1.0.0",
     "express": "^4.13.4",
     "history": "^2.0.1",

@@ -961,8 +961,8 @@
     },
     "cycle-local-storage": {
       "version": "1.2.0",
-      "from": "git+https://github.com/TylorS/cycle-local-storage.git",
-      "resolved": "git+https://github.com/TylorS/cycle-local-storage.git#26d6e362518b8980aebd0e44e1c09a89013f60b1"
+      "from": "git+https://github.com/janruehling/cycle-local-storage.git",
+      "resolved": "git+https://github.com/janruehling/cycle-local-storage.git#a4feb17f790ca7c8d3ee4a1af17e6ac293fd5fb6"
     },
     "cyclic-router": {
       "version": "1.0.0",
